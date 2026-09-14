@@ -68,7 +68,7 @@ class RetrievalService:
             raise ValueError(error_msg)
         
         # Generate embedding for the question
-        question_embedding = await self.embedding_service.generate_embedding(question)
+        question_embedding = await self.embedding_service.generate_embedding(question, is_query=True)
         
         # Perform similarity search
         if HAS_PGVECTOR:

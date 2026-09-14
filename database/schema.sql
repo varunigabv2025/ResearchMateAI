@@ -34,11 +34,11 @@ CREATE TABLE IF NOT EXISTS paper_chunks (
 );
 
 -- Embeddings table: stores vector embeddings for chunks
--- The vector dimension should match your embedding model (e.g., 1536 for OpenAI ada-002)
+-- The vector dimension should match your embedding model (e.g., 1024 for Qwen3-Embedding-0.6B)
 CREATE TABLE IF NOT EXISTS embeddings (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     chunk_id UUID NOT NULL REFERENCES paper_chunks(id) ON DELETE CASCADE,
-    embedding vector(1536) NOT NULL,
+    embedding vector(1024) NOT NULL,
     model VARCHAR(100) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_chunk FOREIGN KEY (chunk_id) REFERENCES paper_chunks(id) ON DELETE CASCADE,

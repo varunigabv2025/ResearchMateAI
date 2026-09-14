@@ -95,7 +95,7 @@ class TestQAEndpoint:
         # Create embedding
         embedding = Embedding(
             chunk_id=chunk.id,
-            embedding=[0.1] * 1536,
+            embedding=[0.1] * 1024,
             model="test-model"
         )
         db_session.add(embedding)
@@ -170,7 +170,7 @@ class TestQAEndpoint:
         
         embedding = Embedding(
             chunk_id=chunk.id,
-            embedding=[0.1] * 1536,
+            embedding=[0.1] * 1024,
             model="test-model"
         )
         db_session.add(embedding)
