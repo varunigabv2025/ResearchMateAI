@@ -59,7 +59,7 @@ class TestRetrievalService:
         mock_db.query.return_value.filter.return_value.first.return_value = mock_paper
         
         # Mock embedding service
-        mock_embedding = [0.1] * 1536
+        mock_embedding = [0.1] * 1024
         with patch.object(service.embedding_service, 'generate_embedding', 
                          new_callable=AsyncMock, return_value=mock_embedding):
             
@@ -99,7 +99,7 @@ class TestRetrievalService:
         mock_db = Mock()
         mock_db.query.return_value.filter.return_value.first.return_value = mock_paper
         
-        mock_embedding = [0.1] * 1536
+        mock_embedding = [0.1] * 1024
         with patch.object(service.embedding_service, 'generate_embedding',
                          new_callable=AsyncMock, return_value=mock_embedding):
             
@@ -147,7 +147,7 @@ class TestRetrievalService:
         mock_result1.page_number = 1
         mock_result1.section = "Introduction"
         mock_result1.chunk_index = 0
-        mock_result1.embedding = [0.9, 0.1, 0.0] + [0.0] * 1533  # Similar to query
+        mock_result1.embedding = [0.9, 0.1, 0.0] + [0.0] * 1021  # Similar to query
         
         mock_result2 = Mock()
         mock_result2.chunk_id = chunk_id2
@@ -155,14 +155,14 @@ class TestRetrievalService:
         mock_result2.page_number = 2
         mock_result2.section = "Methods"
         mock_result2.chunk_index = 1
-        mock_result2.embedding = [0.1, 0.9, 0.0] + [0.0] * 1533  # Less similar
+        mock_result2.embedding = [0.1, 0.9, 0.0] + [0.0] * 1021  # Less similar
         
         mock_db = Mock()
         mock_db.query.return_value.join.return_value.filter.return_value.all.return_value = [
             mock_result1, mock_result2
         ]
         
-        query_embedding = [1.0, 0.0, 0.0] + [0.0] * 1533
+        query_embedding = [1.0, 0.0, 0.0] + [0.0] * 1021
         
         results = service._search_with_fallback(mock_db, paper_id, query_embedding, top_k=2)
         

@@ -17,16 +17,16 @@ class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = "sqlite:///./test.db"  # Default for testing
     
-    # LLM Configuration
+    # LLM Configuration (OpenRouter)
     LLM_API_KEY: str = "test-key"  # Default for testing
-    LLM_MODEL: str = "gpt-4"
-    LLM_API_BASE_URL: str = "https://api.openai.com/v1"
+    LLM_MODEL: str = "openrouter/free"
+    LLM_API_BASE_URL: str = "https://openrouter.ai/api/v1"
     
-    # Embedding Configuration
-    EMBEDDING_API_KEY: str = "test-key"  # Default for testing
-    EMBEDDING_MODEL: str = "text-embedding-ada-002"
-    EMBEDDING_API_BASE_URL: str = "https://api.openai.com/v1"
-    EMBEDDING_DIMENSION: int = 1536
+    # Embedding Configuration (Local)
+    EMBEDDING_API_KEY: str = ""  # Not used for local embeddings
+    EMBEDDING_MODEL: str = "Qwen/Qwen3-Embedding-0.6B"
+    EMBEDDING_API_BASE_URL: str = "local"
+    EMBEDDING_DIMENSION: int = 1024
     
     # File Upload
     MAX_UPLOAD_SIZE_MB: int = 50
