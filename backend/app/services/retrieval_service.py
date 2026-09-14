@@ -10,7 +10,7 @@ from app.models import PaperChunk, Embedding, Paper
 from app.services.embedding_service import embedding_service
 
 try:
-    from pgvector.sqlalchemy import Vector
+    from pgvector.sqlalchemy import Vector  # type: ignore
     HAS_PGVECTOR = True
 except ImportError:
     HAS_PGVECTOR = False
@@ -23,7 +23,7 @@ class RetrievalService:
     
     # Configuration
     DEFAULT_TOP_K = 5
-    DEFAULT_SIMILARITY_THRESHOLD = 0.7  # Cosine similarity threshold (0-1)
+    DEFAULT_SIMILARITY_THRESHOLD = 0.4  # Cosine similarity threshold (0-1) calibrated for Qwen3 local embeddings
     
     def __init__(self):
         self.embedding_service = embedding_service
@@ -70,6 +70,14 @@ class RetrievalService:
         # Generate embedding for the question
         question_embedding = await self.embedding_service.generate_embedding(question, is_query=True)
         
+        # DEBUG: Log embedding details
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info(f"=== RETRIEVAL DEBUG ===")
+        logger.info(f"Question: {question}")
+        logger.info(f"Query embedding dimension: {len(question_embedding)}")
+        logger.info(f"Query embedding first 5 values: {question_embedding[:5]}")
+        
         # Perform similarity search
         if HAS_PGVECTOR:
             results = self._search_with_pgvector(
@@ -82,6 +90,15 @@ class RetrievalService:
         
         # Filter by similarity threshold and format results
         filtered_results = []
+        
+        # DEBUG: Log similarity scores
+        logger.info(f"Top {len(results)} chunks before filtering:")
+        for i, result in enumerate(results):
+            logger.info(f"  Chunk {i+1}: similarity={result['similarity']:.4f}, page={result['page_number']}, section={result.get('section', 'N/A')}")
+            logger.info(f"    Text preview: {result['text'][:150]}...")
+        
+        logger.info(f"Similarity threshold: {similarity_threshold}")
+        
         for result in results:
             if result['similarity'] >= similarity_threshold:
                 filtered_results.append({
@@ -92,6 +109,9 @@ class RetrievalService:
                     'chunk_index': result['chunk_index'],
                     'similarity': result['similarity']
                 })
+        
+        logger.info(f"Chunks after filtering (>= {similarity_threshold}): {len(filtered_results)}")
+        logger.info(f"=== END RETRIEVAL DEBUG ===")
         
         return filtered_results
     
