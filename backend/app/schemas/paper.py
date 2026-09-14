@@ -30,9 +30,9 @@ class PaperResponse(BaseModel):
     upload_timestamp: datetime
     processed: bool
     processing_error: Optional[str] = None
-    paper_metadata: Optional[dict] = Field(None, alias="metadata")  # Accept "metadata" in API but use "paper_metadata" internally
+    paper_metadata: Optional[dict] = None
     
-    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
+    model_config = ConfigDict(from_attributes=True)
 
 
 class PaperDetailResponse(PaperResponse):
