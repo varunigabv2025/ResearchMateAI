@@ -1,6 +1,7 @@
 """
 Vector similarity retrieval service for finding relevant paper chunks.
 """
+import logging
 from typing import List, Dict, Optional
 from uuid import UUID
 from sqlalchemy.orm import Session
@@ -8,6 +9,10 @@ from sqlalchemy import and_
 
 from app.models import PaperChunk, Embedding, Paper
 from app.services.embedding_service import embedding_service
+
+# Configure logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 try:
     from pgvector.sqlalchemy import Vector  # type: ignore
@@ -70,13 +75,9 @@ class RetrievalService:
         # Generate embedding for the question
         question_embedding = await self.embedding_service.generate_embedding(question, is_query=True)
         
-        # DEBUG: Log embedding details
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.info(f"=== RETRIEVAL DEBUG ===")
-        logger.info(f"Question: {question}")
-        logger.info(f"Query embedding dimension: {len(question_embedding)}")
-        logger.info(f"Query embedding first 5 values: {question_embedding[:5]}")
+        # Log retrieval operation for diagnostics
+        logger.debug(f"Retrieval for paper {paper_id}: question length={len(question)} chars")
+        logger.debug(f"Query embedding dimension: {len(question_embedding)}")
         
         # Perform similarity search
         if HAS_PGVECTOR:
@@ -91,13 +92,13 @@ class RetrievalService:
         # Filter by similarity threshold and format results
         filtered_results = []
         
-        # DEBUG: Log similarity scores
-        logger.info(f"Top {len(results)} chunks before filtering:")
-        for i, result in enumerate(results):
-            logger.info(f"  Chunk {i+1}: similarity={result['similarity']:.4f}, page={result['page_number']}, section={result.get('section', 'N/A')}")
-            logger.info(f"    Text preview: {result['text'][:150]}...")
-        
-        logger.info(f"Similarity threshold: {similarity_threshold}")
+        # Log retrieval results for diagnostics (without full text content)
+        logger.info(f"Retrieved {len(results)} chunks, threshold={similarity_threshold}")
+        for i, result in enumerate(results[:5]):  # Log top 5 only
+            logger.debug(
+                f"Chunk {i+1}: similarity={result['similarity']:.4f}, "
+                f"page={result['page_number']}, section={result.get('section', 'N/A')}"
+            )
         
         for result in results:
             if result['similarity'] >= similarity_threshold:
@@ -110,8 +111,7 @@ class RetrievalService:
                     'similarity': result['similarity']
                 })
         
-        logger.info(f"Chunks after filtering (>= {similarity_threshold}): {len(filtered_results)}")
-        logger.info(f"=== END RETRIEVAL DEBUG ===")
+        logger.info(f"Returned {len(filtered_results)} chunks after filtering")
         
         return filtered_results
     
