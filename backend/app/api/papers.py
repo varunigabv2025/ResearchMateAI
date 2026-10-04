@@ -336,7 +336,7 @@ async def ask_question(
             paper_id=paper_id,
             question=question,
             top_k=5,
-            similarity_threshold=0.7
+            similarity_threshold=0.4
         )
         
         # Check if we have sufficient context

@@ -18,11 +18,12 @@ This MVP focuses on three essential capabilities:
 
 ### Tech Stack
 
-- **Frontend**: Next.js, TypeScript, Tailwind CSS *(to be implemented)*
+- **Frontend**: Next.js, TypeScript, Tailwind CSS *(partially implemented - landing page + Q&A workspace)*
 - **Backend**: FastAPI, Python
 - **Database**: PostgreSQL with pgvector extension
 - **PDF Processing**: PyMuPDF
-- **AI**: Modular LLM/embedding API integration
+- **Embeddings**: Local Qwen3-Embedding-0.6B (1024-dim, zero-cost)
+- **LLM**: OpenRouter (free tier models available)
 
 ### Project Structure
 
@@ -104,12 +105,12 @@ ResearchMate/
 
    Required configuration:
    - `DATABASE_URL`: PostgreSQL connection string
-   - `LLM_API_KEY`: Your LLM API key (OpenAI, Anthropic, etc.)
-   - `LLM_MODEL`: Model name (e.g., gpt-4, claude-3-opus)
-   - `EMBEDDING_API_KEY`: Your embedding API key
-   - `EMBEDDING_MODEL`: Embedding model name (e.g., text-embedding-ada-002)
+   - `LLM_API_KEY`: Your OpenRouter API key
+   - `LLM_MODEL`: Model name (e.g., `nvidia/nemotron-3-ultra-550b-a55b:free`)
+   - `EMBEDDING_MODEL`: Local model (default: `Qwen/Qwen3-Embedding-0.6B`)
+   - `EMBEDDING_DIMENSION`: Vector dimension (default: `1024`)
    
-   See `.env.example` for all available options.
+   See `.env.example` for all available options and verified configurations.
 
 5. **Run the backend**
 
@@ -449,12 +450,13 @@ Each chunk maintains:
 
 ### Embedding & Vector Search
 
-- **Embedding Model**: Configurable via environment (default: text-embedding-ada-002)
-- **Vector Dimension**: 1536 (configurable)
+- **Embedding Model**: Local Qwen3-Embedding-0.6B (configurable)
+- **Vector Dimension**: 1024 (matches Qwen3 model output)
 - **Similarity Metric**: Cosine distance
 - **Index**: HNSW for fast approximate nearest neighbor search
 - **Top-K**: 5 chunks retrieved by default
-- **Provider**: Modular API integration (OpenAI-compatible)
+- **Threshold**: 0.4 cosine similarity (calibrated for Qwen3 embeddings)
+- **Provider**: Local sentence-transformers (zero-cost, CPU/GPU support)
 
 ## 🔒 Security Notes
 
@@ -466,17 +468,19 @@ Each chunk maintains:
 
 ## 🛣️ Roadmap
 
-### ✅ Feature 1: Grounded Q&A (Complete)
+### ✅ Feature 1: Grounded Q&A (Complete & Verified)
 - [x] PDF upload and validation
 - [x] Text extraction with page numbers
 - [x] Section detection
 - [x] Chunking with metadata
-- [x] Embedding generation and storage
+- [x] Local embedding generation (Qwen3-Embedding-0.6B)
 - [x] Vector similarity search (pgvector)
 - [x] Grounded Q&A endpoint
 - [x] Citation with page/section
 - [x] Insufficient context handling
 - [x] Comprehensive test suite
+- [x] **Frontend Q&A workspace** (Phase 2B complete)
+- [x] **Manual verification with real research paper**
 
 ### ✅ Feature 2: Multi-Paper Comparison (Complete)
 - [x] Compare 2-5 papers
@@ -499,7 +503,8 @@ Each chunk maintains:
 - [x] Comprehensive tests
 
 ### 🚧 Additional Features (Future)
-- [ ] Frontend (Next.js)
+- [ ] Frontend comparison interface
+- [ ] Frontend gap analysis interface
 - [ ] Authentication
 - [ ] User workspaces
 - [ ] External literature search
@@ -530,7 +535,18 @@ Built with:
 
 ---
 
-**Status**: � MVP Complete | All 3 Core Features Implemented
+**Status**: ✅ MVP Complete | All 3 Core Features Implemented & Tested
 
-**Features 1-3** are fully implemented and tested. The complete MVP workflow is ready:`n`n1. **Upload papers** ? PDF processing, chunking, embeddings`n2. **Ask questions** ? Grounded Q&A with citations`n3. **Compare papers** ? Structured extraction (method/dataset/results/limitations)`n4. **Analyze gaps** ? AI-suggested research opportunities from comparison data`n`nAll features include comprehensive test coverage and proper validation.
+**Backend**: Fully implemented with comprehensive test coverage (92 tests passing)  
+**Frontend**: Landing page + Q&A workspace implemented, comparison/gap UI pending  
+**Verification**: Grounded Q&A manually tested with real research paper (PA-EIS IEEE)
+
+**Features 1-3** are fully implemented and tested. The complete MVP workflow is ready:
+
+1. **Upload papers** → PDF processing, chunking, local embeddings
+2. **Ask questions** → Grounded Q&A with citations (verified with real paper)
+3. **Compare papers** → Structured extraction (method/dataset/results/limitations)
+4. **Analyze gaps** → AI-suggested research opportunities from comparison data
+
+Backend features include comprehensive test coverage and proper validation.
 

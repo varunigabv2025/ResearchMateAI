@@ -66,7 +66,11 @@ class LLMService:
                 data = response.json()
                 
                 # Extract the assistant's response
-                answer = data["choices"][0]["message"]["content"]
+                message = data["choices"][0]["message"]
+                answer = message.get("content")
+                
+                if not answer or not isinstance(answer, str) or not answer.strip():
+                    raise Exception("LLM provider returned empty response content")
                 
                 return answer.strip()
                 
