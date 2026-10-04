@@ -1,0 +1,840 @@
+{
+  "timestamp": "2026-10-04T10:09:24.541311Z",
+  "evaluation_duration_seconds": 187.1692566871643,
+  "paper": {
+    "id": "075cdd7f-bff1-43fd-a52c-bba13a64acda",
+    "filename": "02450728-fddc-409a-8644-3b9c3334a9b6.pdf",
+    "original_filename": "PA-EIS_IEEE_first5pages.pdf",
+    "page_count": 6
+  },
+  "dataset": {
+    "name": "PA-EIS Evaluation Dataset",
+    "description": "Initial RAG evaluation dataset based on PA-EIS (Priority-Aware Edge Inference Scheduling) IEEE paper",
+    "question_count": 10
+  },
+  "rag_config": {
+    "embedding_model": "Qwen3-Embedding-0.6B",
+    "embedding_dimension": 1024,
+    "chunking": {
+      "chunk_size": 1000,
+      "overlap": 200
+    },
+    "retrieval": {
+      "method": "hybrid_rrf_dense(numpy)+lexical(bm25)",
+      "top_k": 5,
+      "similarity_threshold": 0.4
+    },
+    "llm_model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "llm_provider": "OpenRouter",
+    "database": "SQLite (./test.db)"
+  },
+  "retrieval_metrics": {
+    "hit_rate_at_1": 0.4444444444444444,
+    "hit_rate_at_3": 0.5555555555555556,
+    "hit_rate_at_5": 0.5555555555555556,
+    "hit_rate_at_10": 0.7777777777777778,
+    "recall_at_1": 0.18518518518518517,
+    "recall_at_3": 0.3148148148148148,
+    "recall_at_5": 0.5,
+    "recall_at_10": 0.7222222222222222,
+    "precision_at_1": 0.4444444444444444,
+    "precision_at_3": 0.25925925925925924,
+    "precision_at_5": 0.24444444444444444,
+    "precision_at_10": 0.15555555555555556,
+    "mrr": 0.5343915343915344
+  },
+  "answer_metrics": {
+    "avg_keyword_match_rate": 0.455,
+    "avg_faithfulness_ratio": 0.6422788750608157,
+    "questions_evaluated": 10
+  },
+  "citation_metrics": {
+    "avg_citation_precision": 0.4444444444444444,
+    "avg_citation_recall": 0.5
+  },
+  "latency_metrics": {
+    "retrieval": {
+      "mean": 0.2684643030166626,
+      "median": 0.2669250965118408,
+      "min": 0.24806451797485352,
+      "max": 0.3005197048187256,
+      "std_dev": 0.018601618822239353,
+      "count": 10
+    },
+    "llm": {
+      "mean": 17.435996747016908,
+      "median": 17.348369240760803,
+      "min": 8.724429368972778,
+      "max": 25.932088613510132,
+      "std_dev": 6.453659636213401,
+      "count": 10
+    },
+    "end_to_end": {
+      "mean": 17.70446105003357,
+      "median": 17.62434184551239,
+      "min": 8.991326808929443,
+      "max": 26.18598961830139,
+      "std_dev": 6.45160493216512,
+      "count": 10
+    }
+  },
+  "per_question_results": [
+    {
+      "question_id": "q1",
+      "question": "What is the main motivation for studying containerised Linux edge nodes?",
+      "answerable": true,
+      "category": "motivation",
+      "error": null,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 0.5,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        3,
+        2,
+        6,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "Based on the provided excerpts, the main motivation for studying containerised Linux edge nodes is that **edge AI inference workloads frequently share commodity Linux nodes with other housekeeping tasks (sensor acquisition, logging, telemetry, connectivity management), and when these tasks collectively exceed available CPU capacity, the achievable inference latency is determined by the Linux kernel scheduler (CFS) rather than the model itself** [2, 3].\n\nKey points from the excerpts:\n- Inference has moved to the edge for practical reasons: unacceptable round-trip latency for interactive/safety-critical functions, regulatory/customer objections to raw data leaving the site, and poor cloud billing scalability [2].\n- These edge nodes are **shared** — the same processor runs the model alongside acquisition loops, message brokers, log rotation, connectivity management, and maintenance [2].\n- Existing edge AI literature often evaluates models as if they have exclusive device access, which is unrealistic for shared commodity hardware [2].\n- Linux's Completely Fair Scheduler (CFS) allocates CPU via weight-proportional shares but **lacks any representation of per-task latency requirements or service-level objectives** [3], making it ill-suited for latency-sensitive inference under contention.",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [
+            "latency-sensitive",
+            "inference workloads"
+          ],
+          "missed_keywords": [
+            "CFS scheduling",
+            "resource-constrained",
+            "edge hardware"
+          ],
+          "match_rate": 0.4,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": true,
+          "overlap_ratio": 0.6666666666666666
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "cited_count": 2,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.3005197048187256,
+        "llm_seconds": 17.68964195251465,
+        "total_seconds": 17.990161657333374
+      }
+    },
+    {
+      "question_id": "q2",
+      "question": "What methodology does PA-EIS use?",
+      "answerable": true,
+      "category": "methodology",
+      "error": null,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_3": 0.6666666666666666,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.6,
+        "precision_at_10": 0.3,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        2,
+        1,
+        2,
+        2,
+        3,
+        4,
+        1,
+        3,
+        5,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "Based on the provided excerpts, I can describe aspects of PA-EIS's methodology, though the full details appear to be in Section IV which is not fully included in these excerpts.\n\nFrom the excerpts, PA-EIS methodology includes:\n\n1. **User-space policy running on unmodified Linux**: PA-EIS \"runs as an ordinary service on existing Linux systems\" and \"must run wholly in user space over mechanisms present in an unmodified kernel\" [1, 4]\n\n2. **Feedback control coupling tail latency to cgroup weight**: It implements \"a user-space policy coupling measured tail latency to applied cgroup weight under an explicit fairness bound\" [1]\n\n3. **Weight as a controlled variable**: \"PA-EIS therefore treats weight as a variable under control rather than a constant chosen at deployment\" [4]\n\n4. **Explicit authority bounding**: It is \"conservative in the harm it can do\" with \"authority bounded explicitly rather than by assumption\" to prevent starving the rest of the system [4]\n\n5. **Daemon architecture with four parts**: The daemon includes \"a latency monitor that consumes per-request timings and maintains percentile estimates, a policy...\" [5] (excerpt cuts off here)\n\n6. **Control law development**: Section IV \"develops PA-EIS and its control law\" [1, 3]\n\nThe excerpts indicate that the full methodology, including the complete daemon architecture and control law, is detailed in Section IV of the paper, which is not fully captured in these excerpts. The evaluation methodology is specified in Section V [1, 3].",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [
+            "user-space policy",
+            "cgroup weight",
+            "tail latency",
+            "fairness bound"
+          ],
+          "missed_keywords": [],
+          "match_rate": 1.0,
+          "all_matched": true
+        },
+        "faithfulness": {
+          "has_overlap": true,
+          "overlap_ratio": 0.6896551724137931
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 3
+      },
+      "cited_pages": [
+        2,
+        1,
+        2,
+        2,
+        3
+      ],
+      "latency": {
+        "retrieval_seconds": 0.25142550468444824,
+        "llm_seconds": 17.007096529006958,
+        "total_seconds": 17.258522033691406
+      }
+    },
+    {
+      "question_id": "q3",
+      "question": "What workloads are used for evaluation?",
+      "answerable": true,
+      "category": "dataset",
+      "error": null,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        5,
+        4,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        4,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "Based on the provided excerpts, the evaluation uses the following workloads:\n\n**AI Workloads** (from [1]):\n- **MobileNetV2** (TensorFlow Lite): Image classification workload, \"costly per request, convolution-dominated, representative of vision pipelines on gateway-class hardware\"\n- **Keyword-spotting CNN** (TensorFlow Lite): Audio workload, \"much cheaper per request, invoked far more often, representative of always-listening TinyML deployments\"\n\n**Background Workloads** (from [1] and [3]):\n- **CPU-bound loop**: \"provides steady, unyielding demand and is the principal source of contention\" [3]\n- **Periodic I/O logger**: \"writes records on a fixed cadence, mixing computation with blocking I/O and so exercising the scheduler's treatment of tasks that sleep and wake\" [3]\n- **Network heartbeat**: \"emits periodic messages; it tolerates latency but must not be starved outright, since prolonged silence would be read as node failure\" [3]\n\nThese are summarized in Table I as \"CPU-bound loop; periodic I/O logger; network heartbeat\" [1].",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [
+            "MobileNetV2",
+            "I/O logger"
+          ],
+          "missed_keywords": [
+            "KWS-CNN",
+            "TFLite",
+            "CPU loop"
+          ],
+          "match_rate": 0.4,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": true,
+          "overlap_ratio": 0.6619718309859155
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 0.5,
+        "cited_count": 2,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        5,
+        4,
+        5,
+        5,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.24806451797485352,
+        "llm_seconds": 10.561007738113403,
+        "total_seconds": 10.809072256088257
+      }
+    },
+    {
+      "question_id": "q4",
+      "question": "What are the reported evaluation results or metrics?",
+      "answerable": true,
+      "category": "results",
+      "error": null,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "mrr": 0.0
+      },
+      "retrieved_pages": [
+        5,
+        5,
+        5,
+        5,
+        2,
+        5,
+        5,
+        1,
+        5,
+        5
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "Based on the provided excerpts, **no evaluation results are reported** in this version of the paper. Excerpt [5] explicitly states: \"Results are not reported here: the measurement campaign is still running, and the sections that will carry it are deferred to the full version of the paper.\"\n\nHowever, the excerpts do define the **evaluation metrics** that will be used (Table II in [3]):\n\n| Metric | Unit | Purpose |\n|--------|------|---------|\n| Mean inference latency | ms | Overall responsiveness per configuration |\n| P95 inference latency | ms | SLO indicator; PA-EIS control signal |\n| P99 inference latency | ms | Worst-case tail under contention |\n| Latency jitter (σ) | ms | Predictability of response time |\n\nAdditional metrics mentioned in [2] include:\n- Background cost (completion time relative to isolated baseline)\n- Utilisation and context-switch counts\n- Energy proxy (via RAPL registers where exposed)\n\nThe statistical analysis plan is described in [1] and [4]: 30 repetitions per configuration, rank-based procedures (not assuming normality), bootstrap resampling for percentile confidence intervals, and effect size reporting alongside significance.",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [
+            "not reported",
+            "measurement campaign",
+            "still running",
+            "deferred"
+          ],
+          "missed_keywords": [],
+          "match_rate": 1.0,
+          "all_matched": true
+        },
+        "faithfulness": {
+          "has_overlap": true,
+          "overlap_ratio": 0.6815642458100558
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 2,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        5,
+        5,
+        5,
+        5,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.25390100479125977,
+        "llm_seconds": 25.932088613510132,
+        "total_seconds": 26.18598961830139
+      }
+    },
+    {
+      "question_id": "q5",
+      "question": "What limitations does the paper explicitly mention?",
+      "answerable": true,
+      "category": "limitations",
+      "error": null,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 0.5,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        5,
+        1,
+        1,
+        6,
+        4,
+        2,
+        1,
+        2,
+        3,
+        5
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "I couldn't find sufficient information in the provided excerpts to answer this question confidently. The excerpts cover research questions, contributions, methodology, and a hypothesis about saturation behavior with a guard mechanism, but do not explicitly mention any limitations of the paper.",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "CPU-only",
+            "single commodity Linux host",
+            "no accelerator hardware",
+            "CFS scheduler"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": true,
+          "overlap_ratio": 0.5121951219512195
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        5,
+        1,
+        1,
+        6,
+        4
+      ],
+      "latency": {
+        "retrieval_seconds": 0.25304317474365234,
+        "llm_seconds": 25.865877389907837,
+        "total_seconds": 26.11892056465149
+      }
+    },
+    {
+      "question_id": "q6",
+      "question": "What Linux kernel features does PA-EIS rely on?",
+      "answerable": true,
+      "category": "technical_detail",
+      "error": null,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "mrr": 0.16666666666666666
+      },
+      "retrieved_pages": [
+        2,
+        2,
+        2,
+        1,
+        1,
+        3,
+        2,
+        3,
+        1,
+        3
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "Based on the provided excerpts, PA-EIS relies on the following Linux kernel features:\n\n1. **CFS (Completely Fair Scheduler)** — The kernel's scheduling subsystem that \"distributes processor time in proportion to weight\" where \"each runnable task accumulates virtual runtime at a rate scaled inversely by its weight\" [5]\n\n2. **Control-group (cgroup) hierarchy and cgroup weight** — Used to \"bound resource use\" of workload containers [3] and as the mechanism PA-EIS adjusts: \"coupling measured tail latency to applied cgroup weight\" [1]\n\n3. **Control-group accounting files** — Source of \"utilisation, accumulated service time and throttling events\" [2]\n\n4. **Kernel counters and perf** — Source of \"context-switch counts and scheduler statistics\" [2]\n\n5. **Running-average power-limit registers (RAPL)** — Source of \"an energy proxy\" where the platform exposes them [2]\n\nCritically, PA-EIS is designed as a \"user-space policy\" that \"runs as an ordinary service on existing Linux systems\" [1] and operates \"on an unmodified kernel\" [4], requiring no kernel changes.",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "cgroups v2",
+            "cpu.weight",
+            "cpu.max",
+            "cpuset.cpus",
+            "nice"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": true,
+          "overlap_ratio": 0.6451612903225806
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 2,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        2,
+        2,
+        2,
+        1,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2794308662414551,
+        "llm_seconds": 23.80632972717285,
+        "total_seconds": 24.085760593414307
+      }
+    },
+    {
+      "question_id": "q7",
+      "question": "Why does the evaluation intentionally restrict CPU cores?",
+      "answerable": true,
+      "category": "conceptual",
+      "error": null,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "mrr": 0.0
+      },
+      "retrieved_pages": [
+        4,
+        2,
+        1,
+        5,
+        1,
+        2,
+        1,
+        5,
+        2,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "Based on the provided excerpts, the paper does not explicitly state the reason for intentionally restricting CPU cores. However, the excerpts suggest the following relevant context:\n\n1. The study focuses on \"the division of general-purpose CPU time\" and measures contention, noting that \"offloading inference would remove the contention being measured\" [1].\n\n2. The research examines scheduler behavior specifically \"once demand exceeds the available cores,\" where \"the component deciding whether a request meets its deadline is the kernel scheduler\" [3].\n\n3. The experimental design holds \"the exposed core set\" constant across configurations to avoid confounding comparisons [5].\n\nWhile these points imply that core restriction creates the contention conditions necessary to study CFS scheduling behavior under load, the excerpts do not contain an explicit statement of why CPU cores are intentionally restricted (e.g., to simulate edge device constraints, to induce scheduler contention, etc.).\n\nI couldn't find sufficient information in the provided excerpts to answer this question confidently.",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [
+            "contention"
+          ],
+          "missed_keywords": [
+            "object of study",
+            "aggregate demand exceeds supply",
+            "spare capacity"
+          ],
+          "match_rate": 0.25,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": true,
+          "overlap_ratio": 0.5870967741935483
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": true
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        4,
+        2,
+        1,
+        5,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2968275547027588,
+        "llm_seconds": 13.431977272033691,
+        "total_seconds": 13.72880482673645
+      }
+    },
+    {
+      "question_id": "q8",
+      "question": "What container technology is used and what does it enable?",
+      "answerable": true,
+      "category": "multi_part",
+      "error": null,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.2,
+        "mrr": 0.14285714285714285
+      },
+      "retrieved_pages": [
+        2,
+        2,
+        1,
+        1,
+        1,
+        5,
+        4,
+        3,
+        4,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "Based on the provided excerpts, the specific container technology (e.g., Docker, containerd, podman) is **not explicitly named**. The excerpts refer to \"containerisation\" as a keyword [3] and discuss \"inference containers\" and \"background containers\" that share a node [1].\n\nWhat the excerpts indicate containers enable in this context:\n\n1. **Co-location of workloads**: Two classes of containers share the node — inference containers running TensorFlow Lite models and background containers running non-AI tasks [1].\n\n2. **Scheduling control via cgroups**: The paper evaluates raising scheduling priority of inference containers \"through cgroup weight and nice values\" [4], and measurements like utilisation, accumulated service time, and throttling events come from \"control-group accounting files\" [1].\n\n3. **User-space adaptive policy without kernel changes**: The container layer is \"what makes an adaptive user-space policy possible; this is the layer at which PA-EIS acts\" without \"modifying or rebuilding the kernel\" [1].\n\n4. **Read-only instrumentation**: Per-request latency is recorded inside inference containers, while other metrics come from cgroup files and kernel counters, with \"nothing in the instrumentation path writ[ing] a scheduling parameter\" [2].\n\nI couldn't find the specific container runtime/technology name in the provided excerpts.",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [
+            "Docker",
+            "cgroup"
+          ],
+          "missed_keywords": [
+            "reproducible",
+            "parameter sweep"
+          ],
+          "match_rate": 0.5,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": true,
+          "overlap_ratio": 0.6378378378378379
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 2,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2669527530670166,
+        "llm_seconds": 10.908909559249878,
+        "total_seconds": 11.175862312316895
+      }
+    },
+    {
+      "question_id": "q9",
+      "question": "How does PA-EIS differ from traditional OS scheduling approaches?",
+      "answerable": true,
+      "category": "comparison_inference",
+      "error": null,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_3": 0.6666666666666666,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.6,
+        "precision_at_10": 0.3,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        3,
+        3,
+        2,
+        1,
+        1,
+        3,
+        3,
+        2,
+        5,
+        3
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "Based on the provided excerpts, PA-EIS differs from traditional OS scheduling approaches in several key ways:\n\n1. **Dynamic weight control vs. static deployment-time tuning**: PA-EIS \"treats weight as a variable under control rather than a constant chosen at deployment\" because \"a weight tuned to average conditions fails precisely when contention peaks, which is when the SLO is at risk\" [1].\n\n2. **User-space operation on unmodified kernel**: It \"must run wholly in user space over mechanisms present in an unmodified kernel, so that it can be installed as an ordinary service\" [1], unlike approaches that \"presuppose a custom kernel\" [2].\n\n3. **Explicit safety bounds**: Its \"authority is bounded explicitly rather than by assumption\" with \"a starvation ceiling on background slowdown\" [1, 5] to prevent the controller from starving the rest of the system if its feedback signal is misleading.\n\n4. **Latency-driven adaptive control**: It \"estimates P95 and P99 latency over a sliding window, moves cgroup weight toward an SLO target using a multiplicative-increase, additive-decrease rule with hysteresis\" [5], coupling measured tail latency to applied cgroup weight \"under an explicit fairness bound\" [3].\n\n5. **No hardware accelerator dependence**: The evaluation harness works \"with no dependence on accelerator hardware\" [3], and the approach targets \"an existing Linux fleet\" rather than requiring dedicated accelerators [2].",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [
+            "user-space",
+            "tail latency",
+            "fairness bound",
+            "explicit"
+          ],
+          "missed_keywords": [],
+          "match_rate": 1.0,
+          "all_matched": true
+        },
+        "faithfulness": {
+          "has_overlap": true,
+          "overlap_ratio": 0.7156398104265402
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 3
+      },
+      "cited_pages": [
+        3,
+        3,
+        2,
+        1,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.267580509185791,
+        "llm_seconds": 20.43260931968689,
+        "total_seconds": 20.70018982887268
+      }
+    },
+    {
+      "question_id": "q10",
+      "question": "What is the paper's stance on neural architecture search?",
+      "answerable": false,
+      "category": "out_of_scope",
+      "error": null,
+      "retrieval_metrics": {},
+      "retrieved_pages": [
+        2,
+        2,
+        2,
+        2,
+        1,
+        5,
+        6,
+        2,
+        2,
+        6
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "I couldn't find sufficient information in the provided excerpts to answer this question confidently. The excerpts discuss system architecture, measurement methodology, related work on edge AI operating systems, and the PA-EIS scheduling controller, but do not mention neural architecture search.",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "insufficient",
+            "not found",
+            "does not",
+            "not mentioned"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": true,
+          "overlap_ratio": 0.625
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {},
+      "cited_pages": [
+        2,
+        2,
+        2,
+        2,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.26689743995666504,
+        "llm_seconds": 8.724429368972778,
+        "total_seconds": 8.991326808929443
+      }
+    }
+  ],
+  "errors": [],
+  "notes": [
+    "Retrieval mode: hybrid",
+    "PHASE 5: Hybrid Retrieval Evaluation",
+    "Dataset is limited to 10 questions on a single paper",
+    "Keyword matching is a lightweight signal, NOT semantic correctness",
+    "LLM latency may be variable due to free-tier OpenRouter model",
+    "Evaluation measures production pipeline without modifications"
+  ]
+}

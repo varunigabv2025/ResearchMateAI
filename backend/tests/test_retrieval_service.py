@@ -170,3 +170,242 @@ class TestRetrievalService:
         # First result should be more similar
         assert results[0]['chunk_id'] == chunk_id1
         assert results[0]['similarity'] > results[1]['similarity']
+
+
+class TestRetrievalModes:
+    """Tests for different retrieval modes (dense, lexical, hybrid)."""
+    
+    @pytest.fixture
+    def service(self):
+        """Create retrieval service instance."""
+        return RetrievalService()
+    
+    @pytest.fixture
+    def mock_paper(self):
+        """Create mock paper."""
+        paper = Mock(spec=Paper)
+        paper.id = uuid.uuid4()
+        paper.processed = True
+        paper.processing_error = None
+        return paper
+    
+    @pytest.mark.asyncio
+    async def test_default_mode_is_dense(self, service, mock_paper):
+        """Test that default retrieval mode is DENSE."""
+        from app.services.retrieval_service import RetrievalMode
+        
+        mock_db = Mock()
+        mock_db.query.return_value.filter.return_value.first.return_value = mock_paper
+        
+        mock_embedding = [0.1] * 1024
+        with patch.object(service.embedding_service, 'generate_embedding',
+                         new_callable=AsyncMock, return_value=mock_embedding):
+            
+            mock_results = [
+                {
+                    'chunk_id': uuid.uuid4(),
+                    'text': 'Test chunk',
+                    'page_number': 1,
+                    'section': 'Intro',
+                    'chunk_index': 0,
+                    'similarity': 0.9
+                }
+            ]
+            
+            with patch.object(service, '_search_with_fallback', return_value=mock_results):
+                # Call without mode parameter
+                results = await service.retrieve_relevant_chunks(
+                    mock_db, mock_paper.id, "test question"
+                )
+                
+                # Should return dense results with similarity field
+                assert len(results) == 1
+                assert 'similarity' in results[0]
+                assert 'bm25_score' not in results[0]
+                assert 'rrf_score' not in results[0]
+    
+    @pytest.mark.asyncio
+    async def test_dense_mode_explicit(self, service, mock_paper):
+        """Test explicit DENSE mode."""
+        from app.services.retrieval_service import RetrievalMode
+        
+        mock_db = Mock()
+        mock_db.query.return_value.filter.return_value.first.return_value = mock_paper
+        
+        mock_embedding = [0.1] * 1024
+        with patch.object(service.embedding_service, 'generate_embedding',
+                         new_callable=AsyncMock, return_value=mock_embedding):
+            
+            mock_results = [
+                {
+                    'chunk_id': uuid.uuid4(),
+                    'text': 'Test chunk',
+                    'page_number': 1,
+                    'section': 'Intro',
+                    'chunk_index': 0,
+                    'similarity': 0.9
+                }
+            ]
+            
+            with patch.object(service, '_search_with_fallback', return_value=mock_results):
+                results = await service.retrieve_relevant_chunks(
+                    mock_db, mock_paper.id, "test question", mode=RetrievalMode.DENSE
+                )
+                
+                assert len(results) == 1
+                assert 'similarity' in results[0]
+    
+    @pytest.mark.asyncio
+    async def test_lexical_mode(self, service, mock_paper):
+        """Test LEXICAL mode."""
+        from app.services.retrieval_service import RetrievalMode
+        
+        mock_db = Mock()
+        mock_db.query.return_value.filter.return_value.first.return_value = mock_paper
+        
+        mock_lexical_results = [
+            {
+                'chunk_id': str(uuid.uuid4()),
+                'text': 'Test chunk with Docker',
+                'page_number': 1,
+                'section': 'Methods',
+                'chunk_index': 0,
+                'bm25_score': 5.2,
+                'rank': 1
+            }
+        ]
+        
+        with patch.object(service.lexical_service, 'search_chunks', return_value=mock_lexical_results):
+            results = await service.retrieve_relevant_chunks(
+                mock_db, mock_paper.id, "Docker", mode=RetrievalMode.LEXICAL
+            )
+            
+            assert len(results) == 1
+            assert 'bm25_score' in results[0]
+            assert 'similarity' not in results[0]
+            assert 'rrf_score' not in results[0]
+    
+    @pytest.mark.asyncio
+    async def test_hybrid_mode(self, service, mock_paper):
+        """Test HYBRID mode with RRF fusion."""
+        from app.services.retrieval_service import RetrievalMode
+        
+        mock_db = Mock()
+        mock_db.query.return_value.filter.return_value.first.return_value = mock_paper
+        
+        mock_embedding = [0.1] * 1024
+        
+        # Mock dense results
+        mock_dense_results = [
+            {
+                'chunk_id': uuid.uuid4(),
+                'text': 'Test chunk A',
+                'page_number': 1,
+                'section': 'Intro',
+                'chunk_index': 0,
+                'similarity': 0.9
+            }
+        ]
+        
+        # Mock lexical results
+        mock_lexical_results = [
+            {
+                'chunk_id': str(uuid.uuid4()),
+                'text': 'Test chunk B',
+                'page_number': 2,
+                'section': 'Methods',
+                'chunk_index': 1,
+                'bm25_score': 5.2,
+                'rank': 1
+            }
+        ]
+        
+        with patch.object(service.embedding_service, 'generate_embedding',
+                         new_callable=AsyncMock, return_value=mock_embedding):
+            with patch.object(service, '_search_with_fallback', return_value=mock_dense_results):
+                with patch.object(service.lexical_service, 'search_chunks', return_value=mock_lexical_results):
+                    results = await service.retrieve_relevant_chunks(
+                        mock_db, mock_paper.id, "test question", mode=RetrievalMode.HYBRID
+                    )
+                    
+                    # Should return fused results
+                    assert len(results) >= 1
+                    # Hybrid results should have RRF score
+                    assert 'rrf_score' in results[0]
+                    # Should also preserve source scores
+                    assert 'dense_similarity' in results[0] or 'lexical_score' in results[0]
+    
+    @pytest.mark.asyncio
+    async def test_hybrid_mode_uses_larger_candidate_pools(self, service, mock_paper):
+        """Test that hybrid mode uses larger candidate pools."""
+        from app.services.retrieval_service import RetrievalMode
+        
+        mock_db = Mock()
+        mock_db.query.return_value.filter.return_value.first.return_value = mock_paper
+        
+        mock_embedding = [0.1] * 1024
+        
+        with patch.object(service.embedding_service, 'generate_embedding',
+                         new_callable=AsyncMock, return_value=mock_embedding):
+            with patch.object(service, '_search_with_fallback', return_value=[]) as mock_dense:
+                with patch.object(service.lexical_service, 'search_chunks', return_value=[]) as mock_lexical:
+                    await service.retrieve_relevant_chunks(
+                        mock_db, mock_paper.id, "test", 
+                        mode=RetrievalMode.HYBRID,
+                        top_k=5,
+                        dense_k=20,
+                        lexical_k=20
+                    )
+                    
+                    # Verify dense search was called with dense_k
+                    assert mock_dense.called
+                    call_args = mock_dense.call_args
+                    # The k parameter should be 20 (dense_k), not 5 (top_k)
+                    assert call_args[0][3] == 20  # 4th positional arg is k
+                    
+                    # Verify lexical search was called with lexical_k
+                    assert mock_lexical.called
+                    lexical_call_args = mock_lexical.call_args
+                    assert lexical_call_args[1]['top_k'] == 20
+    
+    @pytest.mark.asyncio
+    async def test_invalid_mode_raises_error(self, service, mock_paper):
+        """Test that invalid retrieval mode raises error."""
+        mock_db = Mock()
+        mock_db.query.return_value.filter.return_value.first.return_value = mock_paper
+        
+        with pytest.raises(ValueError, match="Unknown retrieval mode"):
+            await service.retrieve_relevant_chunks(
+                mock_db, mock_paper.id, "test", mode="invalid_mode"
+            )
+    
+    @pytest.mark.asyncio
+    async def test_backward_compatibility_no_mode_parameter(self, service, mock_paper):
+        """Test backward compatibility when mode parameter is not provided."""
+        mock_db = Mock()
+        mock_db.query.return_value.filter.return_value.first.return_value = mock_paper
+        
+        mock_embedding = [0.1] * 1024
+        with patch.object(service.embedding_service, 'generate_embedding',
+                         new_callable=AsyncMock, return_value=mock_embedding):
+            
+            mock_results = [
+                {
+                    'chunk_id': uuid.uuid4(),
+                    'text': 'Test chunk',
+                    'page_number': 1,
+                    'section': 'Intro',
+                    'chunk_index': 0,
+                    'similarity': 0.9
+                }
+            ]
+            
+            with patch.object(service, '_search_with_fallback', return_value=mock_results):
+                # Call with old API (no mode parameter)
+                results = await service.retrieve_relevant_chunks(
+                    mock_db, mock_paper.id, "test question", top_k=5
+                )
+                
+                # Should work and return dense results
+                assert len(results) == 1
+                assert 'similarity' in results[0]

@@ -3,7 +3,8 @@ from app.services.pdf_extractor import PDFExtractor
 from app.services.section_detector import SectionDetector
 from app.services.chunker import TextChunker
 from app.services.embedding_service import EmbeddingService, embedding_service
-from app.services.retrieval_service import RetrievalService, retrieval_service
+from app.services.retrieval_service import RetrievalService, retrieval_service, RetrievalMode
+from app.services.lexical_search import LexicalSearchService, lexical_search_service
 from app.services.llm_service import LLMService, llm_service
 from app.services.prompts import GroundedQAPrompt, ComparisonExtractionPrompt, GapAnalysisPrompt
 from app.services.content_selector import ContentSelector
@@ -18,6 +19,9 @@ __all__ = [
     "embedding_service",
     "RetrievalService",
     "retrieval_service",
+    "RetrievalMode",
+    "LexicalSearchService",
+    "lexical_search_service",
     "LLMService",
     "llm_service",
     "GroundedQAPrompt",

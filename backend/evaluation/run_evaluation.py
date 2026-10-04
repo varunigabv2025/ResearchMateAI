@@ -26,7 +26,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # Import existing services (DO NOT DUPLICATE LOGIC)
 from app.core.database import SessionLocal
 from app.models import Paper, PaperChunk
-from app.services.retrieval_service import retrieval_service
+from app.services.retrieval_service import retrieval_service, RetrievalMode
 from app.services.llm_service import llm_service
 from app.services.prompts import GroundedQAPrompt
 
@@ -51,15 +51,17 @@ class RAGEvaluator:
     Evaluates the existing RAG pipeline without modification.
     """
     
-    def __init__(self, dataset_path: str):
+    def __init__(self, dataset_path: str, retrieval_mode: RetrievalMode = RetrievalMode.DENSE):
         """
         Initialize evaluator with dataset.
         
         Args:
             dataset_path: Path to evaluation dataset JSON
+            retrieval_mode: Retrieval mode to use (DENSE, LEXICAL, or HYBRID)
         """
         self.dataset_path = Path(dataset_path)
         self.dataset = self._load_dataset()
+        self.retrieval_mode = retrieval_mode
         
     def _load_dataset(self) -> Dict:
         """Load evaluation dataset from JSON."""
@@ -103,13 +105,14 @@ class RAGEvaluator:
             # ===== RETRIEVAL PHASE =====
             retrieval_start = time.time()
             
-            # Call EXISTING retrieval service
+            # Call EXISTING retrieval service with specified mode
             retrieved_chunks = await retrieval_service.retrieve_relevant_chunks(
                 db=db,
                 paper_id=paper_id,
                 question=question,
                 top_k=10,  # Retrieve more for evaluation (measure @1,3,5,10)
-                similarity_threshold=0.4
+                similarity_threshold=0.4,
+                mode=self.retrieval_mode  # Use specified retrieval mode
             )
             
             retrieval_latency = time.time() - retrieval_start
@@ -258,6 +261,7 @@ class RAGEvaluator:
                 raise ValueError(f"Paper {paper_id} is not fully processed")
             
             logger.info(f"Evaluating paper: {paper.filename}")
+            logger.info(f"Retrieval mode: {self.retrieval_mode.value}")
             logger.info(f"Questions in dataset: {len(self.dataset['questions'])}")
             
             # Evaluate each question
@@ -321,11 +325,25 @@ class RAGEvaluator:
             from app.services.retrieval_service import HAS_PGVECTOR
             from app.core.config import settings
             
+            # Determine retrieval method description
+            if self.retrieval_mode == RetrievalMode.DENSE:
+                if HAS_PGVECTOR:
+                    retrieval_method = 'pgvector_cosine'
+                else:
+                    retrieval_method = 'python_numpy_cosine_fallback'
+            elif self.retrieval_mode == RetrievalMode.LEXICAL:
+                retrieval_method = 'bm25_lexical'
+            elif self.retrieval_mode == RetrievalMode.HYBRID:
+                if HAS_PGVECTOR:
+                    retrieval_method = 'hybrid_rrf_dense(pgvector)+lexical(bm25)'
+                else:
+                    retrieval_method = 'hybrid_rrf_dense(numpy)+lexical(bm25)'
+            else:
+                retrieval_method = 'unknown'
+            
             if HAS_PGVECTOR:
-                retrieval_method = 'pgvector_cosine'
                 database_info = 'PostgreSQL + pgvector'
             else:
-                retrieval_method = 'python_numpy_cosine_fallback'
                 # Extract database type from connection string
                 db_url = settings.DATABASE_URL
                 if 'sqlite' in db_url.lower():
@@ -372,7 +390,8 @@ class RAGEvaluator:
                 'per_question_results': per_question_results,
                 'errors': errors,
                 'notes': [
-                    'This is a baseline evaluation of the existing RAG pipeline',
+                    f'Retrieval mode: {self.retrieval_mode.value}',
+                    'PHASE 5: Hybrid Retrieval Evaluation' if self.retrieval_mode == RetrievalMode.HYBRID else 'Retrieval evaluation',
                     'Dataset is limited to 10 questions on a single paper',
                     'Keyword matching is a lightweight signal, NOT semantic correctness',
                     'LLM latency may be variable due to free-tier OpenRouter model',
@@ -431,11 +450,25 @@ async def main():
         default='backend/evaluation/results/baseline.json',
         help='Path to output results JSON'
     )
+    parser.add_argument(
+        '--mode',
+        choices=['dense', 'lexical', 'hybrid'],
+        default='dense',
+        help='Retrieval mode: dense (vector), lexical (BM25), or hybrid (RRF fusion)'
+    )
     
     args = parser.parse_args()
     
+    # Convert mode string to enum
+    mode_map = {
+        'dense': RetrievalMode.DENSE,
+        'lexical': RetrievalMode.LEXICAL,
+        'hybrid': RetrievalMode.HYBRID
+    }
+    retrieval_mode = mode_map[args.mode]
+    
     # Create evaluator
-    evaluator = RAGEvaluator(args.dataset)
+    evaluator = RAGEvaluator(args.dataset, retrieval_mode=retrieval_mode)
     
     # Run evaluation
     results = await evaluator.run_evaluation(args.paper_id)
