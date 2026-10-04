@@ -1,6 +1,7 @@
 """
 Vector similarity retrieval service for finding relevant paper chunks.
 """
+import logging
 from typing import List, Dict, Optional
 from uuid import UUID
 from sqlalchemy.orm import Session
@@ -9,8 +10,12 @@ from sqlalchemy import and_
 from app.models import PaperChunk, Embedding, Paper
 from app.services.embedding_service import embedding_service
 
+# Configure logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 try:
-    from pgvector.sqlalchemy import Vector
+    from pgvector.sqlalchemy import Vector  # type: ignore
     HAS_PGVECTOR = True
 except ImportError:
     HAS_PGVECTOR = False
@@ -23,7 +28,7 @@ class RetrievalService:
     
     # Configuration
     DEFAULT_TOP_K = 5
-    DEFAULT_SIMILARITY_THRESHOLD = 0.7  # Cosine similarity threshold (0-1)
+    DEFAULT_SIMILARITY_THRESHOLD = 0.4  # Cosine similarity threshold (0-1) calibrated for Qwen3 local embeddings
     
     def __init__(self):
         self.embedding_service = embedding_service
@@ -70,6 +75,10 @@ class RetrievalService:
         # Generate embedding for the question
         question_embedding = await self.embedding_service.generate_embedding(question, is_query=True)
         
+        # Log retrieval operation for diagnostics
+        logger.debug(f"Retrieval for paper {paper_id}: question length={len(question)} chars")
+        logger.debug(f"Query embedding dimension: {len(question_embedding)}")
+        
         # Perform similarity search
         if HAS_PGVECTOR:
             results = self._search_with_pgvector(
@@ -82,6 +91,15 @@ class RetrievalService:
         
         # Filter by similarity threshold and format results
         filtered_results = []
+        
+        # Log retrieval results for diagnostics (without full text content)
+        logger.info(f"Retrieved {len(results)} chunks, threshold={similarity_threshold}")
+        for i, result in enumerate(results[:5]):  # Log top 5 only
+            logger.debug(
+                f"Chunk {i+1}: similarity={result['similarity']:.4f}, "
+                f"page={result['page_number']}, section={result.get('section', 'N/A')}"
+            )
+        
         for result in results:
             if result['similarity'] >= similarity_threshold:
                 filtered_results.append({
@@ -92,6 +110,8 @@ class RetrievalService:
                     'chunk_index': result['chunk_index'],
                     'similarity': result['similarity']
                 })
+        
+        logger.info(f"Returned {len(filtered_results)} chunks after filtering")
         
         return filtered_results
     

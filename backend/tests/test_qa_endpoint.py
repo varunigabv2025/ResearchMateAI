@@ -225,3 +225,31 @@ class TestQAEndpoint:
         assert sources[0].section == 'Introduction'
         assert sources[1].page_number == 2
         assert sources[1].section == 'Methods'
+
+    @pytest.mark.asyncio
+    async def test_llm_service_empty_content_raises_exception(self):
+        """Test that LLMService raises exception when provider content is null/empty and ignores reasoning."""
+        from app.services.llm_service import llm_service
+        
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.raise_for_status = Mock()
+        
+        # Test null content with reasoning present
+        mock_response.json.return_value = {
+            "choices": [
+                {
+                    "message": {
+                        "content": None,
+                        "reasoning": "Internal chain of thought reasoning..."
+                    }
+                }
+            ]
+        }
+        
+        with patch('httpx.AsyncClient.post', new_callable=AsyncMock, return_value=mock_response):
+            with pytest.raises(Exception) as exc_info:
+                await llm_service.generate_chat_completion([{"role": "user", "content": "Hi"}])
+            assert "empty response content" in str(exc_info.value).lower()
+            assert "internal chain of thought" not in str(exc_info.value)
+
