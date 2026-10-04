@@ -150,13 +150,23 @@ You will extract exactly 4 fields:
 - Metric/Result: Key evaluation metrics or main results reported
 - Limitation: Limitations explicitly stated or clearly identified in the paper
 
-Return your response as a valid JSON object with exactly these fields:
+RESPONSE FORMAT:
+You MUST return ONLY a valid JSON object. Do not include any explanatory text before or after the JSON.
+The JSON must have exactly these four fields with string values:
+
 {
-  "method": "...",
-  "dataset": "...",
-  "metric_result": "...",
-  "limitation": "..."
+  "method": "description here",
+  "dataset": "description here",
+  "metric_result": "description here",
+  "limitation": "description here"
 }
+
+JSON FORMATTING RULES:
+- Use proper JSON syntax with double quotes for keys and string values
+- Do not include line breaks within string values
+- Escape special characters properly (use \\n for newlines in text, \" for quotes)
+- Do not include markdown code fences (no ``` or ```json)
+- Return ONLY the JSON object, nothing else
 
 If any field cannot be determined from the provided content, use "Not specified in the paper" as the value for that field.
 """
