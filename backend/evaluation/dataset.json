@@ -1,0 +1,151 @@
+{
+  "dataset_name": "PA-EIS Evaluation Dataset",
+  "paper_id": "PA-EIS_IEEE_first5pages.pdf",
+  "description": "Initial RAG evaluation dataset based on PA-EIS (Priority-Aware Edge Inference Scheduling) IEEE paper",
+  "created": "2026-10-04",
+  "questions": [
+    {
+      "id": "q1",
+      "question": "What is the main motivation for studying containerised Linux edge nodes?",
+      "category": "motivation",
+      "expected_answer_contains": [
+        "CFS scheduling",
+        "latency-sensitive",
+        "resource-constrained",
+        "edge hardware",
+        "inference workloads"
+      ],
+      "relevant_pages": [1, 2],
+      "answerable": true,
+      "notes": "Tests understanding of paper's core research motivation"
+    },
+    {
+      "id": "q2",
+      "question": "What methodology does PA-EIS use?",
+      "category": "methodology",
+      "expected_answer_contains": [
+        "user-space policy",
+        "cgroup weight",
+        "tail latency",
+        "fairness bound"
+      ],
+      "relevant_pages": [1, 2, 3],
+      "answerable": true,
+      "notes": "Tests extraction of technical approach"
+    },
+    {
+      "id": "q3",
+      "question": "What workloads are used for evaluation?",
+      "category": "dataset",
+      "expected_answer_contains": [
+        "MobileNetV2",
+        "KWS-CNN",
+        "TFLite",
+        "CPU loop",
+        "I/O logger"
+      ],
+      "relevant_pages": [3, 4],
+      "answerable": true,
+      "notes": "Tests identification of experimental workloads"
+    },
+    {
+      "id": "q4",
+      "question": "What are the reported evaluation results or metrics?",
+      "category": "results",
+      "expected_answer_contains": [
+        "not reported",
+        "measurement campaign",
+        "still running",
+        "deferred"
+      ],
+      "relevant_pages": [4],
+      "answerable": true,
+      "notes": "Tests handling of explicitly missing information"
+    },
+    {
+      "id": "q5",
+      "question": "What limitations does the paper explicitly mention?",
+      "category": "limitations",
+      "expected_answer_contains": [
+        "CPU-only",
+        "single commodity Linux host",
+        "no accelerator hardware",
+        "CFS scheduler"
+      ],
+      "relevant_pages": [4, 5],
+      "answerable": true,
+      "notes": "Tests extraction of stated limitations"
+    },
+    {
+      "id": "q6",
+      "question": "What Linux kernel features does PA-EIS rely on?",
+      "category": "technical_detail",
+      "expected_answer_contains": [
+        "cgroups v2",
+        "cpu.weight",
+        "cpu.max",
+        "cpuset.cpus",
+        "nice"
+      ],
+      "relevant_pages": [3],
+      "answerable": true,
+      "notes": "Tests identification of specific technical dependencies"
+    },
+    {
+      "id": "q7",
+      "question": "Why does the evaluation intentionally restrict CPU cores?",
+      "category": "conceptual",
+      "expected_answer_contains": [
+        "contention",
+        "object of study",
+        "aggregate demand exceeds supply",
+        "spare capacity"
+      ],
+      "relevant_pages": [3],
+      "answerable": true,
+      "notes": "Tests understanding of experimental design rationale"
+    },
+    {
+      "id": "q8",
+      "question": "What container technology is used and what does it enable?",
+      "category": "multi_part",
+      "expected_answer_contains": [
+        "Docker",
+        "reproducible",
+        "parameter sweep",
+        "cgroup"
+      ],
+      "relevant_pages": [3, 4],
+      "answerable": true,
+      "notes": "Tests ability to connect related information"
+    },
+    {
+      "id": "q9",
+      "question": "How does PA-EIS differ from traditional OS scheduling approaches?",
+      "category": "comparison_inference",
+      "expected_answer_contains": [
+        "user-space",
+        "tail latency",
+        "fairness bound",
+        "explicit"
+      ],
+      "relevant_pages": [1, 2, 3],
+      "answerable": true,
+      "notes": "Tests synthesis across multiple chunks"
+    },
+    {
+      "id": "q10",
+      "question": "What is the paper's stance on neural architecture search?",
+      "category": "out_of_scope",
+      "expected_answer_contains": [
+        "insufficient",
+        "not found",
+        "does not",
+        "not mentioned"
+      ],
+      "relevant_pages": [],
+      "answerable": false,
+      "notes": "Tests proper handling of out-of-scope questions"
+    }
+  ]
+}
