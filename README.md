@@ -458,6 +458,43 @@ Each chunk maintains:
 - **Threshold**: 0.4 cosine similarity (calibrated for Qwen3 embeddings)
 - **Provider**: Local sentence-transformers (zero-cost, CPU/GPU support)
 
+### Retrieval Modes (Phase 4-6)
+
+ResearchMate supports multiple retrieval strategies, evaluated on a 10-question benchmark using the PA-EIS IEEE paper:
+
+- **DENSE** (Phase 4, default): Vector similarity search using Qwen3-Embedding-0.6B
+- **LEXICAL** (Phase 5): BM25-based term matching for keyword queries
+- **HYBRID** (Phase 5): Reciprocal Rank Fusion combining dense + lexical retrieval
+- **RERANKED** (Phase 6): Hybrid + cross-encoder reranking
+
+**Phase 6: Cross-encoder Reranking** (`RERANKED` mode):
+1. Hybrid retrieval: top-20 dense + top-20 BM25 → RRF fusion → top-20 candidates
+2. Cross-encoder reranking: ms-marco-MiniLM-L-6-v2 (22M params, CPU inference)
+3. Sort by cross-encoder scores → final top-K
+
+**Evaluation Results** (PA-EIS paper, 10-question benchmark, CPU-only):
+
+| Metric | HYBRID | RERANKED | Change |
+|--------|--------|----------|--------|
+| Hit Rate@5 | 55.6% | **66.7%** | +20.0% ✅ |
+| Recall@5 | 50.0% | 51.9% | +3.7% ✅ |
+| **MRR** | **0.534** | 0.448 | **-16.1%** ⚠️ |
+| **Recall@10** | **72.2%** | 61.1% | **-15.4%** ⚠️ |
+| **Latency** | **337ms** | 4177ms | **+3840ms** ⚠️ |
+
+**Phase 6 Demonstrates a Quality Trade-off**:
+- ✅ **Improved breadth**: Better Hit Rate@5 (finds *at least one* relevant chunk more often)
+- ✅ **Slight recall gain**: Marginal improvement in Recall@5
+- ⚠️ **Degraded ranking quality**: MRR decreased 16% (first-answer quality worse)
+- ⚠️ **Reduced deep recall**: Recall@10 decreased 15%
+- ⚠️ **Substantial latency**: 12x increase in retrieval time (CPU-only inference)
+
+**Analysis**: The ms-marco-MiniLM reranker, trained on web search queries, struggles with academic paper Q&A. It improves hit rate by promoting more candidates into top-5, but degrades first-position ranking quality (MRR) and deeper recall. The 3.8-second reranking overhead on CPU makes this impractical for interactive use.
+
+**Fallback**: If cross-encoder unavailable (model download failure, dependency issue), `RERANKED` mode gracefully falls back to `HYBRID` (RRF) ranking.
+
+**Current Recommendation**: Use `HYBRID` mode for production (better MRR, 12x faster). `RERANKED` mode is experimental and demonstrates that cross-encoder reranking on CPU is not currently viable for this use case.
+
 ## 🔒 Security Notes
 
 - Never commit `.env` files or API keys

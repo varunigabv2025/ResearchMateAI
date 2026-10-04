@@ -57,11 +57,13 @@ class RAGEvaluator:
         
         Args:
             dataset_path: Path to evaluation dataset JSON
-            retrieval_mode: Retrieval mode to use (DENSE, LEXICAL, or HYBRID)
+            retrieval_mode: Retrieval mode to use (DENSE, LEXICAL, HYBRID, or RERANKED)
+            skip_llm: If True, skip LLM answer generation (retrieval-only evaluation)
         """
         self.dataset_path = Path(dataset_path)
         self.dataset = self._load_dataset()
         self.retrieval_mode = retrieval_mode
+        self.skip_llm = False  # Can be set externally if needed
         
     def _load_dataset(self) -> Dict:
         """Load evaluation dataset from JSON."""
@@ -117,6 +119,9 @@ class RAGEvaluator:
             
             retrieval_latency = time.time() - retrieval_start
             
+            # Store retrieval latency in milliseconds
+            result['retrieval_latency_ms'] = retrieval_latency * 1000
+            
             # Extract retrieved pages
             retrieved_pages = [chunk['page_number'] for chunk in retrieved_chunks]
             
@@ -145,31 +150,37 @@ class RAGEvaluator:
             
             # ===== ANSWER GENERATION PHASE =====
             
-            # Use top-5 chunks for answer generation (production config)
+            # Always define top_5_chunks for answer/citation evaluation
             top_5_chunks = retrieved_chunks[:5]
             
-            # Check sufficient context (using EXISTING logic)
-            has_sufficient_context = GroundedQAPrompt.has_sufficient_context(
-                top_5_chunks, min_chunks=1
-            )
-            
-            if not has_sufficient_context:
-                answer = GroundedQAPrompt.get_insufficient_context_response()
+            # Skip LLM if requested (retrieval-only evaluation)
+            if self.skip_llm:
+                answer = "[SKIPPED - retrieval-only evaluation]"
                 llm_latency = 0.0
+                has_sufficient_context = True
             else:
-                # Build prompt using EXISTING prompt builder
-                messages = GroundedQAPrompt.build_messages(question, top_5_chunks)
+                # Check sufficient context (using EXISTING logic)
+                has_sufficient_context = GroundedQAPrompt.has_sufficient_context(
+                    top_5_chunks, min_chunks=1
+                )
                 
-                # Call EXISTING LLM service
-                llm_start = time.time()
-                try:
-                    answer = await llm_service.generate_chat_completion(messages)
-                    llm_latency = time.time() - llm_start
-                except Exception as llm_error:
-                    logger.error(f"LLM error for {question_id}: {llm_error}")
-                    answer = f"[LLM ERROR: {str(llm_error)}]"
+                if not has_sufficient_context:
+                    answer = GroundedQAPrompt.get_insufficient_context_response()
                     llm_latency = 0.0
-                    result['error'] = f"LLM generation failed: {str(llm_error)}"
+                else:
+                    # Build prompt using EXISTING prompt builder
+                    messages = GroundedQAPrompt.build_messages(question, top_5_chunks)
+                    
+                    # Call EXISTING LLM service
+                    llm_start = time.time()
+                    try:
+                        answer = await llm_service.generate_chat_completion(messages)
+                        llm_latency = time.time() - llm_start
+                    except Exception as llm_error:
+                        logger.error(f"LLM error for {question_id}: {llm_error}")
+                        answer = f"[LLM ERROR: {str(llm_error)}]"
+                        llm_latency = 0.0
+                        result['error'] = f"LLM generation failed: {str(llm_error)}"
             
             result['answer'] = answer
             result['has_sufficient_context'] = has_sufficient_context
@@ -452,9 +463,14 @@ async def main():
     )
     parser.add_argument(
         '--mode',
-        choices=['dense', 'lexical', 'hybrid'],
+        choices=['dense', 'lexical', 'hybrid', 'reranked'],
         default='dense',
-        help='Retrieval mode: dense (vector), lexical (BM25), or hybrid (RRF fusion)'
+        help='Retrieval mode: dense (vector), lexical (BM25), hybrid (RRF fusion), or reranked (hybrid + cross-encoder)'
+    )
+    parser.add_argument(
+        '--skip-llm',
+        action='store_true',
+        help='Skip LLM answer generation (retrieval-only evaluation for latency measurement)'
     )
     
     args = parser.parse_args()
@@ -463,12 +479,14 @@ async def main():
     mode_map = {
         'dense': RetrievalMode.DENSE,
         'lexical': RetrievalMode.LEXICAL,
-        'hybrid': RetrievalMode.HYBRID
+        'hybrid': RetrievalMode.HYBRID,
+        'reranked': RetrievalMode.RERANKED
     }
     retrieval_mode = mode_map[args.mode]
     
     # Create evaluator
     evaluator = RAGEvaluator(args.dataset, retrieval_mode=retrieval_mode)
+    evaluator.skip_llm = args.skip_llm  # Set skip_llm flag
     
     # Run evaluation
     results = await evaluator.run_evaluation(args.paper_id)

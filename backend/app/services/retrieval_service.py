@@ -33,6 +33,7 @@ class RetrievalMode(str, Enum):
     DENSE = "dense"      # Vector similarity only
     LEXICAL = "lexical"  # BM25 lexical matching only
     HYBRID = "hybrid"    # RRF fusion of dense + lexical
+    RERANKED = "reranked"  # Hybrid + cross-encoder reranking
 
 
 class RetrievalService:
@@ -43,6 +44,7 @@ class RetrievalService:
     - Dense: Vector similarity search (original behavior, default)
     - Lexical: BM25-based term matching
     - Hybrid: Reciprocal Rank Fusion combining both
+    - Reranked: Hybrid + cross-encoder reranking
     """
     
     # Configuration
@@ -51,10 +53,33 @@ class RetrievalService:
     DEFAULT_DENSE_K = 20  # Candidate pool for hybrid retrieval
     DEFAULT_LEXICAL_K = 20  # Candidate pool for hybrid retrieval
     DEFAULT_RRF_K = 60  # RRF parameter (standard value)
+    DEFAULT_RERANK_POOL_SIZE = 20  # Candidate pool for reranking
     
     def __init__(self):
         self.embedding_service = embedding_service
         self.lexical_service = lexical_search_service
+        self.reranker = None
+        self._initialize_reranker()
+    
+    def _initialize_reranker(self):
+        """
+        Initialize cross-encoder reranker for RERANKED mode.
+        
+        Attempts to load cross-encoder/ms-marco-MiniLM-L-6-v2.
+        If loading fails (no internet, model unavailable, dependency issue),
+        logs a warning but does NOT crash. RERANKED mode will fall back to HYBRID.
+        """
+        try:
+            from sentence_transformers import CrossEncoder
+            self.reranker = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+            logger.info("Cross-encoder reranker loaded successfully (ms-marco-MiniLM-L-6-v2)")
+        except Exception as e:
+            logger.warning(
+                f"Reranker unavailable: {e}. "
+                f"RERANKED mode will fall back to HYBRID (RRF). "
+                f"This is expected if model cannot be downloaded or sentence-transformers is misconfigured."
+            )
+            self.reranker = None
     
     def _reciprocal_rank_fusion(
         self,
@@ -161,15 +186,17 @@ class RetrievalService:
         mode: RetrievalMode = RetrievalMode.DENSE,
         dense_k: int = DEFAULT_DENSE_K,
         lexical_k: int = DEFAULT_LEXICAL_K,
-        rrf_k: int = DEFAULT_RRF_K
+        rrf_k: int = DEFAULT_RRF_K,
+        rerank_pool_size: int = DEFAULT_RERANK_POOL_SIZE
     ) -> List[Dict]:
         """
         Retrieve relevant chunks for a question about a specific paper.
         
-        Supports three retrieval modes:
+        Supports four retrieval modes:
         - DENSE: Vector similarity only (default, preserves original behavior)
         - LEXICAL: BM25 term matching only
         - HYBRID: RRF fusion of dense + lexical
+        - RERANKED: Hybrid + cross-encoder reranking
         
         Args:
             db: Database session
@@ -177,10 +204,11 @@ class RetrievalService:
             question: User's question
             top_k: Maximum number of chunks to return (final result size)
             similarity_threshold: Minimum similarity score for DENSE mode (0-1)
-            mode: Retrieval mode (DENSE, LEXICAL, or HYBRID)
-            dense_k: Candidate pool size for dense retrieval in HYBRID mode
-            lexical_k: Candidate pool size for lexical retrieval in HYBRID mode
-            rrf_k: RRF constant for HYBRID mode
+            mode: Retrieval mode (DENSE, LEXICAL, HYBRID, or RERANKED)
+            dense_k: Candidate pool size for dense retrieval in HYBRID/RERANKED mode
+            lexical_k: Candidate pool size for lexical retrieval in HYBRID/RERANKED mode
+            rrf_k: RRF constant for HYBRID/RERANKED mode
+            rerank_pool_size: Candidate pool size for reranking in RERANKED mode
             
         Returns:
             List of dictionaries containing:
@@ -194,6 +222,7 @@ class RetrievalService:
             - DENSE: similarity (float)
             - LEXICAL: bm25_score (float)
             - HYBRID: rrf_score, dense_similarity, lexical_score, dense_rank, lexical_rank
+            - RERANKED: all HYBRID fields + reranker_score
         """
         # Validate paper exists (common for all modes)
         paper = db.query(Paper).filter(Paper.id == paper_id).first()
@@ -221,6 +250,10 @@ class RetrievalService:
         elif mode == RetrievalMode.HYBRID:
             return await self._retrieve_hybrid(
                 db, paper_id, question, top_k, dense_k, lexical_k, rrf_k, similarity_threshold
+            )
+        elif mode == RetrievalMode.RERANKED:
+            return await self._retrieve_reranked(
+                db, paper_id, question, top_k, dense_k, lexical_k, rrf_k, rerank_pool_size, similarity_threshold
             )
         else:
             raise ValueError(f"Unknown retrieval mode: {mode}")
@@ -398,6 +431,102 @@ class RetrievalService:
         logger.info(f"Hybrid retrieval returned {len(formatted_results)} chunks after RRF fusion")
         
         return formatted_results
+    
+    async def _retrieve_reranked(
+        self,
+        db: Session,
+        paper_id: UUID,
+        question: str,
+        final_top_k: int,
+        dense_k: int,
+        lexical_k: int,
+        rrf_k: int,
+        rerank_pool_size: int,
+        similarity_threshold: float
+    ) -> List[Dict]:
+        """
+        Reranked retrieval using cross-encoder on hybrid RRF candidates.
+        
+        Strategy:
+        1. Get hybrid RRF results (reuses _retrieve_hybrid logic)
+        2. Take top N candidates for reranking (rerank_pool_size)
+        3. Apply cross-encoder reranker to score query-document pairs
+        4. Sort by reranker score
+        5. Return final top-k
+        
+        Fallback: If reranker is unavailable or inference fails, returns RRF ranking.
+        
+        Args:
+            db: Database session
+            paper_id: UUID of the paper
+            question: User's question
+            final_top_k: Final number of results to return
+            dense_k: Candidate pool for dense retrieval
+            lexical_k: Candidate pool for lexical retrieval
+            rrf_k: RRF constant
+            rerank_pool_size: Number of RRF candidates to rerank
+            similarity_threshold: Similarity threshold (passed to hybrid)
+            
+        Returns:
+            List of chunks with reranker_score field added
+        """
+        # Check reranker availability
+        if self.reranker is None:
+            logger.warning("Reranker unavailable. Falling back to HYBRID (RRF) ranking.")
+            return await self._retrieve_hybrid(
+                db, paper_id, question, final_top_k, dense_k, lexical_k, rrf_k, similarity_threshold
+            )
+        
+        # Step 1: Get hybrid RRF candidates
+        # Request more than final_top_k to give reranker a pool to work with
+        hybrid_results = await self._retrieve_hybrid(
+            db, paper_id, question, 
+            final_top_k=max(rerank_pool_size, final_top_k),  # Ensure we get enough candidates
+            dense_k=dense_k, 
+            lexical_k=lexical_k, 
+            rrf_k=rrf_k, 
+            similarity_threshold=similarity_threshold
+        )
+        
+        # Handle empty results
+        if not hybrid_results:
+            logger.warning("Hybrid retrieval returned no results. Cannot rerank.")
+            return []
+        
+        # Step 2: Take top N candidates for reranking
+        rerank_candidates = hybrid_results[:rerank_pool_size]
+        
+        logger.debug(f"Reranking {len(rerank_candidates)} candidates from RRF output")
+        
+        # Step 3: Prepare query-document pairs for cross-encoder
+        query_doc_pairs = [(question, candidate['text']) for candidate in rerank_candidates]
+        
+        # Step 4: Run cross-encoder reranking
+        try:
+            reranker_scores = self.reranker.predict(query_doc_pairs)
+            
+            # Convert numpy array to list if needed
+            if hasattr(reranker_scores, 'tolist'):
+                reranker_scores = reranker_scores.tolist()
+            
+            # Attach reranker scores to candidates
+            for candidate, score in zip(rerank_candidates, reranker_scores):
+                candidate['reranker_score'] = float(score)
+            
+            # Step 5: Sort by reranker score descending
+            reranked_results = sorted(rerank_candidates, key=lambda x: x['reranker_score'], reverse=True)
+            
+            # Step 6: Take final top-k
+            final_results = reranked_results[:final_top_k]
+            
+            logger.info(f"Reranked retrieval returned {len(final_results)} chunks (reranked {len(rerank_candidates)} candidates)")
+            
+            return final_results
+            
+        except Exception as e:
+            # Inference failure: Fall back to RRF ranking
+            logger.error(f"Reranking failed: {e}. Falling back to RRF ranking.")
+            return hybrid_results[:final_top_k]
     
     def _search_with_pgvector(
         self,
