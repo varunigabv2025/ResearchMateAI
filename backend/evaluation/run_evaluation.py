@@ -51,18 +51,27 @@ class RAGEvaluator:
     Evaluates the existing RAG pipeline without modification.
     """
     
-    def __init__(self, dataset_path: str, retrieval_mode: RetrievalMode = RetrievalMode.DENSE):
+    def __init__(
+        self, 
+        dataset_path: str, 
+        retrieval_mode: RetrievalMode = RetrievalMode.DENSE,
+        dense_k: Optional[int] = None,
+        lexical_k: Optional[int] = None
+    ):
         """
         Initialize evaluator with dataset.
         
         Args:
             dataset_path: Path to evaluation dataset JSON
             retrieval_mode: Retrieval mode to use (DENSE, LEXICAL, HYBRID, or RERANKED)
-            skip_llm: If True, skip LLM answer generation (retrieval-only evaluation)
+            dense_k: Candidate pool size for dense retrieval (None = use default)
+            lexical_k: Candidate pool size for lexical retrieval (None = use default)
         """
         self.dataset_path = Path(dataset_path)
         self.dataset = self._load_dataset()
         self.retrieval_mode = retrieval_mode
+        self.dense_k = dense_k
+        self.lexical_k = lexical_k
         self.skip_llm = False  # Can be set externally if needed
         
     def _load_dataset(self) -> Dict:
@@ -108,14 +117,23 @@ class RAGEvaluator:
             retrieval_start = time.time()
             
             # Call EXISTING retrieval service with specified mode
-            retrieved_chunks = await retrieval_service.retrieve_relevant_chunks(
-                db=db,
-                paper_id=paper_id,
-                question=question,
-                top_k=10,  # Retrieve more for evaluation (measure @1,3,5,10)
-                similarity_threshold=0.4,
-                mode=self.retrieval_mode  # Use specified retrieval mode
-            )
+            # Phase 7: Support candidate pool configuration for experiments
+            retrieval_kwargs = {
+                'db': db,
+                'paper_id': paper_id,
+                'question': question,
+                'top_k': 10,  # Retrieve more for evaluation (measure @1,3,5,10)
+                'similarity_threshold': 0.4,
+                'mode': self.retrieval_mode  # Use specified retrieval mode
+            }
+            
+            # Add candidate pool parameters if specified (Phase 7 experiment)
+            if hasattr(self, 'dense_k') and self.dense_k is not None:
+                retrieval_kwargs['dense_k'] = self.dense_k
+            if hasattr(self, 'lexical_k') and self.lexical_k is not None:
+                retrieval_kwargs['lexical_k'] = self.lexical_k
+            
+            retrieved_chunks = await retrieval_service.retrieve_relevant_chunks(**retrieval_kwargs)
             
             retrieval_latency = time.time() - retrieval_start
             
@@ -388,7 +406,9 @@ class RAGEvaluator:
                     'retrieval': {
                         'method': retrieval_method,
                         'top_k': 5,
-                        'similarity_threshold': 0.4
+                        'similarity_threshold': 0.4,
+                        'dense_candidate_pool': self.dense_k if self.dense_k is not None else 'default(20)',
+                        'lexical_candidate_pool': self.lexical_k if self.lexical_k is not None else 'default(20)'
                     },
                     'llm_model': 'nvidia/nemotron-3-ultra-550b-a55b:free',
                     'llm_provider': 'OpenRouter',
@@ -472,6 +492,18 @@ async def main():
         action='store_true',
         help='Skip LLM answer generation (retrieval-only evaluation for latency measurement)'
     )
+    parser.add_argument(
+        '--dense-k',
+        type=int,
+        default=None,
+        help='Candidate pool size for dense retrieval (default: 20 for hybrid/reranked)'
+    )
+    parser.add_argument(
+        '--lexical-k',
+        type=int,
+        default=None,
+        help='Candidate pool size for lexical retrieval (default: 20 for hybrid/reranked)'
+    )
     
     args = parser.parse_args()
     
@@ -484,8 +516,13 @@ async def main():
     }
     retrieval_mode = mode_map[args.mode]
     
-    # Create evaluator
-    evaluator = RAGEvaluator(args.dataset, retrieval_mode=retrieval_mode)
+    # Create evaluator with candidate pool parameters
+    evaluator = RAGEvaluator(
+        args.dataset, 
+        retrieval_mode=retrieval_mode,
+        dense_k=args.dense_k,
+        lexical_k=args.lexical_k
+    )
     evaluator.skip_llm = args.skip_llm  # Set skip_llm flag
     
     # Run evaluation
