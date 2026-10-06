@@ -53,6 +53,8 @@ class RetrievalService:
     DEFAULT_DENSE_K = 20  # Candidate pool for hybrid retrieval
     DEFAULT_LEXICAL_K = 20  # Candidate pool for hybrid retrieval
     DEFAULT_RRF_K = 60  # RRF parameter (standard value)
+    DEFAULT_RRF_ALPHA = 1.0  # Dense weight for weighted RRF (1.0 = equal weighting with lexical)
+    DEFAULT_RRF_BETA = 1.0  # Lexical weight for weighted RRF (1.0 = equal weighting with dense)
     DEFAULT_RERANK_POOL_SIZE = 20  # Candidate pool for reranking
     
     def __init__(self):
@@ -85,22 +87,32 @@ class RetrievalService:
         self,
         dense_results: List[Dict],
         lexical_results: List[Dict],
-        rrf_k: int = DEFAULT_RRF_K
+        rrf_k: int = DEFAULT_RRF_K,
+        rrf_alpha: float = DEFAULT_RRF_ALPHA,
+        rrf_beta: float = DEFAULT_RRF_BETA
     ) -> List[Dict]:
         """
         Combine dense and lexical results using Reciprocal Rank Fusion.
         
-        RRF formula: RRF(d) = Σ 1 / (k + rank(d))
+        RRF formula: RRF(d) = α / (k + rank_dense(d)) + β / (k + rank_lexical(d))
         
         Where:
         - d = document (chunk)
         - rank(d) = rank of document in source (1-indexed)
         - k = constant (typically 60)
+        - α (alpha) = weight for dense retrieval contribution (default 1.0)
+        - β (beta) = weight for lexical retrieval contribution (default 1.0)
+        
+        When α = β = 1.0, this is standard equal-weighted RRF.
+        When α > β, dense retrieval is weighted more heavily.
+        When β > α, lexical retrieval is weighted more heavily.
         
         Args:
             dense_results: Results from dense retrieval with 'rank' field
             lexical_results: Results from lexical retrieval with 'rank' field
             rrf_k: RRF constant (default 60)
+            rrf_alpha: Dense weight (default 1.0)
+            rrf_beta: Lexical weight (default 1.0)
             
         Returns:
             Fused results sorted by RRF score, deduplicated by chunk_id
@@ -114,8 +126,8 @@ class RetrievalService:
             chunk_id = result['chunk_id']
             rank = result.get('rank', len(dense_results) + 1)
             
-            # RRF contribution from dense source
-            rrf_score = 1.0 / (rrf_k + rank)
+            # Weighted RRF contribution from dense source
+            rrf_score = rrf_alpha / (rrf_k + rank)
             
             if chunk_id not in rrf_scores:
                 rrf_scores[chunk_id] = 0.0
@@ -140,8 +152,8 @@ class RetrievalService:
             chunk_id = result['chunk_id']
             rank = result.get('rank', len(lexical_results) + 1)
             
-            # RRF contribution from lexical source
-            rrf_score = 1.0 / (rrf_k + rank)
+            # Weighted RRF contribution from lexical source
+            rrf_score = rrf_beta / (rrf_k + rank)
             
             if chunk_id not in rrf_scores:
                 rrf_scores[chunk_id] = 0.0
@@ -172,7 +184,11 @@ class RetrievalService:
         # Convert chunk_id to string for comparison
         fused_results.sort(key=lambda x: (-x['rrf_score'], str(x['chunk_id'])))
         
-        logger.info(f"RRF fused {len(dense_results)} dense + {len(lexical_results)} lexical → {len(fused_results)} unique chunks")
+        # Log with weighting info if non-standard
+        if rrf_alpha != 1.0 or rrf_beta != 1.0:
+            logger.info(f"Weighted RRF (α={rrf_alpha}, β={rrf_beta}) fused {len(dense_results)} dense + {len(lexical_results)} lexical → {len(fused_results)} unique chunks")
+        else:
+            logger.info(f"RRF fused {len(dense_results)} dense + {len(lexical_results)} lexical → {len(fused_results)} unique chunks")
         
         return fused_results
     
@@ -187,6 +203,8 @@ class RetrievalService:
         dense_k: int = DEFAULT_DENSE_K,
         lexical_k: int = DEFAULT_LEXICAL_K,
         rrf_k: int = DEFAULT_RRF_K,
+        rrf_alpha: float = DEFAULT_RRF_ALPHA,
+        rrf_beta: float = DEFAULT_RRF_BETA,
         rerank_pool_size: int = DEFAULT_RERANK_POOL_SIZE
     ) -> List[Dict]:
         """
@@ -208,6 +226,8 @@ class RetrievalService:
             dense_k: Candidate pool size for dense retrieval in HYBRID/RERANKED mode
             lexical_k: Candidate pool size for lexical retrieval in HYBRID/RERANKED mode
             rrf_k: RRF constant for HYBRID/RERANKED mode
+            rrf_alpha: Dense weight for weighted RRF (default 1.0 = equal weighting)
+            rrf_beta: Lexical weight for weighted RRF (default 1.0 = equal weighting)
             rerank_pool_size: Candidate pool size for reranking in RERANKED mode
             
         Returns:
@@ -249,11 +269,11 @@ class RetrievalService:
             )
         elif mode == RetrievalMode.HYBRID:
             return await self._retrieve_hybrid(
-                db, paper_id, question, top_k, dense_k, lexical_k, rrf_k, similarity_threshold
+                db, paper_id, question, top_k, dense_k, lexical_k, rrf_k, rrf_alpha, rrf_beta, similarity_threshold
             )
         elif mode == RetrievalMode.RERANKED:
             return await self._retrieve_reranked(
-                db, paper_id, question, top_k, dense_k, lexical_k, rrf_k, rerank_pool_size, similarity_threshold
+                db, paper_id, question, top_k, dense_k, lexical_k, rrf_k, rrf_alpha, rrf_beta, rerank_pool_size, similarity_threshold
             )
         else:
             raise ValueError(f"Unknown retrieval mode: {mode}")
@@ -360,6 +380,8 @@ class RetrievalService:
         dense_k: int,
         lexical_k: int,
         rrf_k: int,
+        rrf_alpha: float,
+        rrf_beta: float,
         similarity_threshold: float
     ) -> List[Dict]:
         """
@@ -406,7 +428,9 @@ class RetrievalService:
         fused_results = self._reciprocal_rank_fusion(
             dense_results=dense_results,
             lexical_results=lexical_results,
-            rrf_k=rrf_k
+            rrf_k=rrf_k,
+            rrf_alpha=rrf_alpha,
+            rrf_beta=rrf_beta
         )
         
         # Take final top-K
@@ -441,6 +465,8 @@ class RetrievalService:
         dense_k: int,
         lexical_k: int,
         rrf_k: int,
+        rrf_alpha: float,
+        rrf_beta: float,
         rerank_pool_size: int,
         similarity_threshold: float
     ) -> List[Dict]:
@@ -474,7 +500,7 @@ class RetrievalService:
         if self.reranker is None:
             logger.warning("Reranker unavailable. Falling back to HYBRID (RRF) ranking.")
             return await self._retrieve_hybrid(
-                db, paper_id, question, final_top_k, dense_k, lexical_k, rrf_k, similarity_threshold
+                db, paper_id, question, final_top_k, dense_k, lexical_k, rrf_k, rrf_alpha, rrf_beta, similarity_threshold
             )
         
         # Step 1: Get hybrid RRF candidates
@@ -484,7 +510,9 @@ class RetrievalService:
             final_top_k=max(rerank_pool_size, final_top_k),  # Ensure we get enough candidates
             dense_k=dense_k, 
             lexical_k=lexical_k, 
-            rrf_k=rrf_k, 
+            rrf_k=rrf_k,
+            rrf_alpha=rrf_alpha,
+            rrf_beta=rrf_beta,
             similarity_threshold=similarity_threshold
         )
         

@@ -56,7 +56,9 @@ class RAGEvaluator:
         dataset_path: str, 
         retrieval_mode: RetrievalMode = RetrievalMode.DENSE,
         dense_k: Optional[int] = None,
-        lexical_k: Optional[int] = None
+        lexical_k: Optional[int] = None,
+        rrf_alpha: Optional[float] = None,
+        rrf_beta: Optional[float] = None
     ):
         """
         Initialize evaluator with dataset.
@@ -66,12 +68,16 @@ class RAGEvaluator:
             retrieval_mode: Retrieval mode to use (DENSE, LEXICAL, HYBRID, or RERANKED)
             dense_k: Candidate pool size for dense retrieval (None = use default)
             lexical_k: Candidate pool size for lexical retrieval (None = use default)
+            rrf_alpha: Dense weight for weighted RRF (None = use default 1.0)
+            rrf_beta: Lexical weight for weighted RRF (None = use default 1.0)
         """
         self.dataset_path = Path(dataset_path)
         self.dataset = self._load_dataset()
         self.retrieval_mode = retrieval_mode
         self.dense_k = dense_k
         self.lexical_k = lexical_k
+        self.rrf_alpha = rrf_alpha
+        self.rrf_beta = rrf_beta
         self.skip_llm = False  # Can be set externally if needed
         
     def _load_dataset(self) -> Dict:
@@ -132,6 +138,12 @@ class RAGEvaluator:
                 retrieval_kwargs['dense_k'] = self.dense_k
             if hasattr(self, 'lexical_k') and self.lexical_k is not None:
                 retrieval_kwargs['lexical_k'] = self.lexical_k
+            
+            # Add RRF weighting parameters if specified (Phase 8 experiment)
+            if hasattr(self, 'rrf_alpha') and self.rrf_alpha is not None:
+                retrieval_kwargs['rrf_alpha'] = self.rrf_alpha
+            if hasattr(self, 'rrf_beta') and self.rrf_beta is not None:
+                retrieval_kwargs['rrf_beta'] = self.rrf_beta
             
             retrieved_chunks = await retrieval_service.retrieve_relevant_chunks(**retrieval_kwargs)
             
@@ -408,7 +420,9 @@ class RAGEvaluator:
                         'top_k': 5,
                         'similarity_threshold': 0.4,
                         'dense_candidate_pool': self.dense_k if self.dense_k is not None else 'default(20)',
-                        'lexical_candidate_pool': self.lexical_k if self.lexical_k is not None else 'default(20)'
+                        'lexical_candidate_pool': self.lexical_k if self.lexical_k is not None else 'default(20)',
+                        'rrf_alpha': self.rrf_alpha if self.rrf_alpha is not None else 'default(1.0)',
+                        'rrf_beta': self.rrf_beta if self.rrf_beta is not None else 'default(1.0)'
                     },
                     'llm_model': 'nvidia/nemotron-3-ultra-550b-a55b:free',
                     'llm_provider': 'OpenRouter',
@@ -504,6 +518,18 @@ async def main():
         default=None,
         help='Candidate pool size for lexical retrieval (default: 20 for hybrid/reranked)'
     )
+    parser.add_argument(
+        '--rrf-alpha',
+        type=float,
+        default=None,
+        help='Dense weight for weighted RRF (default: 1.0 = equal weighting with lexical)'
+    )
+    parser.add_argument(
+        '--rrf-beta',
+        type=float,
+        default=None,
+        help='Lexical weight for weighted RRF (default: 1.0 = equal weighting with dense)'
+    )
     
     args = parser.parse_args()
     
@@ -521,7 +547,9 @@ async def main():
         args.dataset, 
         retrieval_mode=retrieval_mode,
         dense_k=args.dense_k,
-        lexical_k=args.lexical_k
+        lexical_k=args.lexical_k,
+        rrf_alpha=args.rrf_alpha,
+        rrf_beta=args.rrf_beta
     )
     evaluator.skip_llm = args.skip_llm  # Set skip_llm flag
     
