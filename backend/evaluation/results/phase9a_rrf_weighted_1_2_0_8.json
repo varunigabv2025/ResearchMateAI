@@ -1,0 +1,2014 @@
+{
+  "timestamp": "2026-10-06T14:28:08.549762Z",
+  "evaluation_duration_seconds": 32.13037467002869,
+  "paper": {
+    "id": "075cdd7f-bff1-43fd-a52c-bba13a64acda",
+    "filename": "02450728-fddc-409a-8644-3b9c3334a9b6.pdf",
+    "original_filename": "PA-EIS_IEEE_first5pages.pdf",
+    "page_count": 6
+  },
+  "dataset": {
+    "name": "PA-EIS Evaluation Dataset - Phase 9A Expanded",
+    "description": "Expanded RAG evaluation dataset (25 questions) based on PA-EIS (Priority-Aware Edge Inference Scheduling) IEEE paper. Includes original 10 questions from baseline benchmark plus 15 new questions for within-paper validation.",
+    "question_count": 25
+  },
+  "rag_config": {
+    "embedding_model": "Qwen3-Embedding-0.6B",
+    "embedding_dimension": 1024,
+    "chunking": {
+      "chunk_size": 1000,
+      "overlap": 200
+    },
+    "retrieval": {
+      "method": "hybrid_rrf_dense(numpy)+lexical(bm25)",
+      "top_k": 5,
+      "similarity_threshold": 0.4,
+      "dense_candidate_pool": "default(20)",
+      "lexical_candidate_pool": "default(20)",
+      "rrf_alpha": 1.2,
+      "rrf_beta": 0.8
+    },
+    "llm_model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "llm_provider": "OpenRouter",
+    "database": "SQLite (./test.db)"
+  },
+  "retrieval_metrics": {
+    "hit_rate_at_1": 0.4166666666666667,
+    "hit_rate_at_3": 0.625,
+    "hit_rate_at_5": 0.7083333333333334,
+    "hit_rate_at_10": 0.8333333333333334,
+    "recall_at_1": 0.25,
+    "recall_at_3": 0.5069444444444444,
+    "recall_at_5": 0.5694444444444444,
+    "recall_at_10": 0.75,
+    "precision_at_1": 0.4166666666666667,
+    "precision_at_3": 0.3055555555555555,
+    "precision_at_5": 0.20833333333333334,
+    "precision_at_10": 0.1375,
+    "mrr": 0.5451388888888888
+  },
+  "answer_metrics": {
+    "avg_keyword_match_rate": 0.0,
+    "avg_faithfulness_ratio": 0.25,
+    "questions_evaluated": 25
+  },
+  "citation_metrics": {
+    "avg_citation_precision": 0.3541666666666667,
+    "avg_citation_recall": 0.5694444444444444
+  },
+  "latency_metrics": {
+    "retrieval": {
+      "mean": 0.27837185859680175,
+      "median": 0.2619972229003906,
+      "min": 0.24499964714050293,
+      "max": 0.5128445625305176,
+      "std_dev": 0.052703578200030785,
+      "count": 25
+    },
+    "llm": {
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "std_dev": 0.0,
+      "count": 0
+    },
+    "end_to_end": {
+      "mean": 0.27837185859680175,
+      "median": 0.2619972229003906,
+      "min": 0.24499964714050293,
+      "max": 0.5128445625305176,
+      "std_dev": 0.052703578200030785,
+      "count": 25
+    }
+  },
+  "per_question_results": [
+    {
+      "question_id": "q1",
+      "question": "What is the main motivation for studying containerised Linux edge nodes?",
+      "answerable": true,
+      "category": "motivation",
+      "error": null,
+      "retrieval_latency_ms": 288.18297386169434,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        2,
+        6,
+        2,
+        5,
+        1,
+        1,
+        6
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "CFS scheduling",
+            "latency-sensitive",
+            "resource-constrained",
+            "edge hardware",
+            "inference workloads"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        1,
+        1,
+        2,
+        2,
+        6
+      ],
+      "latency": {
+        "retrieval_seconds": 0.28818297386169434,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.28818297386169434
+      }
+    },
+    {
+      "question_id": "q2",
+      "question": "What methodology does PA-EIS use?",
+      "answerable": true,
+      "category": "methodology",
+      "error": null,
+      "retrieval_latency_ms": 259.06825065612793,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_3": 0.6666666666666666,
+        "recall_at_5": 0.6666666666666666,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.3,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        2,
+        2,
+        3,
+        3,
+        5,
+        3,
+        5,
+        1,
+        4,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "user-space policy",
+            "cgroup weight",
+            "tail latency",
+            "fairness bound"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "cited_count": 3,
+        "relevant_count": 3
+      },
+      "cited_pages": [
+        2,
+        2,
+        3,
+        3,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.25906825065612793,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.25906825065612793
+      }
+    },
+    {
+      "question_id": "q3",
+      "question": "What workloads are used for evaluation?",
+      "answerable": true,
+      "category": "dataset",
+      "error": null,
+      "retrieval_latency_ms": 254.93669509887695,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "mrr": 0.0
+      },
+      "retrieved_pages": [
+        5,
+        5,
+        5,
+        5,
+        2,
+        2,
+        5,
+        2,
+        2,
+        5
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "MobileNetV2",
+            "KWS-CNN",
+            "TFLite",
+            "CPU loop",
+            "I/O logger"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 2,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        5,
+        5,
+        5,
+        5,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.25493669509887695,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.25493669509887695
+      }
+    },
+    {
+      "question_id": "q4",
+      "question": "What are the reported evaluation results or metrics?",
+      "answerable": true,
+      "category": "results",
+      "error": null,
+      "retrieval_latency_ms": 247.83754348754883,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "mrr": 0.125
+      },
+      "retrieved_pages": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        2,
+        2,
+        4,
+        5,
+        5
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "not reported",
+            "measurement campaign",
+            "still running",
+            "deferred"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 1,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.24783754348754883,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.24783754348754883
+      }
+    },
+    {
+      "question_id": "q5",
+      "question": "What limitations does the paper explicitly mention?",
+      "answerable": true,
+      "category": "limitations",
+      "error": null,
+      "retrieval_latency_ms": 244.99964714050293,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.6666666666666666,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        5,
+        6,
+        4,
+        2,
+        5,
+        4,
+        1,
+        4,
+        5,
+        4
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "CPU-only",
+            "single commodity Linux host",
+            "no accelerator hardware",
+            "CFS scheduler"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        5,
+        6,
+        4,
+        2,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.24499964714050293,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.24499964714050293
+      }
+    },
+    {
+      "question_id": "q6",
+      "question": "What Linux kernel features does PA-EIS rely on?",
+      "answerable": true,
+      "category": "technical_detail",
+      "error": null,
+      "retrieval_latency_ms": 298.3059883117676,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.3333333333333333
+      },
+      "retrieved_pages": [
+        2,
+        2,
+        3,
+        3,
+        3,
+        1,
+        2,
+        2,
+        2,
+        5
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "cgroups v2",
+            "cpu.weight",
+            "cpu.max",
+            "cpuset.cpus",
+            "nice"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "cited_count": 2,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        2,
+        2,
+        3,
+        3,
+        3
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2983059883117676,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.2983059883117676
+      }
+    },
+    {
+      "question_id": "q7",
+      "question": "Why does the evaluation intentionally restrict CPU cores?",
+      "answerable": true,
+      "category": "conceptual",
+      "error": null,
+      "retrieval_latency_ms": 262.5265121459961,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "mrr": 0.0
+      },
+      "retrieved_pages": [
+        4,
+        5,
+        2,
+        1,
+        2,
+        2,
+        5,
+        5,
+        5,
+        1
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "contention",
+            "object of study",
+            "aggregate demand exceeds supply",
+            "spare capacity"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        4,
+        5,
+        2,
+        1,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2625265121459961,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.2625265121459961
+      }
+    },
+    {
+      "question_id": "q8",
+      "question": "What container technology is used and what does it enable?",
+      "answerable": true,
+      "category": "multi_part",
+      "error": null,
+      "retrieval_latency_ms": 261.0514163970947,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.5,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.2,
+        "mrr": 0.25
+      },
+      "retrieved_pages": [
+        2,
+        1,
+        5,
+        3,
+        2,
+        4,
+        5,
+        1,
+        2,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "Docker",
+            "reproducible",
+            "parameter sweep",
+            "cgroup"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 0.5,
+        "cited_count": 4,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        2,
+        1,
+        5,
+        3,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2610514163970947,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.2610514163970947
+      }
+    },
+    {
+      "question_id": "q9",
+      "question": "How does PA-EIS differ from traditional OS scheduling approaches?",
+      "answerable": true,
+      "category": "comparison_inference",
+      "error": null,
+      "retrieval_latency_ms": 259.70959663391113,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 1.0,
+        "precision_at_5": 0.6,
+        "precision_at_10": 0.3,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        3,
+        2,
+        1,
+        3,
+        5,
+        3,
+        1,
+        4,
+        2,
+        5
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "user-space",
+            "tail latency",
+            "fairness bound",
+            "explicit"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.75,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 3
+      },
+      "cited_pages": [
+        3,
+        2,
+        1,
+        3,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.25970959663391113,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.25970959663391113
+      }
+    },
+    {
+      "question_id": "q10",
+      "question": "What is the paper's stance on neural architecture search?",
+      "answerable": false,
+      "category": "out_of_scope",
+      "error": null,
+      "retrieval_latency_ms": 276.42345428466797,
+      "retrieval_metrics": {},
+      "retrieved_pages": [
+        2,
+        2,
+        5,
+        6,
+        6,
+        4,
+        5,
+        6,
+        3,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "insufficient",
+            "not found",
+            "does not",
+            "not mentioned"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {},
+      "cited_pages": [
+        2,
+        2,
+        5,
+        6,
+        6
+      ],
+      "latency": {
+        "retrieval_seconds": 0.27642345428466797,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.27642345428466797
+      }
+    },
+    {
+      "question_id": "q11",
+      "question": "What is the Completely Fair Scheduler (CFS) and what problem does it create?",
+      "answerable": true,
+      "category": "technical_background",
+      "error": null,
+      "retrieval_latency_ms": 277.51755714416504,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.2,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        1,
+        1,
+        1,
+        3,
+        3,
+        2,
+        4,
+        1,
+        3,
+        1
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "weight-proportional",
+            "virtual runtime",
+            "no semantic model",
+            "latency asymmetry"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 0.5,
+        "cited_count": 2,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        1,
+        1,
+        1,
+        3,
+        3
+      ],
+      "latency": {
+        "retrieval_seconds": 0.27751755714416504,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.27751755714416504
+      }
+    },
+    {
+      "question_id": "q12",
+      "question": "What are the three research questions (RQs) that PA-EIS addresses?",
+      "answerable": true,
+      "category": "research_questions",
+      "error": null,
+      "retrieval_latency_ms": 284.8079204559326,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.5,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.2,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        2,
+        2,
+        5,
+        3,
+        3,
+        3,
+        5,
+        1,
+        5,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "RQ1",
+            "RQ2",
+            "background degradation",
+            "tail latency",
+            "user-space policy"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 0.5,
+        "cited_count": 3,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        2,
+        2,
+        5,
+        3,
+        3
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2848079204559326,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.2848079204559326
+      }
+    },
+    {
+      "question_id": "q13",
+      "question": "What is the layered architecture of the experimental edge node?",
+      "answerable": true,
+      "category": "architecture",
+      "error": null,
+      "retrieval_latency_ms": 278.08213233947754,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        2,
+        2,
+        2,
+        6,
+        1,
+        1,
+        1,
+        2,
+        6,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "physical resource layer",
+            "Linux kernel",
+            "container runtime",
+            "PA-EIS",
+            "instrumentation"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        2,
+        2,
+        2,
+        6,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.27808213233947754,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.27808213233947754
+      }
+    },
+    {
+      "question_id": "q14",
+      "question": "What is virtual runtime and how does CFS use it?",
+      "answerable": true,
+      "category": "technical_mechanism",
+      "error": null,
+      "retrieval_latency_ms": 265.1500701904297,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        1,
+        2,
+        3,
+        1,
+        4,
+        5,
+        1,
+        3,
+        1,
+        1
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "virtual time",
+            "heavier tasks",
+            "accrue slowly",
+            "selected more often",
+            "preempted less"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        2,
+        3,
+        1,
+        4
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2651500701904297,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.2651500701904297
+      }
+    },
+    {
+      "question_id": "q15",
+      "question": "What hardware platform is used for the experiments?",
+      "answerable": true,
+      "category": "experimental_setup",
+      "error": null,
+      "retrieval_latency_ms": 250.7762908935547,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 1.0,
+        "precision_at_5": 0.6,
+        "precision_at_10": 0.3,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        4,
+        5,
+        2,
+        2,
+        3,
+        6,
+        2,
+        5,
+        2,
+        5
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "commodity",
+            "Linux host",
+            "CPU",
+            "no accelerator"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.75,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 3
+      },
+      "cited_pages": [
+        4,
+        5,
+        2,
+        2,
+        3
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2507762908935547,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.2507762908935547
+      }
+    },
+    {
+      "question_id": "q16",
+      "question": "Why doesn't the paper use accelerator hardware in its evaluation?",
+      "answerable": true,
+      "category": "design_rationale",
+      "error": null,
+      "retrieval_latency_ms": 260.90121269226074,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.5,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.4,
+        "precision_at_10": 0.2,
+        "mrr": 0.3333333333333333
+      },
+      "retrieved_pages": [
+        2,
+        2,
+        5,
+        5,
+        1,
+        4,
+        2,
+        5,
+        4,
+        6
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "CPU inference",
+            "contention",
+            "scheduling",
+            "fair comparison"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        2,
+        2,
+        5,
+        5,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.26090121269226074,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.26090121269226074
+      }
+    },
+    {
+      "question_id": "q17",
+      "question": "What metrics are used to evaluate inference latency?",
+      "answerable": true,
+      "category": "metrics",
+      "error": null,
+      "retrieval_latency_ms": 258.5034370422363,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "mrr": 0.16666666666666666
+      },
+      "retrieved_pages": [
+        5,
+        5,
+        2,
+        3,
+        2,
+        1,
+        5,
+        2,
+        1,
+        5
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "mean",
+            "tail",
+            "percentile",
+            "99th",
+            "latency"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 3,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        5,
+        5,
+        2,
+        3,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.25850343704223633,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.25850343704223633
+      }
+    },
+    {
+      "question_id": "q18",
+      "question": "What is the purpose of the parameter sweep in the evaluation?",
+      "answerable": true,
+      "category": "methodology_detail",
+      "error": null,
+      "retrieval_latency_ms": 258.35537910461426,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        5,
+        2,
+        5,
+        5,
+        5,
+        5,
+        5,
+        4,
+        2,
+        3
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "scheduling weight",
+            "nice value",
+            "grid",
+            "shape",
+            "latency relationship"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 0.5,
+        "cited_count": 2,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        5,
+        2,
+        5,
+        5,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.25835537910461426,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.25835537910461426
+      }
+    },
+    {
+      "question_id": "q19",
+      "question": "What does PA-EIS stand for and what does it do?",
+      "answerable": true,
+      "category": "system_definition",
+      "error": null,
+      "retrieval_latency_ms": 273.91600608825684,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.2,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        2,
+        3,
+        3,
+        2,
+        3,
+        5,
+        1,
+        5,
+        4,
+        4
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "Priority-Aware",
+            "Edge Inference Scheduling",
+            "user-space",
+            "cgroup",
+            "tail latency"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 0.5,
+        "cited_count": 2,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        2,
+        3,
+        3,
+        2,
+        3
+      ],
+      "latency": {
+        "retrieval_seconds": 0.27391600608825684,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.27391600608825684
+      }
+    },
+    {
+      "question_id": "q20",
+      "question": "What background tasks are used alongside inference workloads?",
+      "answerable": true,
+      "category": "workload_composition",
+      "error": null,
+      "retrieval_latency_ms": 261.19160652160645,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "mrr": 0.125
+      },
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        5,
+        1,
+        5,
+        5,
+        3,
+        5,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "CPU loop",
+            "I/O logger",
+            "background",
+            "co-resident"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 3,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        2,
+        1,
+        1,
+        5,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.26119160652160645,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.26119160652160645
+      }
+    },
+    {
+      "question_id": "q21",
+      "question": "What is TFLite and why is it used?",
+      "answerable": true,
+      "category": "technical_tool",
+      "error": null,
+      "retrieval_latency_ms": 269.547700881958,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "mrr": 0.0
+      },
+      "retrieved_pages": [
+        5,
+        2,
+        1,
+        1,
+        5,
+        2,
+        6,
+        2,
+        5,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "TensorFlow Lite",
+            "inference",
+            "edge",
+            "lightweight"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        5,
+        2,
+        1,
+        1,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.269547700881958,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.269547700881958
+      }
+    },
+    {
+      "question_id": "q22",
+      "question": "What problem arises when edge inference runs on general-purpose operating systems?",
+      "answerable": true,
+      "category": "problem_identification",
+      "error": null,
+      "retrieval_latency_ms": 512.8445625305176,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.25
+      },
+      "retrieved_pages": [
+        3,
+        3,
+        6,
+        1,
+        6,
+        6,
+        1,
+        1,
+        1,
+        3
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "CFS",
+            "fair scheduling",
+            "latency-sensitive",
+            "background tasks",
+            "contention"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 0.5,
+        "cited_count": 3,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        3,
+        3,
+        6,
+        1,
+        6
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5128445625305176,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5128445625305176
+      }
+    },
+    {
+      "question_id": "q23",
+      "question": "What instrumentation tools are mentioned for measuring system behavior?",
+      "answerable": true,
+      "category": "instrumentation",
+      "error": null,
+      "retrieval_latency_ms": 251.9662380218506,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        2,
+        2,
+        2,
+        5,
+        5,
+        4,
+        5,
+        3,
+        2,
+        5
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "perf",
+            "/proc",
+            "/sys",
+            "cpu.stat",
+            "RAPL",
+            "timestamps"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "cited_count": 2,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        2,
+        2,
+        2,
+        5,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2519662380218506,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.2519662380218506
+      }
+    },
+    {
+      "question_id": "q24",
+      "question": "How many repetitions are performed per parameter point in the experiment?",
+      "answerable": true,
+      "category": "experimental_detail",
+      "error": null,
+      "retrieval_latency_ms": 261.9972229003906,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "mrr": 0.0
+      },
+      "retrieved_pages": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        4,
+        5,
+        2,
+        2,
+        3
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "thirty",
+            "30",
+            "repetitions"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 1,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.2619972229003906,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.2619972229003906
+      }
+    },
+    {
+      "question_id": "q25",
+      "question": "What is the relationship between edge AI and data center inference mentioned in the paper?",
+      "answerable": true,
+      "category": "contextual_comparison",
+      "error": null,
+      "retrieval_latency_ms": 340.6970500946045,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        1,
+        6,
+        1,
+        6,
+        6,
+        1,
+        3,
+        3,
+        6,
+        1
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "moved outward",
+            "round trip",
+            "unacceptable",
+            "interactive",
+            "practical"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "cited_count": 2,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        6,
+        1,
+        6,
+        6
+      ],
+      "latency": {
+        "retrieval_seconds": 0.3406970500946045,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.3406970500946045
+      }
+    }
+  ],
+  "errors": [],
+  "notes": [
+    "Retrieval mode: hybrid",
+    "PHASE 5: Hybrid Retrieval Evaluation",
+    "Dataset is limited to 10 questions on a single paper",
+    "Keyword matching is a lightweight signal, NOT semantic correctness",
+    "LLM latency may be variable due to free-tier OpenRouter model",
+    "Evaluation measures production pipeline without modifications"
+  ]
+}
