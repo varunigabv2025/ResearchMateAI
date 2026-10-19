@@ -188,7 +188,7 @@ export default function PaperCard({
               e.stopPropagation();
               onAskQuestion(paper.id);
             }}
-            className="w-full px-4 py-2.5 bg-light-blue text-white rounded-lg hover:bg-light-blue/90 transition-all font-medium text-sm relative z-10"
+            className="w-full px-4 py-2.5 bg-[#4D789B] text-white rounded-lg hover:bg-[#3F6685] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4D789B]/30 transition-all font-medium text-sm relative z-10"
           >
             Ask Questions
           </button>
