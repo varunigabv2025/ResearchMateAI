@@ -58,8 +58,8 @@ export default function PaperSelectionBar({
               disabled={!canCompare}
               className={`px-6 py-2.5 rounded-lg font-medium text-sm transition-all flex items-center gap-2 ${
                 canCompare
-                  ? "bg-light-blue text-white hover:bg-light-blue/90 hover:shadow-md"
-                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  ? "bg-[#4D789B] text-white hover:bg-[#3F6685] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4D789B]/30 hover:shadow-md"
+                  : "bg-gray-200 text-gray-500 cursor-not-allowed"
               }`}
             >
               Compare Papers
