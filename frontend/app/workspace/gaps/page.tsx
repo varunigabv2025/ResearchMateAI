@@ -104,7 +104,7 @@ export default function GapsPage() {
                     selectedPaperIds.length < 2 ||
                     selectedPaperIds.length > 5
                       ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      : "bg-light-blue text-white hover:bg-light-blue/90 shadow-sm hover:shadow-md"
+                      : "bg-[#4D789B] text-white hover:bg-[#3F6685] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4D789B]/30 shadow-sm hover:shadow-md"
                   }
                 `}
               >
