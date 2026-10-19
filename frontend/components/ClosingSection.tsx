@@ -23,7 +23,7 @@ export default function ClosingSection() {
 
           <Link
             href="/workspace"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-light-blue text-white rounded-lg hover:bg-light-blue/90 transition-all hover:shadow-lg hover:-translate-y-0.5 font-medium text-lg group"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-[#4D789B] text-white rounded-lg hover:bg-[#3F6685] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4D789B]/30 transition-all hover:shadow-lg hover:-translate-y-0.5 font-medium text-lg group"
           >
             Start Researching
             <svg
