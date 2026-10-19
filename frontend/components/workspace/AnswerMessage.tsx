@@ -10,10 +10,23 @@ interface AnswerMessageProps {
 
 function renderInlineMarkdown(text: string, keyPrefix: string): ReactNode[] {
   const tokenPattern =
-    /(\*\*[^*]+\*\*|__[^_]+__|\*[^*\n]+\*|_[^_\n]+_|\x60[^\x60]+\x60|\[[^\]]+\]\(https?:\/\/[^)]+\))/g;
+    /(\[S\d+\]|\*\*[^*]+\*\*|__[^_]+__|\*[^*\n]+\*|_[^_\n]+_|\x60[^\x60]+\x60|\[[^\]]+\]\(https?:\/\/[^)]+\))/g;
 
   return text.split(tokenPattern).filter(Boolean).map((token, index) => {
     const key = `${keyPrefix}-${index}`;
+
+    // Evidence IDs are distinct from the paper's own numeric references.
+    if (/^\[S\d+\]$/.test(token)) {
+      return (
+        <span
+          key={key}
+          className="inline-flex items-center rounded bg-blue-100 px-1.5 py-0.5 text-xs font-semibold text-blue-800 align-baseline mx-0.5"
+          aria-label={`ResearchMate evidence citation ${token.slice(1, -1)}`}
+        >
+          {token}
+        </span>
+      );
+    }
 
     if ((token.startsWith("**") && token.endsWith("**")) ||
         (token.startsWith("__") && token.endsWith("__"))) {
@@ -219,9 +232,13 @@ export default function AnswerMessage({ answer, sources }: AnswerMessageProps) {
 
         {sources && sources.length > 0 && (
           <div className="mt-4 pt-4 border-t border-gray-200">
-            <div className="text-sm font-medium text-gray-700 mb-2">
-              Sources ({sources.length})
+            <div className="text-sm font-medium text-gray-700 mb-1">
+              Evidence sources ({sources.length})
             </div>
+            <p className="text-xs text-gray-500 mb-3">
+              Match the blue [S1], [S2], etc. markers in the answer to these page excerpts.
+              Numeric citations like [1] in the paper text refer to its own bibliography.
+            </p>
             <div className="space-y-2">
               {sources.map((source, idx) => (
                 <div
@@ -229,7 +246,7 @@ export default function AnswerMessage({ answer, sources }: AnswerMessageProps) {
                   className="flex items-start gap-2 text-sm text-gray-600 bg-gray-50 rounded-lg p-3"
                 >
                   <span className="font-medium text-gray-900 flex-shrink-0">
-                    [{idx + 1}]
+                    [S{idx + 1}]
                   </span>
                   <div className="flex-1">
                     <span className="font-medium">Page {source.page_number}</span>
