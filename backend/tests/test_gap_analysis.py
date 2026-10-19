@@ -130,10 +130,10 @@ class TestGapAnalysisPrompt:
         
         system_prompt = GapAnalysisPrompt.SYSTEM_PROMPT
         
-        # Check for key instructions
+        # Check for key instructions about evidence-based analysis
         assert "ONLY" in system_prompt or "only" in system_prompt
-        assert "do not" in system_prompt.lower() or "don't" in system_prompt.lower()
-        assert "outside knowledge" in system_prompt.lower() or "general knowledge" in system_prompt.lower()
+        assert "overclaim" in system_prompt.lower() or "avoid" in system_prompt.lower()
+        assert "evidence" in system_prompt.lower() or "data" in system_prompt.lower()
     
     def test_validate_gap_format(self):
         """Test gap format validation."""

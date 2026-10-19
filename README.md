@@ -23,7 +23,7 @@ This MVP focuses on three essential capabilities:
 - **Database**: PostgreSQL with pgvector extension
 - **PDF Processing**: PyMuPDF
 - **Embeddings**: Local Qwen3-Embedding-0.6B (1024-dim, zero-cost)
-- **LLM**: OpenRouter (free tier models available)
+- **LLM**: Google Gemini API (Gemma 4 models) or OpenRouter (free tier models available)
 
 ### Project Structure
 
@@ -105,8 +105,10 @@ ResearchMate/
 
    Required configuration:
    - `DATABASE_URL`: PostgreSQL connection string
-   - `LLM_API_KEY`: Your OpenRouter API key
-   - `LLM_MODEL`: Model name (e.g., `nvidia/nemotron-3-ultra-550b-a55b:free`)
+   - `LLM_API_KEY`: Your Google AI Studio API key (for Gemma) or OpenRouter API key
+   - `LLM_MODEL`: Model name (e.g., `gemma-4-26b-a4b-it` or `nvidia/nemotron-3-ultra-550b-a55b:free`)
+   - `LLM_API_BASE_URL`: API endpoint (e.g., `https://generativelanguage.googleapis.com/v1beta`)
+   - `LLM_PROVIDER`: Optional: `gemini` or `openai` (auto-detected from base URL if omitted)
    - `EMBEDDING_MODEL`: Local model (default: `Qwen/Qwen3-Embedding-0.6B`)
    - `EMBEDDING_DIMENSION`: Vector dimension (default: `1024`)
    

@@ -17,10 +17,11 @@ class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = "sqlite:///./test.db"  # Default for testing
     
-    # LLM Configuration (OpenRouter)
+    # LLM Configuration
     LLM_API_KEY: str = "test-key"  # Default for testing
     LLM_MODEL: str = "openrouter/free"
     LLM_API_BASE_URL: str = "https://openrouter.ai/api/v1"
+    LLM_PROVIDER: str = ""  # Optional: 'openai' or 'gemini' (auto-detected if empty)
     
     # Embedding Configuration (Local)
     EMBEDDING_API_KEY: str = ""  # Not used for local embeddings
