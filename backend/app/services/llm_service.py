@@ -1,6 +1,10 @@
 """
 LLM service with modular API provider support.
 """
+import asyncio
+import logging
+import random
+
 import httpx
 from typing import List, Dict, Optional
 from enum import Enum
@@ -28,6 +32,9 @@ class LLMService:
         self.timeout = 60.0  # Longer timeout for LLM responses
         self.max_tokens = 1000  # Default max tokens for answer
         self.temperature = 0.3  # Lower temperature for factual answers
+        # Gemini may return transient 5xx errors. Retry a bounded number of times.
+        self.max_retries = 3
+        self.retry_base_delay = 1.0
 
     def _detect_provider(self) -> LLMProvider:
         """
@@ -127,6 +134,51 @@ class LLMService:
             except (KeyError, IndexError) as e:
                 raise Exception(f"Unexpected LLM API response format: missing {str(e)}")
 
+    async def _post_gemini_with_retry(
+        self,
+        client: httpx.AsyncClient,
+        url: str,
+        payload: Dict,
+        headers: Dict[str, str],
+        params: Dict[str, str]
+    ) -> httpx.Response:
+        """
+        POST to the Gemini API, retrying only transient server errors.
+
+        Google documents HTTP 500 as an unexpected server error and recommends
+        retrying transient API failures. Client errors are returned immediately.
+        """
+        retryable_status_codes = {500, 502, 503, 504}
+        logger = logging.getLogger(__name__)
+
+        for attempt in range(self.max_retries + 1):
+            response = await client.post(
+                url,
+                json=payload,
+                headers=headers,
+                params=params
+            )
+            try:
+                response.raise_for_status()
+                return response
+            except httpx.HTTPStatusError as error:
+                status_code = error.response.status_code
+                if status_code not in retryable_status_codes or attempt >= self.max_retries:
+                    raise
+
+                delay = self.retry_base_delay * (2 ** attempt) + random.uniform(0, 0.25)
+                logger.warning(
+                    "Gemini API returned transient HTTP %s; retrying attempt %s/%s after %.2fs",
+                    status_code,
+                    attempt + 1,
+                    self.max_retries,
+                    delay,
+                )
+                await asyncio.sleep(delay)
+
+        # Defensive: the loop always returns a response or raises.
+        raise RuntimeError("Gemini API retry loop ended unexpectedly")
+
     async def _generate_gemini_native(
         self,
         messages: List[Dict[str, str]],
@@ -191,8 +243,13 @@ class LLMService:
 
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             try:
-                response = await client.post(url, json=payload, headers=headers, params=params)
-                response.raise_for_status()
+                response = await self._post_gemini_with_retry(
+                    client=client,
+                    url=url,
+                    payload=payload,
+                    headers=headers,
+                    params=params,
+                )
 
                 data = response.json()
 
