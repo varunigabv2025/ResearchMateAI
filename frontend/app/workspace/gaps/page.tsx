@@ -5,6 +5,8 @@ import { analyzeGaps } from "@/lib/api/comparison";
 import type { AnalyzeGapsResponse } from "@/lib/types/comparison";
 import PaperSelector from "@/components/analysis/PaperSelector";
 import GapAnalysisResults from "@/components/analysis/GapAnalysisResults";
+import WorkspaceShell from "@/components/workspace/WorkspaceShell";
+import WorkspaceHeader from "@/components/workspace/WorkspaceHeader";
 
 export default function GapsPage() {
   const [selectedPaperIds, setSelectedPaperIds] = useState<string[]>([]);
@@ -38,18 +40,11 @@ export default function GapsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="font-serif text-3xl font-bold text-gray-900 mb-2">
-            Research Gap Analysis
-          </h1>
-          <p className="text-gray-600">
-            Identify potential research opportunities and contradictions across
-            multiple papers
-          </p>
-        </div>
+    <WorkspaceShell>
+      <WorkspaceHeader
+        title="Research Gap Analysis"
+        description="Identify potential research opportunities and contradictions across multiple papers"
+      />
 
         {!gapResult ? (
           <>
@@ -148,7 +143,6 @@ export default function GapsPage() {
             <GapAnalysisResults result={gapResult} onReset={handleReset} />
           </>
         )}
-      </div>
-    </div>
+    </WorkspaceShell>
   );
 }
