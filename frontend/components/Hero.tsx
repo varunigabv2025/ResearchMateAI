@@ -32,7 +32,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/workspace"
-                className="group px-6 py-3.5 bg-light-blue text-white rounded-lg hover:bg-light-blue/90 transition-all hover:shadow-lg hover:-translate-y-0.5 flex items-center justify-center gap-2 font-medium"
+                className="group px-6 py-3.5 bg-[#4D789B] text-white rounded-lg hover:bg-[#3F6685] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4D789B]/30 transition-all hover:shadow-lg hover:-translate-y-0.5 flex items-center justify-center gap-2 font-medium"
               >
                 Start Researching
                 <svg
