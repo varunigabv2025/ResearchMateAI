@@ -27,11 +27,43 @@ class TestGroundedQAPrompt:
         prompt = GroundedQAPrompt.build_user_prompt(question, chunks)
         
         assert question in prompt
-        assert '[1]' in prompt
-        assert '[2]' in prompt
+        assert '[S1]' in prompt
+        assert '[S2]' in prompt
+        assert 'ResearchMateAI Evidence Excerpts' in prompt
+        assert 'paper\'s own bibliography references' in prompt
         assert 'Methodology' in prompt
         assert 'Page: 7' in prompt
         assert 'transformer architecture' in prompt
+
+    def test_evidence_ids_are_distinct_from_paper_bibliography_citations(self):
+        """ResearchMate evidence markers must not be confused with paper references."""
+        chunks = [
+            {
+                'text': 'The method follows prior work [1].',
+                'page_number': 7,
+                'section': 'Methodology'
+            },
+            {
+                'text': 'Further details are given here.',
+                'page_number': 7,
+                'section': 'Methodology'
+            },
+            {
+                'text': 'The evaluation uses another setup.',
+                'page_number': 9,
+                'section': 'Experiments'
+            }
+        ]
+
+        prompt = GroundedQAPrompt.build_user_prompt('What is the method?', chunks)
+
+        # Same page/section maps to the same source marker; next unique source is S2.
+        assert '[S1] (Section: Methodology, Page: 7)' in prompt
+        assert prompt.count('[S1] (Section: Methodology, Page: 7)') == 2
+        assert '[S2] (Section: Experiments, Page: 9)' in prompt
+        # The paper's own reference number remains part of the quoted excerpt.
+        assert 'prior work [1]' in prompt
+        assert 'not ResearchMateAI evidence markers' in prompt
     
     def test_build_user_prompt_empty_chunks(self):
         """Test building prompt with no chunks."""

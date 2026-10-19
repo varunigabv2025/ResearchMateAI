@@ -18,8 +18,9 @@ CRITICAL RULES:
 3. Do NOT invent facts, page numbers, or citations
 4. If the excerpts don't contain enough information to answer confidently, explicitly say so
 5. Be concise but informative
-6. When referencing information, note which excerpt(s) support your answer (using [1], [2], etc.)
-7. Do NOT fabricate or guess section names or page numbers - these will be provided separately
+6. Cite the supplied evidence excerpts using the dedicated markers [S1], [S2], etc. Place the marker immediately after the claim it supports.
+7. Distinguish ResearchMateAI evidence markers ([S1], [S2], etc.) from the paper's own bibliography citations ([1], [2], etc.) that may appear inside the excerpts. Never use a paper bibliography number as an evidence marker.
+8. Do NOT fabricate or guess section names or page numbers - these will be provided separately
 
 If you cannot answer the question from the given excerpts, respond with:
 "I couldn't find sufficient information in the provided excerpts to answer this question confidently."
@@ -40,24 +41,36 @@ If you cannot answer the question from the given excerpts, respond with:
         if not chunks:
             return f"Question: {question}\n\nNo relevant excerpts were found in the paper."
         
-        # Build excerpts section
+        # Assign evidence IDs by unique page/section pair. This mirrors
+        # _format_sources() so each [S#] marker maps to the matching UI source.
+        evidence_ids = {}
         excerpts = []
-        for i, chunk in enumerate(chunks, 1):
+        for chunk in chunks:
             section = chunk.get('section', 'Unknown Section')
             page = chunk.get('page_number', '?')
+            source_key = (page, section)
+            if source_key not in evidence_ids:
+                evidence_ids[source_key] = f"S{len(evidence_ids) + 1}"
+            evidence_id = evidence_ids[source_key]
             text = chunk['text'].strip()
-            
-            excerpt = f"[{i}] (Section: {section}, Page: {page})\n{text}"
+
+            excerpt = f"[{evidence_id}] (Section: {section}, Page: {page})\n{text}"
             excerpts.append(excerpt)
-        
+
         excerpts_text = "\n\n".join(excerpts)
-        
-        prompt = f"""Paper Excerpts:
+
+        prompt = f"""ResearchMateAI Evidence Excerpts:
 {excerpts_text}
+
+Citation rules:
+- Cite claims supported by these excerpts using their exact [S#] marker, such as [S1] or [S2].
+- These [S#] markers refer to the Evidence Sources list returned by ResearchMateAI.
+- Any plain numeric citations like [1] or [2] already present in the paper text are the paper's own bibliography references, not ResearchMateAI evidence markers.
+- Do not invent evidence IDs. If a claim is supported by more than one excerpt, include each relevant [S#].
 
 Question: {question}
 
-Answer based only on the excerpts above. Reference excerpts using [1], [2], etc."""
+Answer using only the supplied excerpts and cite supporting claims with [S#] markers."""
         
         return prompt
     

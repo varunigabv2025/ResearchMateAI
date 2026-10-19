@@ -1,599 +1,268 @@
 # ResearchMate AI
 
-> **ResearchMate AI helps researchers compare papers, understand existing approaches, and surface possible research gaps — with answers grounded in the original papers.**
+ResearchMate AI is an AI-assisted research workspace for working with academic PDFs. It supports paper-specific question answering, structured comparison of multiple papers, and suggestions for possible research gaps.
 
-ResearchMate AI is not just another "chat with PDF" tool. It's an AI-powered research workspace specifically designed for academic paper analysis, comparison, and research gap discovery.
+AI-generated content is a research aid, not a substitute for reading the source papers or verifying claims against the literature.
 
-## 🎯 Core Features (MVP)
+## Features
 
-This MVP focuses on three essential capabilities:
+- **Grounded Q&A:** Ask questions about one paper. The backend retrieves paper-specific excerpts and returns an answer with evidence citations and page/section source details.
+- **Markdown answers:** The UI renders headings, lists, emphasis, inline code, and code blocks. ResearchMateAI evidence markers such as `[S1]` are visually distinguished from numbered references already present in a paper.
+- **Paper comparison:** Compare 2–5 papers on methodology, datasets, reported results, and limitations.
+- **Research gap suggestions:** Generate possible gaps or contradictions from the selected papers' structured comparison data. Outputs include a reminder to verify suggestions against the wider literature.
+- **PDF workspace:** Upload PDFs, view processing status, open a paper for Q&A, and select papers for comparison or gap analysis.
 
-1. **✅ Per-Paper Grounded Q&A** - Upload research papers and ask questions with answers tied back to specific pages and sections *(Implemented)*
-2. **✅ Multi-Paper Comparison** - Compare 2-5 papers side-by-side to understand methodologies, results, and limitations *(Implemented)*
-3. **✅ Research Gap Discovery** - AI-suggested research gaps based on paper comparison analysis *(Implemented)*
+## Technology stack
 
-**Important:** AI-generated answers, comparisons, and research gaps are suggestions and not scientifically validated. Always verify with domain expertise and the original literature.
+| Area | Implementation |
+|---|---|
+| Frontend | Next.js 15, React, TypeScript, Tailwind CSS |
+| Backend | Python, FastAPI, SQLAlchemy |
+| Database | PostgreSQL with the pgvector extension |
+| PDF text extraction | PyMuPDF |
+| Embeddings | Local `Qwen/Qwen3-Embedding-0.6B`, configured for 1024 dimensions |
+| LLM provider | Google Gemini API with a Gemma model, or an OpenAI-compatible API such as OpenRouter |
+| Retrieval | Dense semantic retrieval; the retrieval service also implements BM25 lexical retrieval and hybrid Reciprocal Rank Fusion (RRF) |
 
-## 🏗️ Architecture
+The embedding model runs locally and does not require an embedding API key. Its first run downloads model weights and needs sufficient RAM or Windows virtual memory. The LLM provider is called over the network and has its own availability, quota, and data-use terms.
 
-### Tech Stack
+## Project layout
 
-- **Frontend**: Next.js, TypeScript, Tailwind CSS *(Q&A + Analysis workspaces implemented)*
-- **Backend**: FastAPI, Python
-- **Database**: PostgreSQL with pgvector extension
-- **PDF Processing**: PyMuPDF
-- **Embeddings**: Local Qwen3-Embedding-0.6B (1024-dim, zero-cost)
-- **LLM**: Google Gemini API (Gemma 4 models) or OpenRouter (free tier models available)
-
-### Project Structure
-
-```
-ResearchMate/
-├── frontend/              # Next.js application (coming soon)
-├── backend/              # FastAPI backend
+```text
+ResearchMateAI/
+├── backend/
 │   ├── app/
-│   │   ├── api/         # API endpoints
-│   │   ├── services/    # Business logic (PDF, chunking, etc.)
-│   │   ├── models/      # Database models
-│   │   ├── schemas/     # Pydantic schemas
-│   │   └── core/        # Configuration and database
-│   ├── tests/           # Pytest test suite
+│   │   ├── api/          # FastAPI endpoints
+│   │   ├── core/         # Settings and database session
+│   │   ├── models/       # SQLAlchemy models
+│   │   ├── schemas/      # Request and response schemas
+│   │   └── services/     # PDF processing, embeddings, retrieval, LLM workflows
+│   ├── tests/            # Backend tests
 │   ├── requirements.txt
 │   └── .env.example
 ├── database/
-│   ├── schema.sql       # PostgreSQL + pgvector schema
+│   ├── schema.sql
 │   └── README.md
+├── frontend/
+│   ├── app/
+│   ├── components/
+│   ├── lib/
+│   └── package.json
 └── README.md
 ```
 
-## 🚀 Getting Started
+## Requirements
 
-### Prerequisites
+- Python 3.10 or newer
+- Node.js 18.18 or newer for the pinned Next.js 15.1.4 dependency
+- PostgreSQL 14 or newer, with pgvector installed
+- A Google AI Studio API key for the configured Gemma option, or an OpenRouter API key for OpenRouter
+- Enough memory / virtual memory to load the local Qwen embedding model
 
-- Python 3.9+
-- PostgreSQL 14+ with pgvector extension
-- Virtual environment tool (venv, conda, etc.)
+For database installation details, see [database/README.md](database/README.md).
 
-### Database Setup
+## Run locally
 
-1. **Install PostgreSQL and pgvector**
+Run the backend and frontend in separate terminals.
 
-   See [database/README.md](database/README.md) for detailed installation instructions.
+### 1. Create the database
 
-2. **Create Database**
+Create the PostgreSQL database and enable pgvector if it is not already enabled:
 
-   ```bash
-   psql -U postgres
-   CREATE DATABASE researchmate;
-   \c researchmate
-   \i database/schema.sql
-   ```
+```sql
+CREATE DATABASE researchmate;
+```
 
-### Backend Setup
+Then connect to `researchmate` and run:
 
-1. **Navigate to backend directory**
+```sql
+CREATE EXTENSION IF NOT EXISTS vector;
+```
 
-   ```bash
-   cd backend
-   ```
-
-2. **Create and activate virtual environment**
-
-   ```bash
-   python -m venv venv
-   
-   # On Windows
-   venv\Scripts\activate
-   
-   # On macOS/Linux
-   source venv/bin/activate
-   ```
-
-3. **Install dependencies**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Configure environment variables**
-
-   Copy `.env.example` to `.env` and fill in your values:
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   Required configuration:
-   - `DATABASE_URL`: PostgreSQL connection string
-   - `LLM_API_KEY`: Your Google AI Studio API key (for Gemma) or OpenRouter API key
-   - `LLM_MODEL`: Model name (e.g., `gemma-4-26b-a4b-it` or `nvidia/nemotron-3-ultra-550b-a55b:free`)
-   - `LLM_API_BASE_URL`: API endpoint (e.g., `https://generativelanguage.googleapis.com/v1beta`)
-   - `LLM_PROVIDER`: Optional: `gemini` or `openai` (auto-detected from base URL if omitted)
-   - `EMBEDDING_MODEL`: Local model (default: `Qwen/Qwen3-Embedding-0.6B`)
-   - `EMBEDDING_DIMENSION`: Vector dimension (default: `1024`)
-   
-   See `.env.example` for all available options and verified configurations.
-
-5. **Run the backend**
-
-   ```bash
-   # Development mode with auto-reload
-   uvicorn app.main:app --reload
-   
-   # Or using Python
-   python -m app.main
-   ```
-
-   The API will be available at `http://localhost:8000`
-
-6. **Access API documentation**
-
-   - Swagger UI: `http://localhost:8000/docs`
-   - ReDoc: `http://localhost:8000/redoc`
-
-## 🧪 Testing
-
-Run the test suite:
+Apply the schema from the repository root:
 
 ```bash
+psql -U postgres -d researchmate -f database/schema.sql
+```
+
+Adjust the username and connection values for your local PostgreSQL setup.
+
+### 2. Configure and start the backend
+
+```powershell
 cd backend
-pytest
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+Copy-Item .env.example .env
 ```
 
-Run with coverage:
+On macOS/Linux, activate the environment with:
 
 ```bash
-pytest --cov=app --cov-report=html
+source .venv/bin/activate
 ```
 
-View coverage report:
+Edit `.env` and set `DATABASE_URL` and the credentials for **one** LLM provider.
+
+#### Option A: Google Gemini API with Gemma
+
+```env
+LLM_API_KEY=your_google_api_key
+LLM_MODEL=gemma-4-26b-a4b-it
+LLM_API_BASE_URL=https://generativelanguage.googleapis.com/v1beta
+LLM_PROVIDER=gemini
+```
+
+Create a key in [Google AI Studio](https://aistudio.google.com/).
+
+#### Option B: OpenRouter
+
+Use this configuration instead of the Gemma values above:
+
+```env
+LLM_API_KEY=your_openrouter_api_key
+LLM_MODEL=nvidia/nemotron-3-ultra-550b-a55b:free
+LLM_API_BASE_URL=https://openrouter.ai/api/v1
+LLM_PROVIDER=openai
+```
+
+Get a key from [OpenRouter](https://openrouter.ai/keys). The example model is only a configuration example; model availability can change.
+
+#### Embedding configuration
+
+The default local embedding settings are:
+
+```env
+EMBEDDING_API_KEY=
+EMBEDDING_MODEL=Qwen/Qwen3-Embedding-0.6B
+EMBEDDING_API_BASE_URL=local
+EMBEDDING_DIMENSION=1024
+```
+
+No embedding API key is needed for this local configuration. Do not change the embedding model or dimension for an existing database unless you have a migration/re-embedding plan.
+
+Start the API while still in the `backend` directory:
+
+```powershell
+python -m uvicorn app.main:app --reload --port 8000
+```
+
+Check the health endpoint at [http://localhost:8000/health](http://localhost:8000/health) and open the interactive API docs at [http://localhost:8000/docs](http://localhost:8000/docs).
+
+### 3. Configure and start the frontend
+
+In a second terminal:
+
+```powershell
+cd frontend
+npm ci
+```
+
+Optionally create `frontend/.env.local` if your backend is not at the default address:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+Start the development server:
+
+```powershell
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## How the main workflows work
+
+### Grounded Q&A
+
+1. The uploaded PDF is validated and its text is extracted with page metadata.
+2. Extracted text is split into chunks, each associated with the paper, page, section, and chunk order.
+3. The local Qwen model generates embeddings for the chunks.
+4. A question is embedded and retrieved against the selected paper's content.
+5. The grounded prompt asks the LLM to answer only from the supplied excerpts.
+6. The response includes evidence markers (for example, `[S1]`) and a source list with page/section details.
+
+The Q&A endpoint currently uses dense retrieval by default. The retrieval service also supports BM25 lexical search and hybrid RRF modes for evaluation or explicit use. The configured default top-k is 5 and the calibrated dense similarity threshold is 0.25; these are retrieval settings, not guarantees of answer quality.
+
+### Compare papers
+
+Select 2–5 processed papers. The backend selects relevant paper sections and asks the configured LLM to extract each paper's method, dataset, reported results, and limitations into a structured format. The frontend displays the results in a comparison view.
+
+### Research gap analysis
+
+Select 2–5 processed papers. The current workflow first extracts comparison fields for each paper, then makes an additional LLM call to suggest possible gaps from those fields. As a result, a request for two papers normally requires three LLM calls (one extraction per paper plus one gap-analysis call); five papers normally require six. Failed calls and provider retries may add more requests.
+
+Gap suggestions are hypotheses based on the selected papers and may miss relevant literature. Verify them against the original papers and broader research.
+
+## API endpoints
+
+The FastAPI application exposes the following endpoints:
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `GET` | `/health` | Health check |
+| `POST` | `/api/papers/upload` | Upload and process a PDF |
+| `GET` | `/api/papers/` | List papers |
+| `GET` | `/api/papers/{id}` | Get paper details |
+| `DELETE` | `/api/papers/{id}` | Delete a paper |
+| `POST` | `/api/papers/{id}/ask` | Ask a question about a paper |
+| `POST` | `/api/papers/compare` | Compare 2–5 papers |
+| `POST` | `/api/papers/gaps` | Analyze possible research gaps |
+
+Example Q&A request:
 
 ```bash
-# Open htmlcov/index.html in your browser
-```
-
-## 📡 API Endpoints
-
-### Health Check
-
-```http
-GET /health
-```
-
-### Papers
-
-```http
-POST   /api/papers/upload         # Upload and process a PDF
-GET    /api/papers/               # List all papers (with pagination)
-GET    /api/papers/{id}           # Get paper details
-DELETE /api/papers/{id}           # Delete a paper
-POST   /api/papers/{id}/ask       # Ask a question about a paper
-POST   /api/papers/compare        # Compare 2-5 papers
-POST   /api/papers/gaps           # Analyze research gaps (NEW)
-```
-
-### Example: Upload a Paper
-
-```bash
-curl -X POST "http://localhost:8000/api/papers/upload" \
-  -F "file=@research_paper.pdf"
-```
-
-Response:
-```json
-{
-  "id": "123e4567-e89b-12d3-a456-426614174000",
-  "filename": "research_paper.pdf",
-  "page_count": 12,
-  "sections_detected": [
-    "Abstract",
-    "Introduction",
-    "Methodology",
-    "Results",
-    "Conclusion",
-    "References"
-  ],
-  "message": "Paper uploaded and processed successfully. Ready for Q&A."
-}
-```
-
-### Example: Ask a Question
-
-```bash
-curl -X POST "http://localhost:8000/api/papers/{paper_id}/ask" \
+curl -X POST "http://localhost:8000/api/papers/<PAPER_ID>/ask" \
   -H "Content-Type: application/json" \
-  -d '{"question": "What methodology does the paper use?"}'
+  -d '{"question":"What methodology does this paper use?"}'
 ```
 
-Response:
-```json
-{
-  "answer": "The authors use a transformer-based architecture with self-attention mechanisms. The model was trained on 100,000 examples using AdamW optimizer.",
-  "sources": [
-    {
-      "chunk_id": "abc123...",
-      "page_number": 7,
-      "section": "Methodology",
-      "similarity": 0.89
-    },
-    {
-      "chunk_id": "def456...",
-      "page_number": 9,
-      "section": "Experiments",
-      "similarity": 0.82
-    }
-  ],
-  "paper_id": "123e4567-e89b-12d3-a456-426614174000",
-  "question": "What methodology does the paper use?",
-  "has_sufficient_context": true
-}
-```
+For the exact schemas and response models, use the interactive API documentation at `/docs`.
 
-### Example: Compare Papers
+## Testing and build checks
+
+Run backend tests from the `backend` directory:
 
 ```bash
-curl -X POST "http://localhost:8000/api/papers/compare" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "paper_ids": [
-      "123e4567-e89b-12d3-a456-426614174000",
-      "223e4567-e89b-12d3-a456-426614174001",
-      "323e4567-e89b-12d3-a456-426614174002"
-    ]
-  }'
+python -m pytest
 ```
 
-Response:
-```json
-{
-  "papers": [
-    {
-      "paper_id": "123e4567-e89b-12d3-a456-426614174000",
-      "filename": "transformer_paper.pdf",
-      "method": "Transformer architecture with multi-head self-attention",
-      "dataset": "WMT 2014 English-to-German and English-to-French",
-      "metric_result": "BLEU score of 28.4 on WMT 2014 EN-DE",
-      "limitation": "Requires large amounts of training data and computational resources"
-    },
-    {
-      "paper_id": "223e4567-e89b-12d3-a456-426614174001",
-      "filename": "bert_paper.pdf",
-      "method": "Bidirectional encoder representations from transformers",
-      "dataset": "BooksCorpus and English Wikipedia",
-      "metric_result": "11 tasks including GLUE benchmark improvements",
-      "limitation": "Pre-training is computationally expensive"
-    },
-    {
-      "paper_id": "323e4567-e89b-12d3-a456-426614174002",
-      "filename": "gpt_paper.pdf",
-      "method": "Generative pre-training with transformer decoder",
-      "dataset": "BooksCorpus dataset",
-      "metric_result": "State-of-the-art on 9 out of 12 tasks",
-      "limitation": "Limited understanding of sentence relationships"
-    }
-  ],
-  "total_papers": 3
-}
-```
-
-### Example: Analyze Research Gaps
+Run the focused Gemini retry tests:
 
 ```bash
-curl -X POST "http://localhost:8000/api/papers/gaps" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "paper_ids": [
-      "123e4567-e89b-12d3-a456-426614174000",
-      "223e4567-e89b-12d3-a456-426614174001",
-      "323e4567-e89b-12d3-a456-426614174002"
-    ]
-  }'
+python -m pytest tests/test_gemini_retry.py -q
 ```
 
-Response:
-```json
-{
-  "paper_ids": [
-    "123e4567-e89b-12d3-a456-426614174000",
-    "223e4567-e89b-12d3-a456-426614174001",
-    "323e4567-e89b-12d3-a456-426614174002"
-  ],
-  "gaps": [
-    {
-      "title": "Limited dataset diversity across studies",
-      "description": "The compared papers evaluate their approaches on relatively narrow or similar datasets (WMT 2014, BooksCorpus), which may limit understanding of generalizability across different domains and languages.",
-      "basis": "All three papers use similar benchmark datasets (WMT 2014 or BooksCorpus) while their stated limitations mention computational cost rather than dataset diversity."
-    },
-    {
-      "title": "Direct methodological comparison under unified conditions",
-      "description": "The papers employ different transformer-based approaches (encoder-only, decoder-only, encoder-decoder) but do not directly compare these architectural choices under the same experimental setup.",
-      "basis": "Papers use different methods (Transformer, BERT, GPT) and report results on different task sets, making direct performance comparison difficult."
-    }
-  ],
-  "disclaimer": "AI-suggested — verify against the literature yourself."
-}
+Run the frontend production build from `frontend`:
+
+```bash
+npm run build
 ```
 
-**⚠️ Important:** These gap suggestions are generated from the provided papers only. They are not definitive claims about the entire research field and should be verified against the broader literature before use in research or academic writing.
+These commands are provided for local verification; run them on the current branch before merging changes. This repository does not currently define a GitHub Actions workflow that automatically runs these checks.
 
-## 🔬 How It Works
+## Operational notes and known limitations
 
-### Complete Q&A Pipeline
+- **Gemma free tier is not unlimited.** Google applies project/model-specific RPM, input-token-per-minute, and requests-per-day limits. A large comparison or gap-analysis request can exceed the input-token quota. Check the active values in [Google AI Studio rate limits](https://aistudio.google.com/rate-limit) and the [Gemini API rate-limit documentation](https://ai.google.dev/gemini-api/docs/rate-limits).
+- **HTTP 429:** quota/rate-limit errors are surfaced to the caller; the backend does not automatically retry 429 responses. Wait for the specified retry delay, reduce repeated requests or input size, or review the project's active limits.
+- **Transient server errors:** the Gemini client retries HTTP 500, 502, 503, and 504 responses a limited number of times. These retries cannot resolve persistent provider outages.
+- **Upload-size configuration needs alignment:** the frontend currently defines a 20 MiB file-size constant, while the backend example defaults `MAX_UPLOAD_SIZE_MB` to 50. Confirm and align the limits before relying on a single maximum across the application.
+- **Local embedding resource use:** the Qwen weights are downloaded on first use. On Windows, insufficient RAM or paging-file space can prevent the backend from starting.
+- **Grounding and citations:** evidence citations are generated by the model and displayed alongside retrieved source metadata. Review cited excerpts in the original paper; formatting and source metadata do not guarantee every claim is correct.
+- **Data privacy:** review the selected LLM provider's current terms before sending sensitive or unpublished research content. The Google Gemini API free-tier data-use terms can differ from paid-tier terms.
+- **Authentication:** the current MVP does not implement user authentication or per-user workspaces. Do not expose a local development instance to an untrusted network without adding appropriate access controls.
+- **CORS:** the current backend configuration allows all origins for development. Restrict CORS origins before production deployment.
+- **License:** no `LICENSE` file is currently included. Usage and redistribution rights are therefore not explicitly granted by this repository.
 
-```
-PDF Upload
-    ↓
-Validation (file type, size)
-    ↓
-Text Extraction (PyMuPDF)
-    ↓
-Section Detection (pattern matching)
-    ↓
-Text Chunking (with metadata)
-    ↓
-Embedding Generation (API)
-    ↓
-Vector Storage (pgvector)
-    ↓
-Ready for Q&A
-```
+## Security
 
-### Grounded Q&A Flow
+- Keep real API keys and secrets in local environment files; never commit them.
+- Do not include database files, uploaded PDFs, local environment files, or generated secrets in commits.
+- Review logs before sharing them; request errors should not include API keys.
+- Restrict database and API access appropriately before deployment.
 
-```
-User Question
-    ↓
-Question Embedding
-    ↓
-Vector Similarity Search (paper-specific)
-    ↓
-Retrieve Top-K Relevant Chunks
-    ↓
-Build Grounded Prompt (with retrieved excerpts)
-    ↓
-LLM Generation (strict grounding instructions)
-    ↓
-Answer + Citations (page, section)
-```
+## Contributing
 
-### Multi-Paper Comparison Flow
-
-```
-User Selects 2-5 Papers
-    ↓
-Validate Papers Exist
-    ↓
-For Each Paper:
-  - Select Relevant Sections (prioritized)
-  - Build Extraction Prompt
-  - LLM Extraction Call (method, dataset, metrics, limitations)
-  - Parse & Validate JSON
-    ↓
-Structured Comparison Table
-```
-
-**Key Design:**
-- Exactly **one LLM call per paper** (not agents, not multi-step)
-- Prioritized section selection (Abstract, Methods, Results, etc.)
-- Strict JSON schema validation
-- "Not specified in the paper" for missing information
-- No fabrication or guessing
-
-### Research Gap Analysis Flow
-
-```
-User Selects 2-5 Papers
-    ↓
-Feature 2 Structured Comparison
-    ↓
-Comparison Data (method, dataset, results, limitations)
-    ↓
-ONE LLM Analysis Call
-    ↓
-2-3 Possible Research Gaps
-    ↓
-Response with Disclaimer
-```
-
-**Key Design:**
-- Reuses Feature 2 comparison data (no duplication)
-- Exactly **ONE LLM call per analysis** (not per paper, not per gap)
-- Analyzes ONLY provided comparison data (no outside knowledge)
-- Returns 0-3 gaps (not forced to find gaps)
-- Cautious language (suggests, appears, possible)
-- Always includes disclaimer
-
-### Section Detection
-
-The system detects common research paper sections:
-
-- Abstract
-- Introduction
-- Related Work / Literature Review
-- Methodology / Methods / Materials and Methods
-- Experiments / Experimental Setup
-- Results / Findings
-- Discussion
-- Limitations
-- Conclusion
-- Future Work
-- References
-
-Detection uses simple heading pattern matching (not ML-based).
-
-### Chunking Strategy
-
-- **Chunk Size**: ~1000 characters (configurable)
-- **Overlap**: 200 characters for context preservation
-- **Metadata Preserved**: paper_id, page_number, section, chunk_index
-
-Each chunk maintains:
-```json
-{
-  "paper_id": "uuid",
-  "page_number": 7,
-  "section": "Methodology",
-  "chunk_index": 23,
-  "text": "...",
-  "char_count": 987
-}
-```
-
-### Grounding Strategy
-
-**Critical Design Principle:** Answers must be grounded in the uploaded paper.
-
-1. **Retrieval Filtering**: Vector search is restricted to the specific paper_id
-2. **Similarity Threshold**: Only chunks above 0.7 similarity are used (configurable)
-3. **Insufficient Context Handling**: If no relevant chunks are found, returns explicit "insufficient information" message
-4. **Citation Tracking**: Every answer includes source chunks with page and section
-5. **Prompt Engineering**: LLM receives strict instructions to answer only from provided excerpts
-6. **No Fabrication**: LLM explicitly instructed not to invent page numbers or citations
-
-### Embedding & Vector Search
-
-- **Embedding Model**: Local Qwen3-Embedding-0.6B (configurable)
-- **Vector Dimension**: 1024 (matches Qwen3 model output)
-- **Similarity Metric**: Cosine distance
-- **Index**: HNSW for fast approximate nearest neighbor search
-- **Top-K**: 5 chunks retrieved by default
-- **Threshold**: 0.4 cosine similarity (calibrated for Qwen3 embeddings)
-- **Provider**: Local sentence-transformers (zero-cost, CPU/GPU support)
-
-### Retrieval Modes (Phase 4-6)
-
-ResearchMate supports multiple retrieval strategies, evaluated on a 10-question benchmark using the PA-EIS IEEE paper:
-
-- **DENSE** (Phase 4, default): Vector similarity search using Qwen3-Embedding-0.6B
-- **LEXICAL** (Phase 5): BM25-based term matching for keyword queries
-- **HYBRID** (Phase 5): Reciprocal Rank Fusion combining dense + lexical retrieval
-- **RERANKED** (Phase 6): Hybrid + cross-encoder reranking
-
-**Phase 6: Cross-encoder Reranking** (`RERANKED` mode):
-1. Hybrid retrieval: top-20 dense + top-20 BM25 → RRF fusion → top-20 candidates
-2. Cross-encoder reranking: ms-marco-MiniLM-L-6-v2 (22M params, CPU inference)
-3. Sort by cross-encoder scores → final top-K
-
-**Evaluation Results** (PA-EIS paper, 10-question benchmark, CPU-only):
-
-| Metric | HYBRID | RERANKED | Change |
-|--------|--------|----------|--------|
-| Hit Rate@5 | 55.6% | **66.7%** | +20.0% ✅ |
-| Recall@5 | 50.0% | 51.9% | +3.7% ✅ |
-| **MRR** | **0.534** | 0.448 | **-16.1%** ⚠️ |
-| **Recall@10** | **72.2%** | 61.1% | **-15.4%** ⚠️ |
-| **Latency** | **337ms** | 4177ms | **+3840ms** ⚠️ |
-
-**Phase 6 Demonstrates a Quality Trade-off**:
-- ✅ **Improved breadth**: Better Hit Rate@5 (finds *at least one* relevant chunk more often)
-- ✅ **Slight recall gain**: Marginal improvement in Recall@5
-- ⚠️ **Degraded ranking quality**: MRR decreased 16% (first-answer quality worse)
-- ⚠️ **Reduced deep recall**: Recall@10 decreased 15%
-- ⚠️ **Substantial latency**: 12x increase in retrieval time (CPU-only inference)
-
-**Analysis**: The ms-marco-MiniLM reranker, trained on web search queries, struggles with academic paper Q&A. It improves hit rate by promoting more candidates into top-5, but degrades first-position ranking quality (MRR) and deeper recall. The 3.8-second reranking overhead on CPU makes this impractical for interactive use.
-
-**Fallback**: If cross-encoder unavailable (model download failure, dependency issue), `RERANKED` mode gracefully falls back to `HYBRID` (RRF) ranking.
-
-**Current Recommendation**: Use `HYBRID` mode for production (better MRR, 12x faster). `RERANKED` mode is experimental and demonstrates that cross-encoder reranking on CPU is not currently viable for this use case.
-
-## 🔒 Security Notes
-
-- Never commit `.env` files or API keys
-- Upload directory is excluded from git
-- File size limits enforced (default: 50MB)
-- PDF validation before processing
-- SQL injection protection via SQLAlchemy ORM
-
-## 🛣️ Roadmap
-
-### ✅ Feature 1: Grounded Q&A (Complete & Verified)
-- [x] PDF upload and validation
-- [x] Text extraction with page numbers
-- [x] Section detection
-- [x] Chunking with metadata
-- [x] Local embedding generation (Qwen3-Embedding-0.6B)
-- [x] Vector similarity search (pgvector)
-- [x] Grounded Q&A endpoint
-- [x] Citation with page/section
-- [x] Insufficient context handling
-- [x] Comprehensive test suite
-- [x] **Frontend Q&A workspace** (Phase 2B complete)
-- [x] **Manual verification with real research paper**
-
-### ✅ Feature 2: Multi-Paper Comparison (Complete)
-- [x] Compare 2-5 papers
-- [x] Structured extraction (method, dataset, metrics, limitations)
-- [x] Section-aware content selection
-- [x] One LLM call per paper
-- [x] JSON schema validation
-- [x] "Not specified" handling
-- [x] Comparison endpoint
-- [x] Comprehensive tests
-
-### ✅ Feature 3: Research Gap Discovery (Complete)
-- [x] AI-suggested research gaps
-- [x] Gap analysis from comparison data
-- [x] Single LLM call per analysis
-- [x] Evidence-based suggestions
-- [x] Cautious language (suggests/appears)
-- [x] 0-3 gaps per analysis
-- [x] Disclaimer always included
-- [x] Comprehensive tests
-
-### ✅ Phase 3: Research Analysis Workspace (Complete)
-- [x] Paper selection interface (2-5 papers)
-- [x] Frontend comparison UI (`/workspace/compare`)
-- [x] Comparison table (responsive desktop/mobile)
-- [x] Frontend gap analysis UI (`/workspace/gaps`)
-- [x] Gap result display with evidence
-- [x] Loading and error states
-- [x] TypeScript types and API clients
-- [x] Production build verified
-
-### 🚧 Additional Features (Future)
-- [ ] Authentication
-- [ ] User workspaces
-- [ ] External literature search
-- [ ] Citation recommendations
-
-## 🤝 Contributing
-
-This is an MVP project. Contributions should maintain focus on the core use case: comparing research papers and discovering gaps.
-
-**Not in scope for MVP:**
-- General document chat
-- Literature mapping/visualization
-- Citation recommendation
-- Writing assistance
-- Advanced UI features
-
-## 📄 License
-
-[Your License Here]
-
-## 🙏 Acknowledgments
-
-Built with:
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [PyMuPDF](https://pymupdf.readthedocs.io/)
-- [pgvector](https://github.com/pgvector/pgvector)
-- [SQLAlchemy](https://www.sqlalchemy.org/)
-
----
-
-**Status**: ✅ MVP Complete | All 3 Core Features Implemented & Tested
-
-**Backend**: Fully implemented with comprehensive test coverage (92+ tests passing)  
-**Frontend**: Q&A workspace + Research analysis workspace (comparison & gap analysis) implemented  
-**Verification**: Grounded Q&A manually tested with real research paper (PA-EIS IEEE)
-
-**Features 1-3** are fully implemented and tested. The complete MVP workflow is ready:
-
-1. **Upload papers** → PDF processing, chunking, local embeddings
-2. **Ask questions** → Grounded Q&A with citations (verified with real paper)
-3. **Compare papers** → Structured extraction + responsive comparison UI
-4. **Analyze gaps** → AI-suggested research opportunities + gap analysis UI
-
-All features include comprehensive test coverage, production build verification, and proper validation.
-
+Keep changes focused on grounded paper analysis, structured comparison, and carefully qualified research-gap suggestions. Include regression tests for behavior changes and verify both backend tests and the frontend production build before merging.

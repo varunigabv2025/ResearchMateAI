@@ -5,6 +5,8 @@ import { comparePapers } from "@/lib/api/comparison";
 import type { ComparePapersResponse } from "@/lib/types/comparison";
 import PaperSelector from "@/components/analysis/PaperSelector";
 import ComparisonResults from "@/components/analysis/ComparisonResults";
+import WorkspaceShell from "@/components/workspace/WorkspaceShell";
+import WorkspaceHeader from "@/components/workspace/WorkspaceHeader";
 
 export default function ComparePage() {
   const [selectedPaperIds, setSelectedPaperIds] = useState<string[]>([]);
@@ -39,18 +41,11 @@ export default function ComparePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="font-serif text-3xl font-bold text-gray-900 mb-2">
-            Compare Research Papers
-          </h1>
-          <p className="text-gray-600">
-            Select 2-5 papers to compare their methods, datasets, results, and
-            limitations
-          </p>
-        </div>
+    <WorkspaceShell>
+      <WorkspaceHeader
+        title="Compare Research Papers"
+        description="Select 2-5 papers to compare their methods, datasets, results, and limitations"
+      />
 
         {!comparisonResult ? (
           <>
@@ -110,7 +105,7 @@ export default function ComparePage() {
                     selectedPaperIds.length < 2 ||
                     selectedPaperIds.length > 5
                       ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      : "bg-light-blue text-white hover:bg-light-blue/90 shadow-sm hover:shadow-md"
+                      : "bg-[#4D789B] text-white hover:bg-[#3F6685] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4D789B]/30 shadow-sm hover:shadow-md"
                   }
                 `}
               >
@@ -152,7 +147,6 @@ export default function ComparePage() {
             />
           </>
         )}
-      </div>
-    </div>
+    </WorkspaceShell>
   );
 }

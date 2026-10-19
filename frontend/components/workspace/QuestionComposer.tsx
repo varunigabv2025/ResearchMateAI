@@ -67,7 +67,7 @@ export default function QuestionComposer({
         <button
           type="submit"
           disabled={isSubmitDisabled}
-          className="px-6 py-2.5 bg-light-blue text-white rounded-lg font-medium hover:bg-light-blue/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-6 py-2.5 bg-[#4D789B] text-white rounded-lg font-medium hover:bg-[#3F6685] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4D789B]/30 disabled:bg-gray-200 disabled:text-gray-500 disabled:opacity-100 disabled:cursor-not-allowed transition-colors"
           aria-label="Submit question"
         >
           {isLoading ? (
