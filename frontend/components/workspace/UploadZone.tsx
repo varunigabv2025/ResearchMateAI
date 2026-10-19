@@ -117,7 +117,7 @@ export default function UploadZone({ onFilesSelected, disabled = false }: Upload
           {/* Browse Button */}
           <button
             type="button"
-            className="px-6 py-3 bg-light-blue text-white rounded-lg hover:bg-light-blue/90 transition-all hover:shadow-md font-medium"
+            className="px-6 py-3 bg-[#4D789B] text-white rounded-lg hover:bg-[#3F6685] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4D789B]/30 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed transition-all hover:shadow-md font-medium"
             disabled={disabled}
           >
             Browse Files
