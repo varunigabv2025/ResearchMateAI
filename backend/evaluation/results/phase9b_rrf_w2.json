@@ -1,0 +1,3577 @@
+{
+  "timestamp": "2026-10-18T20:12:36.643064Z",
+  "evaluation_duration_seconds": 637.1835579872131,
+  "configuration": {
+    "name": "Phase9B_RRF_W2",
+    "description": "Weighted RRF W2 (α=1.4, β=0.6) - strong dense preference",
+    "mode": "hybrid",
+    "rrf_alpha": 1.4,
+    "rrf_beta": 0.6
+  },
+  "dataset": {
+    "name": "Phase 9B Multi-Paper Evaluation Dataset",
+    "description": "RAG evaluation benchmark for 6 research papers: ResNet, BERT, Transformer, YOLO, MobileNets, and Pruning Survey. Covers Computer Vision, NLP, and Model Compression domains with factual, conceptual, and cross-paper synthesis questions.",
+    "question_count": 50,
+    "paper_count": 6,
+    "dataset_hash": "94ab8202ddfb1fa37e3c75d172744ff548db36c11bd235a70604d5b1c4e3ba30"
+  },
+  "papers": {
+    "resnet": "6c17e19e778c49feb63a78f385975434",
+    "bert": "034186580f8045b9b20c84db274c63ae",
+    "transformer": "82a45c626e6c4678b4dc60bc7e9167a2",
+    "yolo": "3d33044cda464ede9ce821914baebfff",
+    "mobilenets": "aa0cbf1ec4f54ec5a37bcb16a1a562ba",
+    "pruning_survey": "b1b37ef43b7e47f9bdb1b400d62ab40d"
+  },
+  "per_question_results": [
+    {
+      "question_id": "q9b_1",
+      "question": "What is the core innovation introduced by the ResNet paper?",
+      "answerable": true,
+      "category": "core_contribution",
+      "error": null,
+      "retrieval_latency_ms": 522.0947265625,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        1,
+        6,
+        6,
+        5,
+        7,
+        1,
+        2,
+        6,
+        5,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "residual learning",
+            "skip connections",
+            "shortcut connections",
+            "identity mapping",
+            "ease training"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        6,
+        6,
+        5,
+        7
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5220947265625,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5220947265625
+      }
+    },
+    {
+      "question_id": "q9b_2",
+      "question": "How many layers did the deepest ResNet model achieve on ImageNet?",
+      "answerable": true,
+      "category": "precise_factual",
+      "error": null,
+      "retrieval_latency_ms": 496.410608291626,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        2,
+        7,
+        8,
+        1,
+        2,
+        7,
+        5,
+        7,
+        5,
+        7
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "152",
+            "152-layer"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        2,
+        7,
+        8,
+        1,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.496410608291626,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.496410608291626
+      }
+    },
+    {
+      "question_id": "q9b_3",
+      "question": "What problem does ResNet solve that prevented training very deep neural networks?",
+      "answerable": true,
+      "category": "problem_identification",
+      "error": null,
+      "retrieval_latency_ms": 529.3996334075928,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.3333333333333333
+      },
+      "retrieved_pages": [
+        7,
+        5,
+        1,
+        5,
+        2,
+        5,
+        6,
+        2,
+        8,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "degradation",
+            "training",
+            "optimization",
+            "difficult to train"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        7,
+        5,
+        1,
+        5,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5293996334075928,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5293996334075928
+      }
+    },
+    {
+      "question_id": "q9b_4",
+      "question": "What does residual function F(x) represent in the ResNet formulation?",
+      "answerable": true,
+      "category": "technical_mechanism",
+      "error": null,
+      "retrieval_latency_ms": 569.6437358856201,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        3,
+        3,
+        3,
+        2,
+        8,
+        6,
+        2,
+        3,
+        2,
+        4
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "few layers",
+            "two or three layers",
+            "stacked layers"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        3,
+        3,
+        3,
+        2,
+        8
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5696437358856201,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5696437358856201
+      }
+    },
+    {
+      "question_id": "q9b_5",
+      "question": "Beyond ImageNet classification, what other vision task did ResNet excel at?",
+      "answerable": true,
+      "category": "application_breadth",
+      "error": null,
+      "retrieval_latency_ms": 570.8932876586914,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.2,
+        "mrr": 0.16666666666666666
+      },
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        2,
+        1,
+        12,
+        8,
+        6,
+        12,
+        10
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "object detection",
+            "localization",
+            "Faster R-CNN",
+            "ILSVRC"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 2,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        2,
+        1,
+        1,
+        2,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5708932876586914,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5708932876586914
+      }
+    },
+    {
+      "question_id": "q9b_6",
+      "question": "What does BERT stand for and what is its key innovation?",
+      "answerable": true,
+      "category": "core_contribution",
+      "error": null,
+      "retrieval_latency_ms": 543.9465045928955,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        7,
+        1,
+        3,
+        14,
+        6,
+        2,
+        6,
+        7,
+        7,
+        15
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "Bidirectional Encoder Representations from Transformers",
+            "bidirectional",
+            "pre-training"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.2,
+        "recall": 1.0,
+        "cited_count": 5,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        7,
+        1,
+        3,
+        14,
+        6
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5439465045928955,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5439465045928955
+      }
+    },
+    {
+      "question_id": "q9b_7",
+      "question": "What is the masked language model (MLM) objective used in BERT?",
+      "answerable": true,
+      "category": "technical_mechanism",
+      "error": null,
+      "retrieval_latency_ms": 496.84882164001465,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.25
+      },
+      "retrieved_pages": [
+        16,
+        1,
+        1,
+        4,
+        16,
+        3,
+        2,
+        12,
+        16,
+        14
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "mask",
+            "random",
+            "predict",
+            "masked tokens",
+            "percentage of input tokens"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        16,
+        1,
+        1,
+        4,
+        16
+      ],
+      "latency": {
+        "retrieval_seconds": 0.49684882164001465,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.49684882164001465
+      }
+    },
+    {
+      "question_id": "q9b_8",
+      "question": "What is BERT's GLUE score and how much improvement did it achieve?",
+      "answerable": true,
+      "category": "precise_factual",
+      "error": null,
+      "retrieval_latency_ms": 489.591121673584,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.2
+      },
+      "retrieved_pages": [
+        6,
+        6,
+        5,
+        6,
+        1,
+        14,
+        1,
+        6,
+        8,
+        7
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "80.5",
+            "7.7",
+            "point",
+            "improvement"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        6,
+        6,
+        5,
+        6,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.489591121673584,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.489591121673584
+      }
+    },
+    {
+      "question_id": "q9b_9",
+      "question": "Why is BERT's approach better than training separate left-to-right and right-to-left models?",
+      "answerable": true,
+      "category": "design_rationale",
+      "error": null,
+      "retrieval_latency_ms": 604.3598651885986,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.3333333333333333
+      },
+      "retrieved_pages": [
+        13,
+        4,
+        8,
+        2,
+        1,
+        8,
+        1,
+        8,
+        2,
+        14
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "expensive",
+            "twice",
+            "non-intuitive",
+            "QA",
+            "condition"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.2,
+        "recall": 1.0,
+        "cited_count": 5,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        13,
+        4,
+        8,
+        2,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.6043598651885986,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.6043598651885986
+      }
+    },
+    {
+      "question_id": "q9b_10",
+      "question": "What organization developed BERT?",
+      "answerable": true,
+      "category": "metadata",
+      "error": null,
+      "retrieval_latency_ms": 509.2761516571045,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.3333333333333333
+      },
+      "retrieved_pages": [
+        15,
+        3,
+        1,
+        6,
+        2,
+        7,
+        7,
+        14,
+        14,
+        14
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "Google",
+            "Google AI Language"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.2,
+        "recall": 1.0,
+        "cited_count": 5,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        15,
+        3,
+        1,
+        6,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5092761516571045,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5092761516571045
+      }
+    },
+    {
+      "question_id": "q9b_11",
+      "question": "What is the key architectural innovation of the Transformer model?",
+      "answerable": true,
+      "category": "core_contribution",
+      "error": null,
+      "retrieval_latency_ms": 533.3406925201416,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "mrr": 0.16666666666666666
+      },
+      "retrieved_pages": [
+        2,
+        3,
+        10,
+        2,
+        2,
+        1,
+        1,
+        2,
+        9,
+        10
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "attention",
+            "self-attention",
+            "no recurrence",
+            "no convolution"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        2,
+        3,
+        10,
+        2,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5333406925201416,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5333406925201416
+      }
+    },
+    {
+      "question_id": "q9b_12",
+      "question": "What is scaled dot-product attention and what components does it use?",
+      "answerable": true,
+      "category": "technical_mechanism",
+      "error": null,
+      "retrieval_latency_ms": 569.9374675750732,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        4,
+        4,
+        4,
+        5,
+        9,
+        6,
+        3,
+        5,
+        2,
+        3
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "query",
+            "key",
+            "value",
+            "compatibility function",
+            "weight"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        4,
+        4,
+        4,
+        5,
+        9
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5699374675750732,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5699374675750732
+      }
+    },
+    {
+      "question_id": "q9b_13",
+      "question": "What BLEU score did the Transformer achieve on WMT 2014 English-to-German translation?",
+      "answerable": true,
+      "category": "precise_factual",
+      "error": null,
+      "retrieval_latency_ms": 546.3168621063232,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        8,
+        1,
+        8,
+        1,
+        10,
+        9,
+        9,
+        10,
+        10,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "41.8",
+            "BLEU"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        8,
+        1,
+        8,
+        1,
+        10
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5463168621063232,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5463168621063232
+      }
+    },
+    {
+      "question_id": "q9b_14",
+      "question": "Why are convolutional layers more expensive than recurrent layers according to the Transformer paper?",
+      "answerable": true,
+      "category": "technical_comparison",
+      "error": null,
+      "retrieval_latency_ms": 565.4275417327881,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        7,
+        7,
+        6,
+        2,
+        8,
+        2,
+        2,
+        10,
+        1,
+        6
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "factor of k",
+            "kernel width",
+            "separable convolutions"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        7,
+        7,
+        6,
+        2,
+        8
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5654275417327881,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5654275417327881
+      }
+    },
+    {
+      "question_id": "q9b_15",
+      "question": "What makes the Transformer the first sequence transduction model of its kind?",
+      "answerable": true,
+      "category": "innovation_claim",
+      "error": null,
+      "retrieval_latency_ms": 541.9692993164062,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        2,
+        10,
+        1,
+        10,
+        2,
+        1,
+        9,
+        2,
+        8,
+        8
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "entirely on attention",
+            "first",
+            "replacing recurrent layers",
+            "multi-headed self-attention"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        2,
+        10,
+        1,
+        10,
+        2
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5419692993164062,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5419692993164062
+      }
+    },
+    {
+      "question_id": "q9b_16",
+      "question": "What is the main innovation of YOLO compared to prior object detection methods?",
+      "answerable": true,
+      "category": "core_contribution",
+      "error": null,
+      "retrieval_latency_ms": 462.5966548919678,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        1,
+        1,
+        8,
+        1,
+        5,
+        7,
+        5,
+        1,
+        2,
+        5
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "unified",
+            "single",
+            "one look",
+            "real-time",
+            "regression"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        1,
+        8,
+        1,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.4625966548919678,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.4625966548919678
+      }
+    },
+    {
+      "question_id": "q9b_17",
+      "question": "What input resolution change did YOLO make for detection compared to classification pretraining?",
+      "answerable": true,
+      "category": "precise_factual",
+      "error": null,
+      "retrieval_latency_ms": 477.0355224609375,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "mrr": 0.16666666666666666
+      },
+      "retrieved_pages": [
+        1,
+        1,
+        8,
+        2,
+        1,
+        3,
+        4,
+        5,
+        2,
+        2
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "224",
+            "448",
+            "224 × 224",
+            "448 × 448",
+            "increase"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        1,
+        8,
+        2,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.4770355224609375,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.4770355224609375
+      }
+    },
+    {
+      "question_id": "q9b_18",
+      "question": "What type of errors does YOLO make more frequently compared to state-of-the-art systems?",
+      "answerable": true,
+      "category": "limitation",
+      "error": null,
+      "retrieval_latency_ms": 493.2980537414551,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        1,
+        2,
+        5,
+        6,
+        6,
+        1,
+        7,
+        8,
+        6,
+        7
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "localization errors",
+            "localization"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        2,
+        5,
+        6,
+        6
+      ],
+      "latency": {
+        "retrieval_seconds": 0.4932980537414551,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.4932980537414551
+      }
+    },
+    {
+      "question_id": "q9b_19",
+      "question": "How does YOLO handle multiple objects in a single image?",
+      "answerable": true,
+      "category": "technical_capability",
+      "error": null,
+      "retrieval_latency_ms": 445.7719326019287,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.3333333333333333
+      },
+      "retrieved_pages": [
+        1,
+        1,
+        5,
+        4,
+        4,
+        8,
+        1,
+        5,
+        1,
+        1
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "multiple objects",
+            "bounding boxes",
+            "class probabilities",
+            "multiple classes"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        1,
+        5,
+        4,
+        4
+      ],
+      "latency": {
+        "retrieval_seconds": 0.4457719326019287,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.4457719326019287
+      }
+    },
+    {
+      "question_id": "q9b_20",
+      "question": "What performance boost does combining Fast R-CNN with YOLO provide?",
+      "answerable": true,
+      "category": "precise_factual",
+      "error": null,
+      "retrieval_latency_ms": 461.0121250152588,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        6,
+        7,
+        7,
+        6,
+        5,
+        5,
+        5,
+        7,
+        6,
+        6
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "2.3",
+            "improvement",
+            "percent"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        6,
+        7,
+        7,
+        6,
+        5
+      ],
+      "latency": {
+        "retrieval_seconds": 0.4610121250152588,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.4610121250152588
+      }
+    },
+    {
+      "question_id": "q9b_21",
+      "question": "What is the core building block that makes MobileNets efficient?",
+      "answerable": true,
+      "category": "core_contribution",
+      "error": null,
+      "retrieval_latency_ms": 515.3310298919678,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.3333333333333333
+      },
+      "retrieved_pages": [
+        8,
+        2,
+        1,
+        1,
+        1,
+        1,
+        4,
+        2,
+        1,
+        7
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "depthwise separable convolution",
+            "depthwise",
+            "separable"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 0.5,
+        "cited_count": 3,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        8,
+        2,
+        1,
+        1,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5153310298919678,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5153310298919678
+      }
+    },
+    {
+      "question_id": "q9b_22",
+      "question": "What does depthwise convolution do and what is its limitation?",
+      "answerable": true,
+      "category": "technical_mechanism",
+      "error": null,
+      "retrieval_latency_ms": 485.20469665527344,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        3,
+        3,
+        2,
+        3,
+        3,
+        2,
+        2,
+        4,
+        3,
+        4
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "filters input channels",
+            "does not combine",
+            "does not create new features",
+            "additional layer"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "cited_count": 2,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        3,
+        3,
+        2,
+        3,
+        3
+      ],
+      "latency": {
+        "retrieval_seconds": 0.48520469665527344,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.48520469665527344
+      }
+    },
+    {
+      "question_id": "q9b_23",
+      "question": "What are the two hyperparameters MobileNets introduces to trade off latency and accuracy?",
+      "answerable": true,
+      "category": "technical_mechanism",
+      "error": null,
+      "retrieval_latency_ms": 462.0392322540283,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.3333333333333333
+      },
+      "retrieved_pages": [
+        1,
+        8,
+        5,
+        1,
+        6,
+        1,
+        5,
+        4,
+        5,
+        4
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "width multiplier",
+            "resolution multiplier"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        8,
+        5,
+        1,
+        6
+      ],
+      "latency": {
+        "retrieval_seconds": 0.4620392322540283,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.4620392322540283
+      }
+    },
+    {
+      "question_id": "q9b_24",
+      "question": "What face recognition model did MobileNets adapt for mobile deployment?",
+      "answerable": true,
+      "category": "application",
+      "error": null,
+      "retrieval_latency_ms": 465.7135009765625,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        1,
+        7,
+        8,
+        2,
+        7,
+        8,
+        6,
+        1,
+        7,
+        1
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "FaceNet",
+            "face recognition",
+            "face embeddings"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        7,
+        8,
+        2,
+        7
+      ],
+      "latency": {
+        "retrieval_seconds": 0.4657135009765625,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.4657135009765625
+      }
+    },
+    {
+      "question_id": "q9b_25",
+      "question": "What organization developed MobileNets?",
+      "answerable": true,
+      "category": "metadata",
+      "error": null,
+      "retrieval_latency_ms": 451.7822265625,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        1,
+        8,
+        1,
+        1,
+        1,
+        2,
+        7,
+        6,
+        2,
+        6
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "Google",
+            "Google Inc"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "cited_count": 2,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        8,
+        1,
+        1,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.4517822265625,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.4517822265625
+      }
+    },
+    {
+      "question_id": "q9b_26",
+      "question": "What are the two main categories of techniques covered in the pruning survey?",
+      "answerable": true,
+      "category": "core_contribution",
+      "error": null,
+      "retrieval_latency_ms": 716.5107727050781,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "mrr": 0.125
+      },
+      "retrieved_pages": [
+        32,
+        7,
+        9,
+        27,
+        27,
+        7,
+        7,
+        1,
+        40,
+        36
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "pruning",
+            "quantization"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        32,
+        7,
+        9,
+        27,
+        27
+      ],
+      "latency": {
+        "retrieval_seconds": 0.7165107727050781,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.7165107727050781
+      }
+    },
+    {
+      "question_id": "q9b_27",
+      "question": "What pruning ratio did the survey report achieving on CIFAR-10 while maintaining performance?",
+      "answerable": true,
+      "category": "precise_factual",
+      "error": null,
+      "retrieval_latency_ms": 682.0707321166992,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.3333333333333333
+      },
+      "retrieved_pages": [
+        32,
+        8,
+        11,
+        10,
+        11,
+        37,
+        10,
+        10,
+        25,
+        11
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "88.2",
+            "88.2%"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        32,
+        8,
+        11,
+        10,
+        11
+      ],
+      "latency": {
+        "retrieval_seconds": 0.6820707321166992,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.6820707321166992
+      }
+    },
+    {
+      "question_id": "q9b_28",
+      "question": "How can pruning help improve accuracy according to the survey?",
+      "answerable": true,
+      "category": "technical_benefit",
+      "error": null,
+      "retrieval_latency_ms": 748.1448650360107,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.25
+      },
+      "retrieved_pages": [
+        32,
+        27,
+        10,
+        11,
+        27,
+        11,
+        14,
+        27,
+        27,
+        27
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "reduce over-fitting",
+            "overfitting",
+            "DSD",
+            "Dense-Sparse-Dense"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        32,
+        27,
+        10,
+        11,
+        27
+      ],
+      "latency": {
+        "retrieval_seconds": 0.7481448650360107,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.7481448650360107
+      }
+    },
+    {
+      "question_id": "q9b_29",
+      "question": "What bit-width does TensorRT typically use for quantized inference?",
+      "answerable": true,
+      "category": "precise_factual",
+      "error": null,
+      "retrieval_latency_ms": 685.1534843444824,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        15,
+        22,
+        25,
+        25,
+        37,
+        23,
+        22,
+        30,
+        16,
+        30
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "8-bit",
+            "INT8",
+            "8-bit integer"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        15,
+        22,
+        25,
+        25,
+        37
+      ],
+      "latency": {
+        "retrieval_seconds": 0.6851534843444824,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.6851534843444824
+      }
+    },
+    {
+      "question_id": "q9b_30",
+      "question": "What challenges motivate the need for pruning and quantization according to the survey?",
+      "answerable": true,
+      "category": "motivation",
+      "error": null,
+      "retrieval_latency_ms": 696.2265968322754,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 0.5
+      },
+      "retrieved_pages": [
+        32,
+        1,
+        29,
+        39,
+        29,
+        31,
+        37,
+        38,
+        40,
+        14
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "computation resources",
+            "energy costs",
+            "real-time deployment",
+            "significant"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "cited_count": 4,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        32,
+        1,
+        29,
+        39,
+        29
+      ],
+      "latency": {
+        "retrieval_seconds": 0.6962265968322754,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.6962265968322754
+      }
+    },
+    {
+      "question_id": "q9b_31",
+      "paper_count": 2,
+      "retrieved_pages": [
+        7,
+        5,
+        8,
+        6,
+        2,
+        1,
+        10,
+        9,
+        3
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 9,
+      "per_paper_results": {
+        "6c17e19e778c49feb63a78f385975434": {
+          "retrieved_pages": [
+            7,
+            7,
+            5,
+            8,
+            6,
+            2,
+            1,
+            7,
+            5,
+            1
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 535.4347229003906
+        },
+        "82a45c626e6c4678b4dc60bc7e9167a2": {
+          "retrieved_pages": [
+            8,
+            10,
+            1,
+            9,
+            8,
+            9,
+            3,
+            2,
+            8,
+            10
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 467.09179878234863
+        }
+      }
+    },
+    {
+      "question_id": "q9b_32",
+      "paper_count": 2,
+      "retrieved_pages": [
+        3,
+        5,
+        1,
+        13,
+        12,
+        9,
+        2,
+        10,
+        11,
+        8
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 10,
+      "per_paper_results": {
+        "034186580f8045b9b20c84db274c63ae": {
+          "retrieved_pages": [
+            3,
+            3,
+            5,
+            1,
+            13,
+            12,
+            1,
+            5,
+            9,
+            3
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 489.45093154907227
+        },
+        "82a45c626e6c4678b4dc60bc7e9167a2": {
+          "retrieved_pages": [
+            2,
+            1,
+            10,
+            2,
+            5,
+            2,
+            1,
+            11,
+            2,
+            8
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 513.664960861206
+        }
+      }
+    },
+    {
+      "question_id": "q9b_33",
+      "paper_count": 3,
+      "retrieved_pages": [
+        1,
+        6,
+        5,
+        9,
+        8,
+        4,
+        32,
+        37,
+        34,
+        40,
+        12,
+        39,
+        35
+      ],
+      "retrieved_chunk_count": 30,
+      "unique_page_count": 13,
+      "per_paper_results": {
+        "3d33044cda464ede9ce821914baebfff": {
+          "retrieved_pages": [
+            1,
+            6,
+            1,
+            5,
+            5,
+            5,
+            5,
+            1,
+            9,
+            9
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 463.11497688293457
+        },
+        "aa0cbf1ec4f54ec5a37bcb16a1a562ba": {
+          "retrieved_pages": [
+            8,
+            5,
+            8,
+            9,
+            9,
+            1,
+            4,
+            8,
+            1,
+            4
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 584.0392112731934
+        },
+        "b1b37ef43b7e47f9bdb1b400d62ab40d": {
+          "retrieved_pages": [
+            32,
+            37,
+            34,
+            40,
+            37,
+            32,
+            12,
+            39,
+            35,
+            39
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 676.3565540313721
+        }
+      }
+    },
+    {
+      "question_id": "q9b_34",
+      "paper_count": 2,
+      "retrieved_pages": [
+        2,
+        1,
+        8,
+        5,
+        7,
+        6,
+        4,
+        35,
+        36,
+        27,
+        31,
+        39,
+        37
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 13,
+      "per_paper_results": {
+        "aa0cbf1ec4f54ec5a37bcb16a1a562ba": {
+          "retrieved_pages": [
+            2,
+            1,
+            8,
+            1,
+            5,
+            7,
+            1,
+            6,
+            5,
+            4
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 530.5147171020508
+        },
+        "b1b37ef43b7e47f9bdb1b400d62ab40d": {
+          "retrieved_pages": [
+            6,
+            35,
+            36,
+            27,
+            31,
+            2,
+            1,
+            39,
+            37,
+            36
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 826.0154724121094
+        }
+      }
+    },
+    {
+      "question_id": "q9b_35",
+      "paper_count": 2,
+      "retrieved_pages": [
+        9,
+        1,
+        12,
+        11,
+        10
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 5,
+      "per_paper_results": {
+        "6c17e19e778c49feb63a78f385975434": {
+          "retrieved_pages": [
+            9,
+            9,
+            9,
+            1,
+            1,
+            12,
+            12,
+            1,
+            9,
+            11
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 583.1494331359863
+        },
+        "3d33044cda464ede9ce821914baebfff": {
+          "retrieved_pages": [
+            9,
+            9,
+            9,
+            9,
+            1,
+            1,
+            10,
+            9,
+            10,
+            9
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 487.63513565063477
+        }
+      }
+    },
+    {
+      "question_id": "q9b_36",
+      "paper_count": 2,
+      "retrieved_pages": [
+        3,
+        9,
+        12,
+        14,
+        2,
+        13,
+        16,
+        5,
+        1,
+        10,
+        11
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 11,
+      "per_paper_results": {
+        "034186580f8045b9b20c84db274c63ae": {
+          "retrieved_pages": [
+            3,
+            9,
+            12,
+            3,
+            3,
+            14,
+            2,
+            13,
+            16,
+            5
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 537.8596782684326
+        },
+        "6c17e19e778c49feb63a78f385975434": {
+          "retrieved_pages": [
+            1,
+            10,
+            10,
+            9,
+            9,
+            9,
+            11,
+            9,
+            9,
+            9
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 409.2597961425781
+        }
+      }
+    },
+    {
+      "question_id": "q9b_37",
+      "paper_count": 2,
+      "retrieved_pages": [
+        2,
+        5,
+        8,
+        3,
+        1,
+        35,
+        36,
+        33,
+        39,
+        37
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 10,
+      "per_paper_results": {
+        "aa0cbf1ec4f54ec5a37bcb16a1a562ba": {
+          "retrieved_pages": [
+            2,
+            5,
+            8,
+            3,
+            1,
+            3,
+            3,
+            2,
+            3,
+            1
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 506.91699981689453
+        },
+        "b1b37ef43b7e47f9bdb1b400d62ab40d": {
+          "retrieved_pages": [
+            5,
+            35,
+            36,
+            33,
+            35,
+            36,
+            39,
+            33,
+            37,
+            37
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 827.3348808288574
+        }
+      }
+    },
+    {
+      "question_id": "q9b_38",
+      "paper_count": 2,
+      "retrieved_pages": [
+        12,
+        7,
+        9,
+        1,
+        3,
+        2,
+        8,
+        11,
+        10
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 9,
+      "per_paper_results": {
+        "6c17e19e778c49feb63a78f385975434": {
+          "retrieved_pages": [
+            12,
+            7,
+            9,
+            1,
+            1,
+            9,
+            3,
+            2,
+            8,
+            11
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 541.027307510376
+        },
+        "3d33044cda464ede9ce821914baebfff": {
+          "retrieved_pages": [
+            9,
+            9,
+            1,
+            10,
+            7,
+            9,
+            9,
+            9,
+            9,
+            9
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 492.31672286987305
+        }
+      }
+    },
+    {
+      "question_id": "q9b_39",
+      "paper_count": 3,
+      "retrieved_pages": [
+        10,
+        1,
+        15,
+        14,
+        11,
+        6,
+        12,
+        9,
+        5,
+        8
+      ],
+      "retrieved_chunk_count": 30,
+      "unique_page_count": 10,
+      "per_paper_results": {
+        "034186580f8045b9b20c84db274c63ae": {
+          "retrieved_pages": [
+            10,
+            1,
+            10,
+            15,
+            14,
+            11,
+            10,
+            6,
+            12,
+            12
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 482.75184631347656
+        },
+        "82a45c626e6c4678b4dc60bc7e9167a2": {
+          "retrieved_pages": [
+            1,
+            12,
+            1,
+            12,
+            12,
+            12,
+            9,
+            11,
+            10,
+            10
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 543.1408882141113
+        },
+        "aa0cbf1ec4f54ec5a37bcb16a1a562ba": {
+          "retrieved_pages": [
+            1,
+            9,
+            5,
+            9,
+            9,
+            8,
+            8,
+            8,
+            8,
+            5
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 434.314489364624
+        }
+      }
+    },
+    {
+      "question_id": "q9b_40",
+      "paper_count": 2,
+      "retrieved_pages": [
+        2,
+        3,
+        5,
+        10,
+        11,
+        1,
+        6,
+        7,
+        4,
+        8
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 10,
+      "per_paper_results": {
+        "82a45c626e6c4678b4dc60bc7e9167a2": {
+          "retrieved_pages": [
+            2,
+            2,
+            3,
+            2,
+            5,
+            10,
+            2,
+            10,
+            11,
+            1
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 546.4329719543457
+        },
+        "6c17e19e778c49feb63a78f385975434": {
+          "retrieved_pages": [
+            1,
+            2,
+            5,
+            6,
+            7,
+            3,
+            3,
+            4,
+            2,
+            8
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 614.1748428344727
+        }
+      }
+    },
+    {
+      "question_id": "q9b_41",
+      "question": "What is Microsoft Research's contribution to deep learning according to the corpus?",
+      "answerable": true,
+      "category": "metadata",
+      "error": null,
+      "retrieval_latency_ms": 598.9465713500977,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "precision_at_1": 1.0,
+        "precision_at_3": 0.3333333333333333,
+        "precision_at_5": 0.2,
+        "precision_at_10": 0.1,
+        "mrr": 1.0
+      },
+      "retrieved_pages": [
+        1,
+        9,
+        2,
+        9,
+        1,
+        8,
+        1,
+        2,
+        9,
+        9
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "Microsoft Research",
+            "ResNet",
+            "residual learning"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "cited_count": 3,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        1,
+        9,
+        2,
+        9,
+        1
+      ],
+      "latency": {
+        "retrieval_seconds": 0.5989465713500977,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.5989465713500977
+      }
+    },
+    {
+      "question_id": "q9b_42",
+      "paper_count": 2,
+      "retrieved_pages": [
+        11,
+        6,
+        12,
+        2,
+        7,
+        10,
+        13,
+        1
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 8,
+      "per_paper_results": {
+        "82a45c626e6c4678b4dc60bc7e9167a2": {
+          "retrieved_pages": [
+            11,
+            6,
+            12,
+            2,
+            7,
+            10,
+            6,
+            10,
+            6,
+            2
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 452.664852142334
+        },
+        "034186580f8045b9b20c84db274c63ae": {
+          "retrieved_pages": [
+            10,
+            10,
+            11,
+            13,
+            11,
+            11,
+            10,
+            11,
+            1,
+            13
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 489.4399642944336
+        }
+      }
+    },
+    {
+      "question_id": "q9b_43",
+      "question": "What specific quantization bit-width appears in multiple papers' discussions?",
+      "answerable": true,
+      "category": "cross_paper_factual",
+      "error": null,
+      "retrieval_latency_ms": 838.965654373169,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.5,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.1,
+        "mrr": 0.16666666666666666
+      },
+      "retrieved_pages": [
+        16,
+        29,
+        30,
+        28,
+        14,
+        1,
+        16,
+        40,
+        32,
+        18
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "8-bit",
+            "8 bit",
+            "INT8"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 5,
+        "relevant_count": 2
+      },
+      "cited_pages": [
+        16,
+        29,
+        30,
+        28,
+        14
+      ],
+      "latency": {
+        "retrieval_seconds": 0.838965654373169,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.838965654373169
+      }
+    },
+    {
+      "question_id": "q9b_44",
+      "paper_count": 3,
+      "retrieved_pages": [
+        5,
+        7,
+        1,
+        2,
+        9,
+        3,
+        8,
+        4,
+        38,
+        34,
+        33,
+        39,
+        32
+      ],
+      "retrieved_chunk_count": 30,
+      "unique_page_count": 13,
+      "per_paper_results": {
+        "6c17e19e778c49feb63a78f385975434": {
+          "retrieved_pages": [
+            5,
+            7,
+            1,
+            2,
+            9,
+            1,
+            3,
+            9,
+            1,
+            8
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 514.8398876190186
+        },
+        "aa0cbf1ec4f54ec5a37bcb16a1a562ba": {
+          "retrieved_pages": [
+            4,
+            9,
+            5,
+            8,
+            9,
+            8,
+            8,
+            9,
+            2,
+            9
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 456.51817321777344
+        },
+        "b1b37ef43b7e47f9bdb1b400d62ab40d": {
+          "retrieved_pages": [
+            38,
+            34,
+            38,
+            33,
+            3,
+            39,
+            39,
+            34,
+            39,
+            32
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 751.9102096557617
+        }
+      }
+    },
+    {
+      "question_id": "q9b_45",
+      "paper_count": 2,
+      "retrieved_pages": [
+        6,
+        1,
+        2,
+        5,
+        4,
+        8,
+        7,
+        15,
+        14,
+        12
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 10,
+      "per_paper_results": {
+        "3d33044cda464ede9ce821914baebfff": {
+          "retrieved_pages": [
+            6,
+            6,
+            1,
+            2,
+            5,
+            1,
+            4,
+            2,
+            8,
+            7
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 593.4185981750488
+        },
+        "034186580f8045b9b20c84db274c63ae": {
+          "retrieved_pages": [
+            7,
+            1,
+            15,
+            6,
+            6,
+            14,
+            7,
+            2,
+            8,
+            12
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 520.6513404846191
+        }
+      }
+    },
+    {
+      "question_id": "q9b_46",
+      "paper_count": 2,
+      "retrieved_pages": [
+        8,
+        3,
+        9,
+        6,
+        2,
+        5,
+        1,
+        7,
+        10,
+        32,
+        30,
+        11,
+        33,
+        41
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 14,
+      "per_paper_results": {
+        "6c17e19e778c49feb63a78f385975434": {
+          "retrieved_pages": [
+            8,
+            3,
+            8,
+            9,
+            8,
+            6,
+            2,
+            5,
+            1,
+            7
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 639.2295360565186
+        },
+        "b1b37ef43b7e47f9bdb1b400d62ab40d": {
+          "retrieved_pages": [
+            10,
+            6,
+            32,
+            30,
+            30,
+            11,
+            30,
+            33,
+            30,
+            41
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 820.1172351837158
+        }
+      }
+    },
+    {
+      "question_id": "q9b_47",
+      "paper_count": 2,
+      "retrieved_pages": [
+        10,
+        11,
+        1,
+        4,
+        12
+      ],
+      "retrieved_chunk_count": 20,
+      "unique_page_count": 5,
+      "per_paper_results": {
+        "034186580f8045b9b20c84db274c63ae": {
+          "retrieved_pages": [
+            10,
+            10,
+            10,
+            11,
+            1,
+            11,
+            4,
+            1,
+            10,
+            12
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 469.8314666748047
+        },
+        "82a45c626e6c4678b4dc60bc7e9167a2": {
+          "retrieved_pages": [
+            11,
+            12,
+            12,
+            12,
+            10,
+            10,
+            11,
+            11,
+            10,
+            11
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 473.02746772766113
+        }
+      }
+    },
+    {
+      "question_id": "q9b_48",
+      "paper_count": 6,
+      "retrieved_pages": [
+        8,
+        4,
+        3,
+        7,
+        9,
+        5,
+        2,
+        12,
+        10,
+        11,
+        1,
+        16,
+        13,
+        6,
+        32,
+        30,
+        31,
+        20
+      ],
+      "retrieved_chunk_count": 60,
+      "unique_page_count": 18,
+      "per_paper_results": {
+        "6c17e19e778c49feb63a78f385975434": {
+          "retrieved_pages": [
+            8,
+            8,
+            4,
+            3,
+            7,
+            7,
+            9,
+            8,
+            5,
+            2
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 577.3634910583496
+        },
+        "034186580f8045b9b20c84db274c63ae": {
+          "retrieved_pages": [
+            12,
+            10,
+            12,
+            11,
+            10,
+            1,
+            9,
+            7,
+            16,
+            5
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 533.7400436401367
+        },
+        "82a45c626e6c4678b4dc60bc7e9167a2": {
+          "retrieved_pages": [
+            2,
+            1,
+            12,
+            13,
+            2,
+            10,
+            1,
+            11,
+            9,
+            10
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 471.35090827941895
+        },
+        "3d33044cda464ede9ce821914baebfff": {
+          "retrieved_pages": [
+            3,
+            7,
+            9,
+            6,
+            1,
+            3,
+            9,
+            9,
+            4,
+            4
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 557.8603744506836
+        },
+        "aa0cbf1ec4f54ec5a37bcb16a1a562ba": {
+          "retrieved_pages": [
+            5,
+            5,
+            5,
+            4,
+            9,
+            4,
+            1,
+            5,
+            8,
+            4
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 465.08216857910156
+        },
+        "b1b37ef43b7e47f9bdb1b400d62ab40d": {
+          "retrieved_pages": [
+            10,
+            6,
+            11,
+            32,
+            30,
+            30,
+            31,
+            8,
+            30,
+            20
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 700.829267501831
+        }
+      }
+    },
+    {
+      "question_id": "q9b_49",
+      "question": "Which paper is a survey rather than presenting novel methods, and what does it survey?",
+      "answerable": true,
+      "category": "cross_paper_classification",
+      "error": null,
+      "retrieval_latency_ms": 823.0581283569336,
+      "retrieval_metrics": {
+        "hit_rate_at_1": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_10": 0.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "recall_at_10": 0.0,
+        "precision_at_1": 0.0,
+        "precision_at_3": 0.0,
+        "precision_at_5": 0.0,
+        "precision_at_10": 0.0,
+        "mrr": 0.0
+      },
+      "retrieved_pages": [
+        10,
+        32,
+        40,
+        6,
+        38,
+        33,
+        33,
+        36,
+        36,
+        30
+      ],
+      "retrieved_chunk_count": 10,
+      "answer": "[SKIPPED - retrieval-only evaluation]",
+      "has_sufficient_context": true,
+      "answer_metrics": {
+        "keyword_match": {
+          "matched_keywords": [],
+          "missed_keywords": [
+            "Pruning",
+            "survey",
+            "pruning and quantization",
+            "acceleration"
+          ],
+          "match_rate": 0.0,
+          "all_matched": false
+        },
+        "faithfulness": {
+          "has_overlap": false,
+          "overlap_ratio": 0.25
+        },
+        "unanswerable_handling": {
+          "indicated_insufficient": false,
+          "has_refusal_signal": false
+        }
+      },
+      "citation_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "cited_count": 5,
+        "relevant_count": 1
+      },
+      "cited_pages": [
+        10,
+        32,
+        40,
+        6,
+        38
+      ],
+      "latency": {
+        "retrieval_seconds": 0.8230581283569336,
+        "llm_seconds": 0.0,
+        "total_seconds": 0.8230581283569336
+      }
+    },
+    {
+      "question_id": "q9b_50",
+      "paper_count": 3,
+      "retrieved_pages": [
+        10,
+        2,
+        1,
+        9,
+        8,
+        3,
+        13,
+        6,
+        5,
+        7
+      ],
+      "retrieved_chunk_count": 30,
+      "unique_page_count": 10,
+      "per_paper_results": {
+        "82a45c626e6c4678b4dc60bc7e9167a2": {
+          "retrieved_pages": [
+            10,
+            2,
+            1,
+            9,
+            10,
+            1,
+            8,
+            2,
+            10,
+            3
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 520.4737186431885
+        },
+        "034186580f8045b9b20c84db274c63ae": {
+          "retrieved_pages": [
+            13,
+            3,
+            1,
+            9,
+            2,
+            3,
+            1,
+            9,
+            3,
+            3
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 579.4692039489746
+        },
+        "6c17e19e778c49feb63a78f385975434": {
+          "retrieved_pages": [
+            1,
+            6,
+            5,
+            9,
+            6,
+            9,
+            5,
+            6,
+            7,
+            5
+          ],
+          "retrieved_chunk_count": 10,
+          "retrieval_latency_ms": 573.061466217041
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Phase 9B multi-paper evaluation",
+    "Retrieval mode: hybrid",
+    "Multi-paper questions aggregated across papers",
+    "Retrieval-only evaluation (--skip-llm)",
+    "Ground truth based on chunk_ids from dataset"
+  ]
+}
