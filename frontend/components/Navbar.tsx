@@ -61,7 +61,7 @@ export default function Navbar() {
             </Link>
             <Link
               href="/workspace"
-              className="px-5 py-2.5 bg-light-blue text-white rounded-lg hover:bg-light-blue/90 transition-all hover:shadow-md flex items-center gap-2 text-sm font-medium"
+              className="px-5 py-2.5 bg-[#4D789B] text-white rounded-lg hover:bg-[#3F6685] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4D789B]/30 transition-all hover:shadow-md flex items-center gap-2 text-sm font-medium"
             >
               Get Started
               <svg
@@ -147,7 +147,7 @@ export default function Navbar() {
             </Link>
             <Link
               href="/workspace"
-              className="block mt-4 px-4 py-2.5 bg-light-blue text-white rounded-lg hover:bg-light-blue/90 text-sm font-medium text-center"
+              className="block mt-4 px-4 py-2.5 bg-[#4D789B] text-white rounded-lg hover:bg-[#3F6685] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4D789B]/30 text-sm font-medium text-center"
             >
               Get Started →
             </Link>
