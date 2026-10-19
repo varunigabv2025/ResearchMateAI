@@ -1,0 +1,423 @@
+{
+  "dataset_name": "PA-EIS Evaluation Dataset - Phase 9A Expanded",
+  "paper_id": "PA-EIS_IEEE_first5pages.pdf",
+  "description": "Expanded RAG evaluation dataset (25 questions) based on PA-EIS (Priority-Aware Edge Inference Scheduling) IEEE paper. Includes original 10 questions from baseline benchmark plus 15 new questions for within-paper validation.",
+  "created": "2026-10-06",
+  "original_questions": 10,
+  "new_questions": 15,
+  "total_questions": 25,
+  "questions": [
+    {
+      "id": "q1",
+      "question": "What is the main motivation for studying containerised Linux edge nodes?",
+      "category": "motivation",
+      "difficulty": "easy",
+      "expected_answer_contains": [
+        "CFS scheduling",
+        "latency-sensitive",
+        "resource-constrained",
+        "edge hardware",
+        "inference workloads"
+      ],
+      "relevant_pages": [1, 2],
+      "answerable": true,
+      "notes": "Tests understanding of paper's core research motivation",
+      "phase": "original"
+    },
+    {
+      "id": "q2",
+      "question": "What methodology does PA-EIS use?",
+      "category": "methodology",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "user-space policy",
+        "cgroup weight",
+        "tail latency",
+        "fairness bound"
+      ],
+      "relevant_pages": [1, 2, 3],
+      "answerable": true,
+      "notes": "Tests extraction of technical approach",
+      "phase": "original"
+    },
+    {
+      "id": "q3",
+      "question": "What workloads are used for evaluation?",
+      "category": "dataset",
+      "difficulty": "hard",
+      "expected_answer_contains": [
+        "MobileNetV2",
+        "KWS-CNN",
+        "TFLite",
+        "CPU loop",
+        "I/O logger"
+      ],
+      "relevant_pages": [3, 4],
+      "answerable": true,
+      "notes": "Tests identification of experimental workloads",
+      "phase": "original"
+    },
+    {
+      "id": "q4",
+      "question": "What are the reported evaluation results or metrics?",
+      "category": "results",
+      "difficulty": "hard",
+      "expected_answer_contains": [
+        "not reported",
+        "measurement campaign",
+        "still running",
+        "deferred"
+      ],
+      "relevant_pages": [4],
+      "answerable": true,
+      "notes": "Tests handling of explicitly missing information",
+      "phase": "original"
+    },
+    {
+      "id": "q5",
+      "question": "What limitations does the paper explicitly mention?",
+      "category": "limitations",
+      "difficulty": "easy",
+      "expected_answer_contains": [
+        "CPU-only",
+        "single commodity Linux host",
+        "no accelerator hardware",
+        "CFS scheduler"
+      ],
+      "relevant_pages": [4, 5],
+      "answerable": true,
+      "notes": "Tests extraction of stated limitations",
+      "phase": "original"
+    },
+    {
+      "id": "q6",
+      "question": "What Linux kernel features does PA-EIS rely on?",
+      "category": "technical_detail",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "cgroups v2",
+        "cpu.weight",
+        "cpu.max",
+        "cpuset.cpus",
+        "nice"
+      ],
+      "relevant_pages": [3],
+      "answerable": true,
+      "notes": "Tests identification of specific technical dependencies",
+      "phase": "original"
+    },
+    {
+      "id": "q7",
+      "question": "Why does the evaluation intentionally restrict CPU cores?",
+      "category": "conceptual",
+      "difficulty": "hard",
+      "expected_answer_contains": [
+        "contention",
+        "object of study",
+        "aggregate demand exceeds supply",
+        "spare capacity"
+      ],
+      "relevant_pages": [3],
+      "answerable": true,
+      "notes": "Tests understanding of experimental design rationale",
+      "phase": "original"
+    },
+    {
+      "id": "q8",
+      "question": "What container technology is used and what does it enable?",
+      "category": "multi_part",
+      "difficulty": "hard",
+      "expected_answer_contains": [
+        "Docker",
+        "reproducible",
+        "parameter sweep",
+        "cgroup"
+      ],
+      "relevant_pages": [3, 4],
+      "answerable": true,
+      "notes": "Tests ability to connect related information",
+      "phase": "original"
+    },
+    {
+      "id": "q9",
+      "question": "How does PA-EIS differ from traditional OS scheduling approaches?",
+      "category": "comparison_inference",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "user-space",
+        "tail latency",
+        "fairness bound",
+        "explicit"
+      ],
+      "relevant_pages": [1, 2, 3],
+      "answerable": true,
+      "notes": "Tests synthesis across multiple chunks",
+      "phase": "original"
+    },
+    {
+      "id": "q10",
+      "question": "What is the paper's stance on neural architecture search?",
+      "category": "out_of_scope",
+      "difficulty": "easy",
+      "expected_answer_contains": [
+        "insufficient",
+        "not found",
+        "does not",
+        "not mentioned"
+      ],
+      "relevant_pages": [],
+      "answerable": false,
+      "notes": "Tests proper handling of out-of-scope questions",
+      "phase": "original"
+    },
+    {
+      "id": "q11",
+      "question": "What is the Completely Fair Scheduler (CFS) and what problem does it create?",
+      "category": "technical_background",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "weight-proportional",
+        "virtual runtime",
+        "no semantic model",
+        "latency asymmetry"
+      ],
+      "relevant_pages": [1, 2],
+      "answerable": true,
+      "notes": "Tests understanding of background technical concepts. CFS is described on pages 1-2 as the Linux CPU scheduler that allocates time proportionally to weight but has no semantic understanding of task priorities.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q12",
+      "question": "What are the three research questions (RQs) that PA-EIS addresses?",
+      "category": "research_questions",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "RQ1",
+        "RQ2",
+        "background degradation",
+        "tail latency",
+        "user-space policy"
+      ],
+      "relevant_pages": [1, 2],
+      "answerable": true,
+      "notes": "Tests extraction of structured research questions. The paper explicitly states RQ1 (background task degradation), RQ2 (tail latency with contention), and RQ3 (user-space policy effectiveness).",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q13",
+      "question": "What is the layered architecture of the experimental edge node?",
+      "category": "architecture",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "physical resource layer",
+        "Linux kernel",
+        "container runtime",
+        "PA-EIS",
+        "instrumentation"
+      ],
+      "relevant_pages": [2],
+      "answerable": true,
+      "notes": "Tests extraction of system architecture. Figure 1 on page 2 describes the four-layer architecture: L1 (physical resources), L2 (Linux kernel), L3 (container runtime), L4 (workloads), plus instrumentation plane.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q14",
+      "question": "What is virtual runtime and how does CFS use it?",
+      "category": "technical_mechanism",
+      "difficulty": "hard",
+      "expected_answer_contains": [
+        "virtual time",
+        "heavier tasks",
+        "accrue slowly",
+        "selected more often",
+        "preempted less"
+      ],
+      "relevant_pages": [2],
+      "answerable": true,
+      "notes": "Tests deep understanding of CFS mechanism. Page 2 describes how heavier tasks accrue virtual time more slowly, causing them to be selected more often and preempted less readily.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q15",
+      "question": "What hardware platform is used for the experiments?",
+      "category": "experimental_setup",
+      "difficulty": "easy",
+      "expected_answer_contains": [
+        "commodity",
+        "Linux host",
+        "CPU",
+        "no accelerator"
+      ],
+      "relevant_pages": [2, 4, 5],
+      "answerable": true,
+      "notes": "Tests identification of hardware platform. The paper repeatedly mentions 'single commodity Linux host' and 'CPU-only' evaluation with no accelerator hardware.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q16",
+      "question": "Why doesn't the paper use accelerator hardware in its evaluation?",
+      "category": "design_rationale",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "CPU inference",
+        "contention",
+        "scheduling",
+        "fair comparison"
+      ],
+      "relevant_pages": [1, 5],
+      "answerable": true,
+      "notes": "Tests understanding of experimental design choices. The paper explains that accelerators bypass CPU scheduling contention, which is the object of study, thus requiring CPU-only evaluation.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q17",
+      "question": "What metrics are used to evaluate inference latency?",
+      "category": "metrics",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "mean",
+        "tail",
+        "percentile",
+        "99th",
+        "latency"
+      ],
+      "relevant_pages": [1, 4],
+      "answerable": true,
+      "notes": "Tests extraction of evaluation metrics. The paper focuses on both mean and tail latency, specifically mentioning 99th percentiles.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q18",
+      "question": "What is the purpose of the parameter sweep in the evaluation?",
+      "category": "methodology_detail",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "scheduling weight",
+        "nice value",
+        "grid",
+        "shape",
+        "latency relationship"
+      ],
+      "relevant_pages": [1, 2],
+      "answerable": true,
+      "notes": "Tests understanding of experimental methodology. The paper describes sweeping scheduling weight and nice value over a grid to understand the shape of the latency relationship, not just two-point comparison.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q19",
+      "question": "What does PA-EIS stand for and what does it do?",
+      "category": "system_definition",
+      "difficulty": "easy",
+      "expected_answer_contains": [
+        "Priority-Aware",
+        "Edge Inference Scheduling",
+        "user-space",
+        "cgroup",
+        "tail latency"
+      ],
+      "relevant_pages": [1, 3],
+      "answerable": true,
+      "notes": "Tests basic system identification. PA-EIS (Priority-Aware Edge Inference Scheduling) is explicitly defined and described as a user-space policy that uses cgroup weights to control tail latency.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q20",
+      "question": "What background tasks are used alongside inference workloads?",
+      "category": "workload_composition",
+      "difficulty": "hard",
+      "expected_answer_contains": [
+        "CPU loop",
+        "I/O logger",
+        "background",
+        "co-resident"
+      ],
+      "relevant_pages": [3, 4],
+      "answerable": true,
+      "notes": "Tests identification of experimental workload composition. The paper mentions CPU loop and I/O logger as background tasks running alongside inference workloads to create contention.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q21",
+      "question": "What is TFLite and why is it used?",
+      "category": "technical_tool",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "TensorFlow Lite",
+        "inference",
+        "edge",
+        "lightweight"
+      ],
+      "relevant_pages": [3],
+      "answerable": true,
+      "notes": "Tests identification of technical tools. TFLite (TensorFlow Lite) is mentioned as the inference framework used for running the models.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q22",
+      "question": "What problem arises when edge inference runs on general-purpose operating systems?",
+      "category": "problem_identification",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "CFS",
+        "fair scheduling",
+        "latency-sensitive",
+        "background tasks",
+        "contention"
+      ],
+      "relevant_pages": [1, 2],
+      "answerable": true,
+      "notes": "Tests synthesis of problem statement. The paper explains that CFS treats all tasks fairly without understanding latency sensitivity, causing background tasks to interfere with inference.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q23",
+      "question": "What instrumentation tools are mentioned for measuring system behavior?",
+      "category": "instrumentation",
+      "difficulty": "hard",
+      "expected_answer_contains": [
+        "perf",
+        "/proc",
+        "/sys",
+        "cpu.stat",
+        "RAPL",
+        "timestamps"
+      ],
+      "relevant_pages": [2],
+      "answerable": true,
+      "notes": "Tests extraction of specific technical tools. Page 2 Figure 1 caption lists instrumentation tools: perf, /proc and /sys, cpu.stat, RAPL, timestamps.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q24",
+      "question": "How many repetitions are performed per parameter point in the experiment?",
+      "category": "experimental_detail",
+      "difficulty": "easy",
+      "expected_answer_contains": [
+        "thirty",
+        "30",
+        "repetitions"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "notes": "Tests extraction of specific numerical detail. Page 1 explicitly states 'thirty repetitions per point' in the parameter sweep.",
+      "phase": "phase9a"
+    },
+    {
+      "id": "q25",
+      "question": "What is the relationship between edge AI and data center inference mentioned in the paper?",
+      "category": "contextual_comparison",
+      "difficulty": "medium",
+      "expected_answer_contains": [
+        "moved outward",
+        "round trip",
+        "unacceptable",
+        "interactive",
+        "practical"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "notes": "Tests understanding of broader context. Page 1 motivation explains that inference has moved from data center to edge for practical reasons: round trips to remote endpoints are unacceptable for interactive workloads.",
+      "phase": "phase9a"
+    }
+  ]
+}

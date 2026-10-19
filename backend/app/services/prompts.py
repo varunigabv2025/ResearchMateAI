@@ -252,44 +252,38 @@ class GapAnalysisPrompt:
     from structured paper comparison data.
     """
     
-    SYSTEM_PROMPT = """You are a research gap analysis assistant. Your task is to identify possible research gaps or contradictions from structured comparison data of multiple research papers.
+    SYSTEM_PROMPT = """You are a research gap analysis assistant. Identify research gaps or contradictions from structured comparison data of multiple research papers.
 
-CRITICAL RULES:
-1. Analyze ONLY the provided structured comparison data (methods, datasets, results, limitations)
-2. Do NOT use outside knowledge or make claims about the broader research field
-3. Do NOT claim that something has never been studied - only that it's not present in the compared papers
-4. Identify 0-3 possible research gaps or contradictions based on the evidence
-5. Each gap must be supported by specific observations from the comparison data
-6. Distinguish clearly between observations (facts from the data) and possibilities (research opportunities)
-7. Use cautious language: "suggests", "appears", "based on the compared papers", "possible opportunity"
-8. Do NOT force gaps if the evidence is weak - it's acceptable to return 0 gaps
-9. Prefer specific, evidence-based suggestions over generic statements
-10. Be concise but clear
+ANALYSIS APPROACH:
+1. Analyze the provided comparison data (methods, datasets, results, limitations)
+2. Look for contrasts, missing evaluations, or unexplored combinations between papers
+3. Identify 1-3 research gaps based on the evidence
+4. Each gap should be supported by specific observations from the data
 
 GAP TYPES TO CONSIDER:
-- Dataset gaps: Limited or similar datasets across papers
-- Methodological gaps: Unexplored methodological variations or comparisons
-- Evaluation gaps: Missing metrics, inconsistent evaluation approaches
-- Contradictions: Conflicting results or claims between papers
-- Limitation-derived gaps: Common limitations suggesting research opportunities
+- Cross-domain opportunities: Can techniques from one paper apply to the other's domain?
+- Evaluation gaps: Different metrics or datasets that could enable comparison
+- Methodological combinations: Unexplored combinations of approaches
+- Limitation-based opportunities: Common limitations suggesting research directions
+- Contradictions: Conflicting approaches or results
 
 OUTPUT FORMAT:
-Return a valid JSON array with 0-3 gap objects. Each gap must have:
-{
-  "title": "Brief title (max 200 chars)",
-  "description": "Detailed description of the gap (max 1000 chars)",
-  "basis": "Specific evidence from the comparison supporting this gap (max 500 chars)"
-}
-
-If no strong gaps can be identified, return an empty array: []
+Return a valid JSON array with 1-3 gap objects:
+[
+  {
+    "title": "Brief descriptive title (max 200 chars)",
+    "description": "Clear explanation of the gap and why it matters (max 1000 chars)",
+    "basis": "Specific evidence from the papers supporting this observation (max 500 chars)"
+  }
+]
 
 LANGUAGE GUIDELINES:
-- AVOID: "No researchers have studied X", "This has never been explored"
-- PREFER: "The compared papers do not evaluate X", "This suggests a possible opportunity to investigate Y"
-- AVOID: Definitive claims about the entire research field
-- PREFER: Observations limited to the provided papers
+- Use evidence-based language: "The compared papers show...", "Based on the data..."
+- Avoid overclaiming: Don't state what "all research" does or doesn't do
+- Be specific: Reference actual methods, datasets, or results from the comparison
+- Return [] only if the papers are essentially identical or completely unrelated
 
-Return ONLY valid JSON, no additional text."""
+Return ONLY the JSON array, no markdown formatting or additional text."""
     
     @staticmethod
     def build_analysis_messages(comparison_data: List[Dict]) -> List[Dict[str, str]]:
@@ -314,19 +308,18 @@ Return ONLY valid JSON, no additional text."""
         
         comparison_text = "\n\n".join(papers_text)
         
-        user_prompt = f"""Analyze the following {len(comparison_data)} research papers for possible research gaps or contradictions.
+        user_prompt = f"""Analyze the following {len(comparison_data)} research papers for research gaps or contradictions.
 
-STRUCTURED COMPARISON DATA:
+COMPARISON DATA:
 {comparison_text}
 
-Based ONLY on the information above, identify 0-3 possible research gaps or contradictions.
-Return a JSON array of gap objects, or an empty array [] if no strong gaps can be identified.
+Identify 1-3 research gaps based on this data. Look for:
+- Cross-domain opportunities (can methods transfer?)
+- Evaluation gaps (different metrics/datasets preventing comparison)
+- Unexplored combinations
+- Opportunities from limitations
 
-Remember:
-- Each gap must be supported by specific evidence from the comparison
-- Use cautious language (suggests, appears, possible)
-- Do not claim knowledge about the broader research field
-- It's acceptable to return fewer than 3 gaps or even 0 gaps"""
+Return a JSON array of gap objects with title, description, and basis fields."""
         
         return [
             {"role": "system", "content": GapAnalysisPrompt.SYSTEM_PROMPT},

@@ -49,7 +49,7 @@ class RetrievalService:
     
     # Configuration
     DEFAULT_TOP_K = 5
-    DEFAULT_SIMILARITY_THRESHOLD = 0.4  # Cosine similarity threshold (0-1) calibrated for Qwen3 local embeddings
+    DEFAULT_SIMILARITY_THRESHOLD = 0.25  # Cosine similarity threshold (0-1) calibrated for Qwen3 local embeddings with real user questions
     DEFAULT_DENSE_K = 20  # Candidate pool for hybrid retrieval
     DEFAULT_LEXICAL_K = 20  # Candidate pool for hybrid retrieval
     DEFAULT_RRF_K = 60  # RRF parameter (standard value)

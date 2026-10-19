@@ -1,0 +1,974 @@
+{
+  "dataset_name": "Phase 9B Multi-Paper Evaluation Dataset",
+  "description": "RAG evaluation benchmark for 6 research papers: ResNet, BERT, Transformer, YOLO, MobileNets, and Pruning Survey. Covers Computer Vision, NLP, and Model Compression domains with factual, conceptual, and cross-paper synthesis questions.",
+  "created": "2026-10-18",
+  "papers": [
+    {
+      "paper_id": "6c17e19e778c49feb63a78f385975434",
+      "filename": "resnet_1512.03385.pdf",
+      "arxiv_id": "1512.03385",
+      "title": "Deep Residual Learning for Image Recognition",
+      "domain": "Computer Vision",
+      "pages": 12,
+      "chunks": 83
+    },
+    {
+      "paper_id": "034186580f8045b9b20c84db274c63ae",
+      "filename": "bert_1810.04805.pdf",
+      "arxiv_id": "1810.04805",
+      "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+      "domain": "Natural Language Processing",
+      "pages": 16,
+      "chunks": 91
+    },
+    {
+      "paper_id": "82a45c626e6c4678b4dc60bc7e9167a2",
+      "filename": "transformer_1706.03762.pdf",
+      "arxiv_id": "1706.03762",
+      "title": "Attention Is All You Need",
+      "domain": "NLP / Architecture",
+      "pages": 15,
+      "chunks": 61
+    },
+    {
+      "paper_id": "3d33044cda464ede9ce821914baebfff",
+      "filename": "yolo_1506.02640.pdf",
+      "arxiv_id": "1506.02640",
+      "title": "You Only Look Once: Unified, Real-Time Object Detection",
+      "domain": "Computer Vision",
+      "pages": 10,
+      "chunks": 61
+    },
+    {
+      "paper_id": "aa0cbf1ec4f54ec5a37bcb16a1a562ba",
+      "filename": "mobilenets_1704.04861.pdf",
+      "arxiv_id": "1704.04861",
+      "title": "MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications",
+      "domain": "Model Compression / Edge Computing",
+      "pages": 9,
+      "chunks": 51
+    },
+    {
+      "paper_id": "b1b37ef43b7e47f9bdb1b400d62ab40d",
+      "filename": "pruning_survey_2101.09671.pdf",
+      "arxiv_id": "2101.09671",
+      "title": "Pruning and Quantization for Deep Neural Network Acceleration: A Survey",
+      "domain": "Model Compression",
+      "pages": 41,
+      "chunks": 318
+    }
+  ],
+  "total_questions": 50,
+  "question_distribution": {
+    "computer_vision": 10,
+    "nlp": 10,
+    "model_compression": 10,
+    "cross_paper": 10,
+    "precise_factual": 10
+  },
+  "questions": [
+    {
+      "id": "q9b_1",
+      "question": "What is the core innovation introduced by the ResNet paper?",
+      "category": "core_contribution",
+      "difficulty": "easy",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434"],
+      "chunk_ids": ["e43c4d42ec274b36a4a26405a49d30fe", "841be75f540e45d982416a3a0f8995c7"],
+      "expected_answer_contains": [
+        "residual learning",
+        "skip connections",
+        "shortcut connections",
+        "identity mapping",
+        "ease training"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Paper title and abstract explicitly state 'residual learning framework' to ease training of deeper networks",
+      "notes": "Tests extraction of paper's main contribution from title and abstract"
+    },
+    {
+      "id": "q9b_2",
+      "question": "How many layers did the deepest ResNet model achieve on ImageNet?",
+      "category": "precise_factual",
+      "difficulty": "easy",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434"],
+      "chunk_ids": ["8bf28730ee734e478ac46e26b61298ce"],
+      "expected_answer_contains": [
+        "152",
+        "152-layer"
+      ],
+      "relevant_pages": [7],
+      "answerable": true,
+      "evidence_rationale": "Page 7 explicitly states '152-layer ResNet has a single-model top-5 validation error of 4.49%'",
+      "notes": "Tests precise numerical fact extraction"
+    },
+    {
+      "id": "q9b_3",
+      "question": "What problem does ResNet solve that prevented training very deep neural networks?",
+      "category": "problem_identification",
+      "difficulty": "medium",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434"],
+      "chunk_ids": ["841be75f540e45d982416a3a0f8995c7"],
+      "expected_answer_contains": [
+        "degradation",
+        "training",
+        "optimization",
+        "difficult to train"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Abstract states 'Deeper neural networks are more difficult to train'",
+      "notes": "Tests understanding of research motivation"
+    },
+    {
+      "id": "q9b_4",
+      "question": "What does residual function F(x) represent in the ResNet formulation?",
+      "category": "technical_mechanism",
+      "difficulty": "medium",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434"],
+      "chunk_ids": ["3e71dea5e106418591b0ce060c85ddd8"],
+      "expected_answer_contains": [
+        "few layers",
+        "two or three layers",
+        "stacked layers"
+      ],
+      "relevant_pages": [3],
+      "answerable": true,
+      "evidence_rationale": "Page 3 states residual block 'has two or three layers (Fig. 5)'",
+      "notes": "Tests understanding of residual block structure"
+    },
+    {
+      "id": "q9b_5",
+      "question": "Beyond ImageNet classification, what other vision task did ResNet excel at?",
+      "category": "application_breadth",
+      "difficulty": "medium",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434"],
+      "chunk_ids": ["fe84504990f34bfba461b0de77f7f4dc", "88ef60320a584fc4820bc77b2c339d6b"],
+      "expected_answer_contains": [
+        "object detection",
+        "localization",
+        "Faster R-CNN",
+        "ILSVRC"
+      ],
+      "relevant_pages": [10, 12],
+      "answerable": true,
+      "evidence_rationale": "Page 10 discusses object detection with Faster R-CNN, page 12 mentions winning localization task",
+      "notes": "Tests knowledge of paper's broader impact beyond classification"
+    },
+    {
+      "id": "q9b_6",
+      "question": "What does BERT stand for and what is its key innovation?",
+      "category": "core_contribution",
+      "difficulty": "easy",
+      "paper_ids": ["034186580f8045b9b20c84db274c63ae"],
+      "chunk_ids": ["9a1fb74519fd429ba1293a6b7fc341da", "0fca8531f1814cf6bb1c580f4f53f351"],
+      "expected_answer_contains": [
+        "Bidirectional Encoder Representations from Transformers",
+        "bidirectional",
+        "pre-training"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Title and abstract explicitly define BERT acronym and describe bidirectional pre-training",
+      "notes": "Tests basic identification of paper's contribution"
+    },
+    {
+      "id": "q9b_7",
+      "question": "What is the masked language model (MLM) objective used in BERT?",
+      "category": "technical_mechanism",
+      "difficulty": "medium",
+      "paper_ids": ["034186580f8045b9b20c84db274c63ae"],
+      "chunk_ids": ["cf2f6c320fdb4f61920c551bd4db8d55"],
+      "expected_answer_contains": [
+        "mask",
+        "random",
+        "predict",
+        "masked tokens",
+        "percentage of input tokens"
+      ],
+      "relevant_pages": [4],
+      "answerable": true,
+      "evidence_rationale": "Page 4 explains: 'we simply mask some percentage of the input tokens at random, and then predict those masked tokens'",
+      "notes": "Tests understanding of BERT's core training method"
+    },
+    {
+      "id": "q9b_8",
+      "question": "What is BERT's GLUE score and how much improvement did it achieve?",
+      "category": "precise_factual",
+      "difficulty": "hard",
+      "paper_ids": ["034186580f8045b9b20c84db274c63ae"],
+      "chunk_ids": ["ccfc4bce3d1f4a64a71d6ce1cffe8880"],
+      "expected_answer_contains": [
+        "80.5",
+        "7.7",
+        "point",
+        "improvement"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Abstract states 'pushing the GLUE score to 80.5% (7.7% point absolute improvement)'",
+      "notes": "Tests precise metric extraction from abstract"
+    },
+    {
+      "id": "q9b_9",
+      "question": "Why is BERT's approach better than training separate left-to-right and right-to-left models?",
+      "category": "design_rationale",
+      "difficulty": "hard",
+      "paper_ids": ["034186580f8045b9b20c84db274c63ae"],
+      "chunk_ids": ["5f753390933b43119b52c4dd4feba971"],
+      "expected_answer_contains": [
+        "expensive",
+        "twice",
+        "non-intuitive",
+        "QA",
+        "condition"
+      ],
+      "relevant_pages": [8],
+      "answerable": true,
+      "evidence_rationale": "Page 8 states '(a) this is twice as expensive as a single bidirectional model; (b) this is non-intuitive for tasks like QA'",
+      "notes": "Tests deep understanding of BERT's design choices"
+    },
+    {
+      "id": "q9b_10",
+      "question": "What organization developed BERT?",
+      "category": "metadata",
+      "difficulty": "easy",
+      "paper_ids": ["034186580f8045b9b20c84db274c63ae"],
+      "chunk_ids": ["9a1fb74519fd429ba1293a6b7fc341da"],
+      "expected_answer_contains": [
+        "Google",
+        "Google AI Language"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Author affiliations on page 1 list 'Google AI Language'",
+      "notes": "Tests metadata extraction"
+    },
+    {
+      "id": "q9b_11",
+      "question": "What is the key architectural innovation of the Transformer model?",
+      "category": "core_contribution",
+      "difficulty": "easy",
+      "paper_ids": ["82a45c626e6c4678b4dc60bc7e9167a2"],
+      "chunk_ids": ["a8c3e3384f864de9a1df2b4b0759dc6d"],
+      "expected_answer_contains": [
+        "attention",
+        "self-attention",
+        "no recurrence",
+        "no convolution"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Abstract states model 'based entirely on attention, replacing recurrent layers'",
+      "notes": "Tests identification of Transformer's main innovation"
+    },
+    {
+      "id": "q9b_12",
+      "question": "What is scaled dot-product attention and what components does it use?",
+      "category": "technical_mechanism",
+      "difficulty": "medium",
+      "paper_ids": ["82a45c626e6c4678b4dc60bc7e9167a2"],
+      "chunk_ids": ["85eca6cb296c419d9925bfceda7eb70a"],
+      "expected_answer_contains": [
+        "query",
+        "key",
+        "value",
+        "compatibility function",
+        "weight"
+      ],
+      "relevant_pages": [4],
+      "answerable": true,
+      "evidence_rationale": "Page 4 Figure 2 caption and text describe 'weight assigned to each value is computed by a compatibility function of the query with the corresponding key'",
+      "notes": "Tests understanding of attention mechanism components"
+    },
+    {
+      "id": "q9b_13",
+      "question": "What BLEU score did the Transformer achieve on WMT 2014 English-to-German translation?",
+      "category": "precise_factual",
+      "difficulty": "medium",
+      "paper_ids": ["82a45c626e6c4678b4dc60bc7e9167a2"],
+      "chunk_ids": ["6eaabda65ef6430190c318aee4799808"],
+      "expected_answer_contains": [
+        "41.8",
+        "BLEU"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Abstract states 'new single-model state-of-the-art BLEU score of 41.8'",
+      "notes": "Tests precise numerical metric extraction"
+    },
+    {
+      "id": "q9b_14",
+      "question": "Why are convolutional layers more expensive than recurrent layers according to the Transformer paper?",
+      "category": "technical_comparison",
+      "difficulty": "hard",
+      "paper_ids": ["82a45c626e6c4678b4dc60bc7e9167a2"],
+      "chunk_ids": ["37c05083106d4e33a4c9cab8b923bc60"],
+      "expected_answer_contains": [
+        "factor of k",
+        "kernel width",
+        "separable convolutions"
+      ],
+      "relevant_pages": [7],
+      "answerable": true,
+      "evidence_rationale": "Page 7 states 'Convolutional layers are generally more expensive than recurrent layers, by a factor of k'",
+      "notes": "Tests understanding of computational complexity comparisons"
+    },
+    {
+      "id": "q9b_15",
+      "question": "What makes the Transformer the first sequence transduction model of its kind?",
+      "category": "innovation_claim",
+      "difficulty": "medium",
+      "paper_ids": ["82a45c626e6c4678b4dc60bc7e9167a2"],
+      "chunk_ids": ["22f7c9852e344a4abdf7f5d7308b43c7"],
+      "expected_answer_contains": [
+        "entirely on attention",
+        "first",
+        "replacing recurrent layers",
+        "multi-headed self-attention"
+      ],
+      "relevant_pages": [10],
+      "answerable": true,
+      "evidence_rationale": "Conclusion on page 10 states 'the first sequence transduction model based entirely on attention, replacing the recurrent layers'",
+      "notes": "Tests understanding of paper's historical claim"
+    },
+    {
+      "id": "q9b_16",
+      "question": "What is the main innovation of YOLO compared to prior object detection methods?",
+      "category": "core_contribution",
+      "difficulty": "easy",
+      "paper_ids": ["3d33044cda464ede9ce821914baebfff"],
+      "chunk_ids": ["ad8a19ae51c24a0c91f79256ab55a264"],
+      "expected_answer_contains": [
+        "unified",
+        "single",
+        "one look",
+        "real-time",
+        "regression"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Abstract describes 'unified' approach and title emphasizes 'You Only Look Once'",
+      "notes": "Tests understanding of YOLO's key innovation"
+    },
+    {
+      "id": "q9b_17",
+      "question": "What input resolution change did YOLO make for detection compared to classification pretraining?",
+      "category": "precise_factual",
+      "difficulty": "medium",
+      "paper_ids": ["3d33044cda464ede9ce821914baebfff"],
+      "chunk_ids": ["f440f541f54c4e1893795c7a03cc07df"],
+      "expected_answer_contains": [
+        "224",
+        "448",
+        "224 × 224",
+        "448 × 448",
+        "increase"
+      ],
+      "relevant_pages": [3],
+      "answerable": true,
+      "evidence_rationale": "Page 3 states 'we increase the input resolution of the network from 224 × 224 to 448 × 448'",
+      "notes": "Tests extraction of specific technical details"
+    },
+    {
+      "id": "q9b_18",
+      "question": "What type of errors does YOLO make more frequently compared to state-of-the-art systems?",
+      "category": "limitation",
+      "difficulty": "medium",
+      "paper_ids": ["3d33044cda464ede9ce821914baebfff"],
+      "chunk_ids": ["c4470611010449b68cca627e4395ab85"],
+      "expected_answer_contains": [
+        "localization errors",
+        "localization"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Abstract states 'YOLO makes more localization errors'",
+      "notes": "Tests identification of acknowledged limitations"
+    },
+    {
+      "id": "q9b_19",
+      "question": "How does YOLO handle multiple objects in a single image?",
+      "category": "technical_capability",
+      "difficulty": "easy",
+      "paper_ids": ["3d33044cda464ede9ce821914baebfff"],
+      "chunk_ids": ["219382d215d44674ad5d07166cc4c138"],
+      "expected_answer_contains": [
+        "multiple objects",
+        "bounding boxes",
+        "class probabilities",
+        "multiple classes"
+      ],
+      "relevant_pages": [5],
+      "answerable": true,
+      "evidence_rationale": "Page 5 states 'YOLO predicts both bounding boxes and class probabilities for multiple objects of multiple classes in an image'",
+      "notes": "Tests understanding of YOLO's multi-object capability"
+    },
+    {
+      "id": "q9b_20",
+      "question": "What performance boost does combining Fast R-CNN with YOLO provide?",
+      "category": "precise_factual",
+      "difficulty": "hard",
+      "paper_ids": ["3d33044cda464ede9ce821914baebfff"],
+      "chunk_ids": ["ddc7b1f42e874cc4b648bda4ce33d5f9"],
+      "expected_answer_contains": [
+        "2.3",
+        "improvement",
+        "percent"
+      ],
+      "relevant_pages": [7],
+      "answerable": true,
+      "evidence_rationale": "Page 7 states 'Fast R-CNN gets a 2.3% improvement from the combination with YOLO'",
+      "notes": "Tests extraction of specific performance metrics"
+    },
+    {
+      "id": "q9b_21",
+      "question": "What is the core building block that makes MobileNets efficient?",
+      "category": "core_contribution",
+      "difficulty": "easy",
+      "paper_ids": ["aa0cbf1ec4f54ec5a37bcb16a1a562ba"],
+      "chunk_ids": ["c8b81897f40743f4a2f233f59abfcdda", "60beb3b3151f4088b9baffbbd05de3e7"],
+      "expected_answer_contains": [
+        "depthwise separable convolution",
+        "depthwise",
+        "separable"
+      ],
+      "relevant_pages": [1, 3],
+      "answerable": true,
+      "evidence_rationale": "Abstract mentions 'depthwise separable convolutions' and page 3 explains the mechanism",
+      "notes": "Tests identification of MobileNets' key innovation"
+    },
+    {
+      "id": "q9b_22",
+      "question": "What does depthwise convolution do and what is its limitation?",
+      "category": "technical_mechanism",
+      "difficulty": "medium",
+      "paper_ids": ["aa0cbf1ec4f54ec5a37bcb16a1a562ba"],
+      "chunk_ids": ["60beb3b3151f4088b9baffbbd05de3e7"],
+      "expected_answer_contains": [
+        "filters input channels",
+        "does not combine",
+        "does not create new features",
+        "additional layer"
+      ],
+      "relevant_pages": [3],
+      "answerable": true,
+      "evidence_rationale": "Page 3 states 'it only filters input channels, it does not combine them to create new features'",
+      "notes": "Tests understanding of depthwise convolution mechanism and limitations"
+    },
+    {
+      "id": "q9b_23",
+      "question": "What are the two hyperparameters MobileNets introduces to trade off latency and accuracy?",
+      "category": "technical_mechanism",
+      "difficulty": "medium",
+      "paper_ids": ["aa0cbf1ec4f54ec5a37bcb16a1a562ba"],
+      "chunk_ids": ["d66c47e1348245feb18da09399426d03"],
+      "expected_answer_contains": [
+        "width multiplier",
+        "resolution multiplier"
+      ],
+      "relevant_pages": [5],
+      "answerable": true,
+      "evidence_rationale": "Page 5 mentions 'two hyper-parameters: width multiplier and resolution multiplier'",
+      "notes": "Tests knowledge of MobileNets' configuration parameters"
+    },
+    {
+      "id": "q9b_24",
+      "question": "What face recognition model did MobileNets adapt for mobile deployment?",
+      "category": "application",
+      "difficulty": "easy",
+      "paper_ids": ["aa0cbf1ec4f54ec5a37bcb16a1a562ba"],
+      "chunk_ids": ["5f0452bf2a6646c7bec6b80eed7985fb"],
+      "expected_answer_contains": [
+        "FaceNet",
+        "face recognition",
+        "face embeddings"
+      ],
+      "relevant_pages": [7],
+      "answerable": true,
+      "evidence_rationale": "Page 7 discusses adapting 'FaceNet model' for mobile deployment using distillation",
+      "notes": "Tests knowledge of MobileNets applications"
+    },
+    {
+      "id": "q9b_25",
+      "question": "What organization developed MobileNets?",
+      "category": "metadata",
+      "difficulty": "easy",
+      "paper_ids": ["aa0cbf1ec4f54ec5a37bcb16a1a562ba"],
+      "chunk_ids": ["43c7e0d849a24d5bbc32225355803da5"],
+      "expected_answer_contains": [
+        "Google",
+        "Google Inc"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Author affiliations on page 1 list 'Google Inc.'",
+      "notes": "Tests metadata extraction"
+    },
+    {
+      "id": "q9b_26",
+      "question": "What are the two main categories of techniques covered in the pruning survey?",
+      "category": "core_contribution",
+      "difficulty": "easy",
+      "paper_ids": ["b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["4feeeac4885d425fa99da5b0426c6a62"],
+      "expected_answer_contains": [
+        "pruning",
+        "quantization"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Title explicitly states 'Pruning and Quantization'",
+      "notes": "Tests identification of survey scope"
+    },
+    {
+      "id": "q9b_27",
+      "question": "What pruning ratio did the survey report achieving on CIFAR-10 while maintaining performance?",
+      "category": "precise_factual",
+      "difficulty": "hard",
+      "paper_ids": ["b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["bf9cac6a17f840a0a180bc6001c91452"],
+      "expected_answer_contains": [
+        "88.2",
+        "88.2%"
+      ],
+      "relevant_pages": [11],
+      "answerable": true,
+      "evidence_rationale": "Page 11 mentions 'pruning ratio up to 88.2% on the CIFAR-10 dataset'",
+      "notes": "Tests extraction of specific quantitative results"
+    },
+    {
+      "id": "q9b_28",
+      "question": "How can pruning help improve accuracy according to the survey?",
+      "category": "technical_benefit",
+      "difficulty": "medium",
+      "paper_ids": ["b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["bf9cac6a17f840a0a180bc6001c91452"],
+      "expected_answer_contains": [
+        "reduce over-fitting",
+        "overfitting",
+        "DSD",
+        "Dense-Sparse-Dense"
+      ],
+      "relevant_pages": [11],
+      "answerable": true,
+      "evidence_rationale": "Page 11 states 'By reducing the number of network parameters, pruning techniques can also help to reduce over-fitting'",
+      "notes": "Tests understanding of pruning benefits beyond compression"
+    },
+    {
+      "id": "q9b_29",
+      "question": "What bit-width does TensorRT typically use for quantized inference?",
+      "category": "precise_factual",
+      "difficulty": "medium",
+      "paper_ids": ["b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["5de46c0958dd4db795af74462decd929"],
+      "expected_answer_contains": [
+        "8-bit",
+        "INT8",
+        "8-bit integer"
+      ],
+      "relevant_pages": [22],
+      "answerable": true,
+      "evidence_rationale": "Page 22 discusses TensorRT's 8-bit integer quantization implementation",
+      "notes": "Tests knowledge of practical quantization implementations"
+    },
+    {
+      "id": "q9b_30",
+      "question": "What challenges motivate the need for pruning and quantization according to the survey?",
+      "category": "motivation",
+      "difficulty": "easy",
+      "paper_ids": ["b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["16467ba98a414f6397683b3b37a2bbce", "6710b5a24fb9469fb0837b83fb8d5651"],
+      "expected_answer_contains": [
+        "computation resources",
+        "energy costs",
+        "real-time deployment",
+        "significant"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Page 1 mentions 'require significant computation resources and energy costs' as motivation",
+      "notes": "Tests understanding of research motivation"
+    },
+    {
+      "id": "q9b_31",
+      "question": "Compare the depth of the deepest models in ResNet versus experiments mentioned in the Transformer paper.",
+      "category": "cross_paper_comparison",
+      "difficulty": "medium",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434", "82a45c626e6c4678b4dc60bc7e9167a2"],
+      "chunk_ids": ["8bf28730ee734e478ac46e26b61298ce", "22f7c9852e344a4abdf7f5d7308b43c7"],
+      "expected_answer_contains": [
+        "ResNet",
+        "152",
+        "Transformer",
+        "attention layers",
+        "different architectures"
+      ],
+      "relevant_pages": [7, 10],
+      "answerable": true,
+      "evidence_rationale": "ResNet paper reports 152 layers; Transformer uses attention layers instead of depth in the same sense",
+      "notes": "Tests ability to compare architectural approaches across papers"
+    },
+    {
+      "id": "q9b_32",
+      "question": "How do both BERT and the Transformer paper relate to attention mechanisms?",
+      "category": "cross_paper_synthesis",
+      "difficulty": "medium",
+      "paper_ids": ["034186580f8045b9b20c84db274c63ae", "82a45c626e6c4678b4dc60bc7e9167a2"],
+      "chunk_ids": ["0fca8531f1814cf6bb1c580f4f53f351", "a8c3e3384f864de9a1df2b4b0759dc6d"],
+      "expected_answer_contains": [
+        "BERT",
+        "Transformer",
+        "bidirectional",
+        "attention",
+        "encoder"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "BERT uses Transformer architecture bidirectionally; Transformer paper introduces the attention-based architecture",
+      "notes": "Tests understanding of architectural relationships between papers"
+    },
+    {
+      "id": "q9b_33",
+      "question": "Which papers address real-time inference as a primary concern?",
+      "category": "cross_paper_theme",
+      "difficulty": "easy",
+      "paper_ids": ["3d33044cda464ede9ce821914baebfff", "aa0cbf1ec4f54ec5a37bcb16a1a562ba", "b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["8e9a36b8ea8048c8bfa2b72b10e5a36e", "c8b81897f40743f4a2f233f59abfcdda", "16467ba98a414f6397683b3b37a2bbce"],
+      "expected_answer_contains": [
+        "YOLO",
+        "real-time",
+        "MobileNets",
+        "mobile",
+        "pruning",
+        "efficiency"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "YOLO emphasizes real-time detection, MobileNets targets mobile efficiency, Pruning Survey addresses deployment challenges",
+      "notes": "Tests identification of common themes across multiple papers"
+    },
+    {
+      "id": "q9b_34",
+      "question": "How do MobileNets and the Pruning Survey both address model compression?",
+      "category": "cross_paper_synthesis",
+      "difficulty": "medium",
+      "paper_ids": ["aa0cbf1ec4f54ec5a37bcb16a1a562ba", "b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["c8b81897f40743f4a2f233f59abfcdda", "4feeeac4885d425fa99da5b0426c6a62"],
+      "expected_answer_contains": [
+        "MobileNets",
+        "depthwise separable",
+        "efficient architecture",
+        "pruning",
+        "quantization",
+        "reduce parameters"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "MobileNets uses efficient convolutions; Pruning Survey covers parameter reduction techniques",
+      "notes": "Tests comparison of different compression approaches"
+    },
+    {
+      "id": "q9b_35",
+      "question": "Which computer vision papers deal with object-level understanding versus image-level classification?",
+      "category": "cross_paper_comparison",
+      "difficulty": "medium",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434", "3d33044cda464ede9ce821914baebfff"],
+      "chunk_ids": ["e43c4d42ec274b36a4a26405a49d30fe", "8e9a36b8ea8048c8bfa2b72b10e5a36e"],
+      "expected_answer_contains": [
+        "ResNet",
+        "classification",
+        "YOLO",
+        "object detection",
+        "localization"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "ResNet focuses on image classification; YOLO tackles object detection with localization",
+      "notes": "Tests understanding of different computer vision tasks"
+    },
+    {
+      "id": "q9b_36",
+      "question": "What pre-training strategy do BERT and transfer learning approaches in computer vision share?",
+      "category": "cross_paper_synthesis",
+      "difficulty": "hard",
+      "paper_ids": ["034186580f8045b9b20c84db274c63ae", "6c17e19e778c49feb63a78f385975434"],
+      "chunk_ids": ["0fca8531f1814cf6bb1c580f4f53f351", "fe84504990f34bfba461b0de77f7f4dc"],
+      "expected_answer_contains": [
+        "pre-training",
+        "large dataset",
+        "fine-tuning",
+        "transfer",
+        "ImageNet"
+      ],
+      "relevant_pages": [1, 10],
+      "answerable": true,
+      "evidence_rationale": "BERT pre-trains then fine-tunes; ResNet uses ImageNet pre-training for detection",
+      "notes": "Tests understanding of transfer learning across domains"
+    },
+    {
+      "id": "q9b_37",
+      "question": "How do depthwise separable convolutions in MobileNets relate to the efficiency goals of pruning?",
+      "category": "cross_paper_synthesis",
+      "difficulty": "hard",
+      "paper_ids": ["aa0cbf1ec4f54ec5a37bcb16a1a562ba", "b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["60beb3b3151f4088b9baffbbd05de3e7", "bf9cac6a17f840a0a180bc6001c91452"],
+      "expected_answer_contains": [
+        "reduce computation",
+        "efficiency",
+        "fewer parameters",
+        "factorization",
+        "compression"
+      ],
+      "relevant_pages": [3],
+      "answerable": true,
+      "evidence_rationale": "Both approaches reduce computation - MobileNets through architectural design, pruning through parameter removal",
+      "notes": "Tests deep comparison of efficiency strategies"
+    },
+    {
+      "id": "q9b_38",
+      "question": "Which papers were published in 2015 and what domains do they represent?",
+      "category": "cross_paper_metadata",
+      "difficulty": "easy",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434", "3d33044cda464ede9ce821914baebfff"],
+      "chunk_ids": ["e43c4d42ec274b36a4a26405a49d30fe", "8e9a36b8ea8048c8bfa2b72b10e5a36e"],
+      "expected_answer_contains": [
+        "ResNet",
+        "YOLO",
+        "2015",
+        "computer vision"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Both ResNet and YOLO papers are from 2015 and address computer vision",
+      "notes": "Tests metadata knowledge and temporal relationships"
+    },
+    {
+      "id": "q9b_39",
+      "question": "What role does Google Research play across the papers in this corpus?",
+      "category": "cross_paper_metadata",
+      "difficulty": "medium",
+      "paper_ids": ["034186580f8045b9b20c84db274c63ae", "82a45c626e6c4678b4dc60bc7e9167a2", "aa0cbf1ec4f54ec5a37bcb16a1a562ba"],
+      "chunk_ids": ["9a1fb74519fd429ba1293a6b7fc341da", "c02b10ac3d1b4f6f833117910843056f", "43c7e0d849a24d5bbc32225355803da5"],
+      "expected_answer_contains": [
+        "Google",
+        "BERT",
+        "Transformer",
+        "MobileNets",
+        "multiple papers"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Google authored BERT, Transformer, and MobileNets papers",
+      "notes": "Tests recognition of institutional contributions"
+    },
+    {
+      "id": "q9b_40",
+      "question": "How do attention mechanisms in Transformers differ from the skip connections in ResNets?",
+      "category": "cross_paper_technical",
+      "difficulty": "hard",
+      "paper_ids": ["82a45c626e6c4678b4dc60bc7e9167a2", "6c17e19e778c49feb63a78f385975434"],
+      "chunk_ids": ["85eca6cb296c419d9925bfceda7eb70a", "3e71dea5e106418591b0ce060c85ddd8"],
+      "expected_answer_contains": [
+        "attention",
+        "weighted",
+        "dynamic",
+        "skip connections",
+        "residual",
+        "identity",
+        "different mechanisms"
+      ],
+      "relevant_pages": [3, 4],
+      "answerable": true,
+      "evidence_rationale": "Transformers use dynamic attention weighting; ResNets use fixed identity mappings",
+      "notes": "Tests deep technical comparison across architectures"
+    },
+    {
+      "id": "q9b_41",
+      "question": "What is Microsoft Research's contribution to deep learning according to the corpus?",
+      "category": "metadata",
+      "difficulty": "easy",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434"],
+      "chunk_ids": ["e43c4d42ec274b36a4a26405a49d30fe"],
+      "expected_answer_contains": [
+        "Microsoft Research",
+        "ResNet",
+        "residual learning"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "ResNet paper authors are from Microsoft Research",
+      "notes": "Tests institutional contribution recognition"
+    },
+    {
+      "id": "q9b_42",
+      "question": "Which paper addresses the longest sequence lengths and what technique enables this?",
+      "category": "cross_paper_technical",
+      "difficulty": "medium",
+      "paper_ids": ["82a45c626e6c4678b4dc60bc7e9167a2", "034186580f8045b9b20c84db274c63ae"],
+      "chunk_ids": ["37c05083106d4e33a4c9cab8b923bc60", "cf2f6c320fdb4f61920c551bd4db8d55"],
+      "expected_answer_contains": [
+        "Transformer",
+        "attention",
+        "parallel",
+        "constant path length"
+      ],
+      "relevant_pages": [4, 7],
+      "answerable": true,
+      "evidence_rationale": "Transformer paper discusses handling long sequences with O(1) path length via attention",
+      "notes": "Tests understanding of architectural advantages for sequence modeling"
+    },
+    {
+      "id": "q9b_43",
+      "question": "What specific quantization bit-width appears in multiple papers' discussions?",
+      "category": "cross_paper_factual",
+      "difficulty": "medium",
+      "paper_ids": ["b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["6710b5a24fb9469fb0837b83fb8d5651", "5de46c0958dd4db795af74462decd929"],
+      "expected_answer_contains": [
+        "8-bit",
+        "8 bit",
+        "INT8"
+      ],
+      "relevant_pages": [1, 22],
+      "answerable": true,
+      "evidence_rationale": "Survey discusses 8-bit quantization prominently",
+      "notes": "Tests recognition of common quantization practices"
+    },
+    {
+      "id": "q9b_44",
+      "question": "Which papers address challenges in training versus inference optimization?",
+      "category": "cross_paper_theme",
+      "difficulty": "medium",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434", "aa0cbf1ec4f54ec5a37bcb16a1a562ba", "b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["841be75f540e45d982416a3a0f8995c7", "c8b81897f40743f4a2f233f59abfcdda", "16467ba98a414f6397683b3b37a2bbce"],
+      "expected_answer_contains": [
+        "ResNet",
+        "training",
+        "MobileNets",
+        "inference",
+        "pruning",
+        "deployment"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "ResNet focuses on training deep networks; MobileNets and Pruning focus on efficient inference",
+      "notes": "Tests understanding of different optimization objectives"
+    },
+    {
+      "id": "q9b_45",
+      "question": "How do YOLO's localization errors compare to BERT's handling of question answering tasks?",
+      "category": "cross_paper_limitation",
+      "difficulty": "hard",
+      "paper_ids": ["3d33044cda464ede9ce821914baebfff", "034186580f8045b9b20c84db274c63ae"],
+      "chunk_ids": ["c4470611010449b68cca627e4395ab85", "5f753390933b43119b52c4dd4feba971"],
+      "expected_answer_contains": [
+        "YOLO",
+        "localization errors",
+        "BERT",
+        "bidirectional",
+        "different tasks",
+        "spatial",
+        "language"
+      ],
+      "relevant_pages": [1, 8],
+      "answerable": true,
+      "evidence_rationale": "Both papers acknowledge task-specific challenges in different modalities",
+      "notes": "Tests ability to compare limitations across very different domains"
+    },
+    {
+      "id": "q9b_46",
+      "question": "What year range do the Phase 9B papers span and which is the most recent?",
+      "category": "cross_paper_metadata",
+      "difficulty": "easy",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434", "b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["e43c4d42ec274b36a4a26405a49d30fe", "4feeeac4885d425fa99da5b0426c6a62"],
+      "expected_answer_contains": [
+        "2015",
+        "2021",
+        "Pruning",
+        "survey",
+        "six years"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "ResNet/YOLO from 2015, Pruning Survey from 2021 (arXiv 2101)",
+      "notes": "Tests temporal awareness of research evolution"
+    },
+    {
+      "id": "q9b_47",
+      "question": "Which papers contribute to natural language processing and what are their key differences?",
+      "category": "cross_paper_comparison",
+      "difficulty": "medium",
+      "paper_ids": ["034186580f8045b9b20c84db274c63ae", "82a45c626e6c4678b4dc60bc7e9167a2"],
+      "chunk_ids": ["0fca8531f1814cf6bb1c580f4f53f351", "a8c3e3384f864de9a1df2b4b0759dc6d"],
+      "expected_answer_contains": [
+        "BERT",
+        "Transformer",
+        "architecture",
+        "pre-training",
+        "bidirectional",
+        "encoder-decoder"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Transformer introduces architecture; BERT applies it with bidirectional pre-training",
+      "notes": "Tests understanding of NLP paper relationships"
+    },
+    {
+      "id": "q9b_48",
+      "question": "How many total pages across all six Phase 9B papers?",
+      "category": "cross_paper_factual",
+      "difficulty": "easy",
+      "paper_ids": ["6c17e19e778c49feb63a78f385975434", "034186580f8045b9b20c84db274c63ae", "82a45c626e6c4678b4dc60bc7e9167a2", "3d33044cda464ede9ce821914baebfff", "aa0cbf1ec4f54ec5a37bcb16a1a562ba", "b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": [],
+      "expected_answer_contains": [
+        "103",
+        "103 pages",
+        "12+16+15+10+9+41"
+      ],
+      "relevant_pages": [],
+      "answerable": true,
+      "evidence_rationale": "Metadata shows: ResNet 12, BERT 16, Transformer 15, YOLO 10, MobileNets 9, Pruning Survey 41 = 103 total",
+      "notes": "Tests ability to aggregate metadata across corpus"
+    },
+    {
+      "id": "q9b_49",
+      "question": "Which paper is a survey rather than presenting novel methods, and what does it survey?",
+      "category": "cross_paper_classification",
+      "difficulty": "easy",
+      "paper_ids": ["b1b37ef43b7e47f9bdb1b400d62ab40d"],
+      "chunk_ids": ["4feeeac4885d425fa99da5b0426c6a62"],
+      "expected_answer_contains": [
+        "Pruning",
+        "survey",
+        "pruning and quantization",
+        "acceleration"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Title explicitly states 'Pruning and Quantization for Deep Neural Network Acceleration: A Survey'",
+      "notes": "Tests identification of paper types in corpus"
+    },
+    {
+      "id": "q9b_50",
+      "question": "What architectural paradigm shift do the Transformer and BERT papers represent compared to ResNet and traditional CNNs?",
+      "category": "cross_paper_synthesis",
+      "difficulty": "hard",
+      "paper_ids": ["82a45c626e6c4678b4dc60bc7e9167a2", "034186580f8045b9b20c84db274c63ae", "6c17e19e778c49feb63a78f385975434"],
+      "chunk_ids": ["a8c3e3384f864de9a1df2b4b0759dc6d", "0fca8531f1814cf6bb1c580f4f53f351", "e43c4d42ec274b36a4a26405a49d30fe"],
+      "expected_answer_contains": [
+        "attention",
+        "self-attention",
+        "convolutional",
+        "recurrence",
+        "paradigm shift",
+        "different modalities"
+      ],
+      "relevant_pages": [1],
+      "answerable": true,
+      "evidence_rationale": "Transformer/BERT use attention mechanisms for sequences; ResNet uses convolutional layers for images",
+      "notes": "Tests high-level understanding of architectural evolution and domain differences"
+    }
+  ]
+}
